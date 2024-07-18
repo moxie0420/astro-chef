@@ -1,0 +1,17 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  centered?: true | undefined;
+}
+const { centered } = Astro.props;
+---
+
+<div class="m-1 p-1 w-fit rounded-full flex bg-[#3d405bba]">
+  <Icon name="mdi:magnify" class="m-auto absolute" />
+  <textarea
+    class="bg-transparent md:text-lg my-auto rounded-full ps-8"
+    placeholder="Search For a Recipe"
+    rows="1"
+    maxlength="150"></textarea>
+</div>

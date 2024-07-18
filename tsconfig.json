@@ -3,7 +3,8 @@
     "baseUrl": "./",
     "paths": {
       "@public/*": ["public/*"],
-      "@layouts/*": ["src/layouts/*"]
+      "@layouts/*": ["src/layouts/*"],
+      "@components/*": ["src/components/*"]
     }
   },
   "extends": "astro/tsconfigs/strict"

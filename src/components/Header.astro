@@ -1,0 +1,20 @@
+---
+import RecipeSearch from "./RecipeSearch.astro";
+---
+
+<nav
+  class="flex gap-3 justify-between font-extrabold md:text-3xl bg-kitchen-bg rounded-md border-kitchen-fg text-kitchen-fg shadow-lg"
+>
+  <div class="my-auto">
+    <a href="/">
+      <button type="button">Home</button>
+    </a>
+    <a href="/browse">
+      <button type="button"> Recipes </button>
+    </a>
+    <a href="/recipes/random">
+      <button type="button">Random</button>
+    </a>
+  </div>
+  <RecipeSearch />
+</nav>

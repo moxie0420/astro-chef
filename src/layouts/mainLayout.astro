@@ -1,5 +1,6 @@
 ---
 import { SEO } from "astro-seo";
+import Header from "@components/Header.astro";
 
 interface Props {
   title: string;
@@ -9,12 +10,6 @@ interface Props {
 
 const { title, description, OpenGraphImg } = Astro.props;
 ---
-
-<style>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>
 
 <html lang="en">
   <head>
@@ -31,7 +26,15 @@ const { title, description, OpenGraphImg } = Astro.props;
       }}
     />
   </head>
+
   <body>
-    <slot />
+    <div class="bg-kitchen-accent flex flex-col gap-3 p-2">
+      <Header />
+      <div
+        class="md:prose-lg w-3/4 mx-auto rounded-md min-h-screen bg-kitchen-bg p-2"
+      >
+        <slot />
+      </div>
+    </div>
   </body>
 </html>

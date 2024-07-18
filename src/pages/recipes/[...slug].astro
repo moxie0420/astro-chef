@@ -3,21 +3,31 @@ import MainLayout from "../../layouts/mainLayout.astro";
 
 import { Markdown } from "@astropub/md";
 
-import { db, eq } from "astro:db";
+import { db, eq, count } from "astro:db";
 import { Recipes } from "astro:db";
 
 const { slug } = Astro.params;
 
-const [recipe] = await db
-  .select()
-  .from(Recipes)
-  .where(eq(Recipes.title, slug as string));
+async function getByTitle(title: string) {
+  return db.select().from(Recipes).where(eq(Recipes.title, title)).limit(1);
+}
+async function getRandom() {
+  const counted = await db.select({ count: count() }).from(Recipes);
+
+  return db
+    .select()
+    .from(Recipes)
+    .orderBy(Recipes.title)
+    .limit(1)
+    .offset(Math.floor(Math.random() * counted[0].count));
+}
+
+const [recipe] =
+  slug === "random" ? await getRandom() : await getByTitle(slug as string);
 
 if (!recipe) Astro.redirect("/404");
 ---
 
 <MainLayout title={recipe.title}>
-  <div class="prose-xl">
-    <Markdown of={(recipe.body as string) ?? ""} />
-  </div>
+  <Markdown of={(recipe.body as string) ?? ""} />
 </MainLayout>
