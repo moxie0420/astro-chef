@@ -1,5 +1,5 @@
 # Astro chef
-Astro chef is a ready to ho solution to store and use your recipe collection 
+Astro chef is a ready to go solution to store and use your recipe collection 
 
 ## Contains
 
@@ -15,12 +15,14 @@ Astro chef is a ready to ho solution to store and use your recipe collection
 
 - [x] Devcontainer
 - [x] Astro + Plugins
+- [ ] Animations
+
 - Components
   - [ ] Recipe Card
   - [x] Header
   - [ ] Ingredients Box
   - [x] Search Box
-- [ ] Animations
+
 - Color Themes
   - [x] Light theme
   - [ ] Dark theme
