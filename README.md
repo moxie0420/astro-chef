@@ -1,4 +1,5 @@
-# Astro Boiler Plate
+# Astro chef
+Astro chef is a ready to ho solution to store and use your recipe collection 
 
 ## Contains
 
@@ -8,19 +9,21 @@
 - CSS Inlining via [Playform/Inline](https://github.com/PlayForm/Inline)
 - CSS Reduction Via [PurgeCSS](https://github.com/codiume/orbit)
 - Size Reduction via [Playform/Compress](https://github.com/PlayForm/Compress)
-- Brotli Compression via [astro-compressor](https://github.com/sondr3/astro-compressor)
+- Brotli and Gzip Compression via [astro-compressor](https://github.com/sondr3/astro-compressor)
 
 ## Todo
 
 - [x] Devcontainer
 - [x] Astro + Plugins
 - Components
-  - [ ] Card
-  - [ ] Image
-  - [ ] Header
-  - [ ] Footer
+  - [ ] Recipe Card
+  - [x] Header
+  - [ ] Ingredients Box
+  - [x] Search Box
 - [ ] Animations
-- [ ] Color Themes
+- Color Themes
+  - [x] Light theme
+  - [ ] Dark theme
 
 ## Commands
 
