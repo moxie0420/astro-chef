@@ -1,0 +1,23 @@
+---
+import MainLayout from "../../layouts/mainLayout.astro";
+
+import { Markdown } from "@astropub/md";
+
+import { db, eq } from "astro:db";
+import { Recipes } from "astro:db";
+
+const { slug } = Astro.params;
+
+const [recipe] = await db
+  .select()
+  .from(Recipes)
+  .where(eq(Recipes.title, slug as string));
+
+if (!recipe) Astro.redirect("/404");
+---
+
+<MainLayout title={recipe.title}>
+  <div class="prose-xl">
+    <Markdown of={(recipe.body as string) ?? ""} />
+  </div>
+</MainLayout>

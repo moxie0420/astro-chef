@@ -4,14 +4,17 @@ import playformInline from "@playform/inline";
 import compressor from "astro-compressor";
 import playformCompress from "@playform/compress";
 import purgecss from "astro-purgecss";
-
 import db from "@astrojs/db";
+import node from "@astrojs/node";
+
+import markdownIntegration from "@astropub/md";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    markdownIntegration(),
     tailwind({
-      applyBaseStyles: false,
+      applyBaseStyles: true,
     }),
     playformInline(),
     purgecss({
@@ -34,4 +37,8 @@ export default defineConfig({
     }),
     db(),
   ],
+  output: "server",
+  adapter: node({
+    mode: "standalone",
+  }),
 });
