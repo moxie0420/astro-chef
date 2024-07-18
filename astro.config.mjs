@@ -3,8 +3,9 @@ import tailwind from "@astrojs/tailwind";
 import playformInline from "@playform/inline";
 import compressor from "astro-compressor";
 import playformCompress from "@playform/compress";
-
 import purgecss from "astro-purgecss";
+
+import db from "@astrojs/db";
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,6 +28,10 @@ export default defineConfig({
       ],
     }),
     playformCompress(),
-    compressor({ gzip: false, brotli: true }),
+    compressor({
+      gzip: false,
+      brotli: true,
+    }),
+    db(),
   ],
 });
