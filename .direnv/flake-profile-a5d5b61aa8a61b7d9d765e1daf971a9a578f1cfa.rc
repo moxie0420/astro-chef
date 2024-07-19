@@ -39,13 +39,13 @@ NIX_BINTOOLS='/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41'
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='16'
+NIX_BUILD_CORES='8'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=5ads97kxr6 -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=y1vlnk9gs4 -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
