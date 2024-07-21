@@ -1,6 +1,6 @@
 import { db } from "astro:db";
 import { asDrizzleTable } from "@astrojs/db/utils";
-import { Recipes, ingredient } from "./config";
+import { Recipes } from "./config";
 
 // https://astro.build/db/seed
 export default async function seed() {

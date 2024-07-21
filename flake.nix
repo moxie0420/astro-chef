@@ -22,6 +22,9 @@
   in {
     packages = forEachSystem (system: {
       devenv-up = self.devShells.${system}.default.config.procfileScript;
+
+      #astro chef build deriviation
+      default = ./build.nix;
     });
 
     devShells =
@@ -34,6 +37,11 @@
           modules = [
             {
               dotenv.enable = true;
+
+              env = {
+                ASTRO_DATABASE_FILE = "/srv/astro-chef.db";
+              };
+
               packages = with pkgs; [alejandra];
 
               languages.javascript = {

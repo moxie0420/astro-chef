@@ -24,9 +24,6 @@
   "userEnvProbe": "loginShell",
   "updateRemoteUserUID": false,
 
-  // build development environment on creation, make sure you already have shell.nix
-  "onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
-
   // Add the IDs of extensions you want installed when the container is created.
   "customizations": {
     "codespaces": {},
@@ -51,8 +48,8 @@
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4321]
+  "forwardPorts": [4321],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "go version",
+  "postCreateCommand": "yarn"
 }
