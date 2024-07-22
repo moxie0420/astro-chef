@@ -7,7 +7,7 @@ AR='ar'
 export AR
 AS='as'
 export AS
-ASTRO_DATABASE_FILE='/srv/astro-chef.db'
+ASTRO_DATABASE_FILE='/srv/astro-chef/database.db'
 export ASTRO_DATABASE_FILE
 BASH='/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin/bash'
 CC='gcc'
@@ -18,7 +18,7 @@ CXX='g++'
 export CXX
 DEVENV_DOTFILE='/workspaces/astro-chef/.devenv'
 export DEVENV_DOTFILE
-DEVENV_PROFILE='/nix/store/mbc3g48f5sjzjhd8xzjybqyhdpnim363-devenv-profile'
+DEVENV_PROFILE='/nix/store/948bscxr8001bzblhdb9jicbg3ifg7si-devenv-profile'
 export DEVENV_PROFILE
 DEVENV_ROOT='/workspaces/astro-chef'
 export DEVENV_ROOT
@@ -47,7 +47,7 @@ NIX_CC='/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=qx3fb1p2iy -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=bwqm3xhd6g -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -72,7 +72,7 @@ OLDPWD=''
 export OLDPWD
 OPTERR='1'
 OSTYPE='linux-gnu'
-PATH='/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/bin:/nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22/bin:/nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build/bin:/nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean/bin:/nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy/bin:/nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev/bin:/nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview/bin:/nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup/bin:/nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update/bin:/nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0/bin:/nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv/bin:/nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2/bin:/nix/store/43n2dxi419b1jgv2bq1xg7y6n8k66xpb-patchelf-0.15.0/bin:/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0/bin:/nix/store/a3mmr5jmrd0sjvmnc9vqvs388ppq1bnf-gcc-13.2.0/bin:/nix/store/fpv9yd0mwm1lyph02j9bdyxbjz8vaxzy-glibc-2.39-5-bin/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41/bin:/nix/store/hqvni28zpibl6jsqqimcvng6h6qm58xy-binutils-2.41/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jg2i1qj5js5ckzvfq5b9p9j1gcv69750-findutils-4.9.0/bin:/nix/store/ksyif7fp4p0baafvdm5szd375s7qf6cz-diffutils-3.10/bin:/nix/store/237dff1igc3v09p9r23a37yw8dr04bv6-gnused-4.9/bin:/nix/store/avqi5nnx7qydr078ssgifc2hgzqipqgx-gnugrep-3.11/bin:/nix/store/2s1h0q7xhk33nsw90l0g53bxax0d19ih-gawk-5.2.2/bin:/nix/store/xwvgwr85gghbl66kj30sp19p2y1cypqv-gnutar-1.35/bin:/nix/store/vnfi66rm1dykn8gwwy5i4f48bhbk9x6x-gzip-1.13/bin:/nix/store/3bdjxil2cz8dkd6l5sf4qalla762m99d-bzip2-1.0.8-bin/bin:/nix/store/pg3wkw0as88676ib4ckbibrfwy5c5vzg-gnumake-4.4.1/bin:/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin:/nix/store/bf9rz7vvxannxp15wfi7x0bx5b68ky7z-patch-2.7.6/bin:/nix/store/jdg5lv2j7d765h8pn73qz72lilxrcb5x-xz-5.4.6-bin/bin:/nix/store/j3f0hag67n4piz2avqgf07gja8a2ifn6-file-5.45/bin'
+PATH='/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/bin:/nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22/bin:/nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build/bin:/nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean/bin:/nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy/bin:/nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev/bin:/nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview/bin:/nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup/bin:/nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update/bin:/nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0/bin:/nix/store/n9v25f241k8lqyzr6r324giqpfn1wxpc-yarn2nix-1.0.0/bin:/nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv/bin:/nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2/bin:/nix/store/43n2dxi419b1jgv2bq1xg7y6n8k66xpb-patchelf-0.15.0/bin:/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0/bin:/nix/store/a3mmr5jmrd0sjvmnc9vqvs388ppq1bnf-gcc-13.2.0/bin:/nix/store/fpv9yd0mwm1lyph02j9bdyxbjz8vaxzy-glibc-2.39-5-bin/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41/bin:/nix/store/hqvni28zpibl6jsqqimcvng6h6qm58xy-binutils-2.41/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jg2i1qj5js5ckzvfq5b9p9j1gcv69750-findutils-4.9.0/bin:/nix/store/ksyif7fp4p0baafvdm5szd375s7qf6cz-diffutils-3.10/bin:/nix/store/237dff1igc3v09p9r23a37yw8dr04bv6-gnused-4.9/bin:/nix/store/avqi5nnx7qydr078ssgifc2hgzqipqgx-gnugrep-3.11/bin:/nix/store/2s1h0q7xhk33nsw90l0g53bxax0d19ih-gawk-5.2.2/bin:/nix/store/xwvgwr85gghbl66kj30sp19p2y1cypqv-gnutar-1.35/bin:/nix/store/vnfi66rm1dykn8gwwy5i4f48bhbk9x6x-gzip-1.13/bin:/nix/store/3bdjxil2cz8dkd6l5sf4qalla762m99d-bzip2-1.0.8-bin/bin:/nix/store/pg3wkw0as88676ib4ckbibrfwy5c5vzg-gnumake-4.4.1/bin:/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin:/nix/store/bf9rz7vvxannxp15wfi7x0bx5b68ky7z-patch-2.7.6/bin:/nix/store/jdg5lv2j7d765h8pn73qz72lilxrcb5x-xz-5.4.6-bin/bin:/nix/store/j3f0hag67n4piz2avqgf07gja8a2ifn6-file-5.45/bin'
 export PATH
 PKG_CONFIG='pkg-config'
 export PKG_CONFIG
@@ -150,7 +150,7 @@ mesonFlags=''
 export mesonFlags
 name='devenv-shell-env'
 export name
-nativeBuildInputs='/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1 /nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22 /nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build /nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean /nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy /nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev /nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview /nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup /nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update /nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0 /nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv /nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2'
+nativeBuildInputs='/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1 /nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22 /nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build /nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean /nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy /nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev /nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview /nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup /nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update /nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0 /nix/store/n9v25f241k8lqyzr6r324giqpfn1wxpc-yarn2nix-1.0.0 /nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv /nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2'
 export nativeBuildInputs
 out='/workspaces/astro-chef/outputs/out'
 export out
@@ -171,7 +171,7 @@ phases='buildPhase'
 export phases
 pkg='/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0'
 declare -a pkgsBuildBuild=()
-declare -a pkgsBuildHost=('/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1' '/nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22' '/nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build' '/nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean' '/nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy' '/nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev' '/nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview' '/nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup' '/nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update' '/nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0' '/nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv' '/nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2' '/nix/store/43n2dxi419b1jgv2bq1xg7y6n8k66xpb-patchelf-0.15.0' '/nix/store/9la7flpks9z89djvmmblzzs4fqvhwgzg-update-autotools-gnu-config-scripts-hook' '/nix/store/h9lc1dpi14z7is86ffhl3ld569138595-audit-tmpdir.sh' '/nix/store/m54bmrhj6fqz8nds5zcj97w9s9bckc9v-compress-man-pages.sh' '/nix/store/wgrbkkaldkrlrni33ccvm3b6vbxzb656-make-symlinks-relative.sh' '/nix/store/5yzw0vhkyszf2d179m0qfkgxmp5wjjx4-move-docs.sh' '/nix/store/fyaryjvghbkpfnsyw97hb3lyb37s1pd6-move-lib64.sh' '/nix/store/kd4xwxjpjxi71jkm6ka0np72if9rm3y0-move-sbin.sh' '/nix/store/pag6l61paj1dc9sv15l7bm5c17xn5kyk-move-systemd-user-units.sh' '/nix/store/jivxp510zxakaaic7qkrb7v1dd2rdbw9-multiple-outputs.sh' '/nix/store/ilaf1w22bxi6jsi45alhmvvdgy4ly3zs-patch-shebangs.sh' '/nix/store/cickvswrvann041nqxb0rxilc46svw1n-prune-libtool-files.sh' '/nix/store/xyff06pkhki3qy1ls77w10s0v79c9il0-reproducible-builds.sh' '/nix/store/ngg1cv31c8c7bcm2n8ww4g06nq7s4zhm-set-source-date-epoch-to-latest.sh' '/nix/store/wmknncrif06fqxa16hpdldhixk95nds0-strip.sh' '/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0' '/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41' )
+declare -a pkgsBuildHost=('/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1' '/nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22' '/nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build' '/nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean' '/nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy' '/nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev' '/nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview' '/nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup' '/nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update' '/nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0' '/nix/store/n9v25f241k8lqyzr6r324giqpfn1wxpc-yarn2nix-1.0.0' '/nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv' '/nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2' '/nix/store/43n2dxi419b1jgv2bq1xg7y6n8k66xpb-patchelf-0.15.0' '/nix/store/9la7flpks9z89djvmmblzzs4fqvhwgzg-update-autotools-gnu-config-scripts-hook' '/nix/store/h9lc1dpi14z7is86ffhl3ld569138595-audit-tmpdir.sh' '/nix/store/m54bmrhj6fqz8nds5zcj97w9s9bckc9v-compress-man-pages.sh' '/nix/store/wgrbkkaldkrlrni33ccvm3b6vbxzb656-make-symlinks-relative.sh' '/nix/store/5yzw0vhkyszf2d179m0qfkgxmp5wjjx4-move-docs.sh' '/nix/store/fyaryjvghbkpfnsyw97hb3lyb37s1pd6-move-lib64.sh' '/nix/store/kd4xwxjpjxi71jkm6ka0np72if9rm3y0-move-sbin.sh' '/nix/store/pag6l61paj1dc9sv15l7bm5c17xn5kyk-move-systemd-user-units.sh' '/nix/store/jivxp510zxakaaic7qkrb7v1dd2rdbw9-multiple-outputs.sh' '/nix/store/ilaf1w22bxi6jsi45alhmvvdgy4ly3zs-patch-shebangs.sh' '/nix/store/cickvswrvann041nqxb0rxilc46svw1n-prune-libtool-files.sh' '/nix/store/xyff06pkhki3qy1ls77w10s0v79c9il0-reproducible-builds.sh' '/nix/store/ngg1cv31c8c7bcm2n8ww4g06nq7s4zhm-set-source-date-epoch-to-latest.sh' '/nix/store/wmknncrif06fqxa16hpdldhixk95nds0-strip.sh' '/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0' '/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41' )
 declare -a pkgsBuildTarget=()
 declare -a pkgsHostHost=()
 declare -a pkgsHostTarget=()
@@ -218,9 +218,9 @@ if [ ! type -p direnv &>/dev/null && -f .envrc ]; then
 fi
 
 mkdir -p "$DEVENV_STATE"
-if [ ! -L "$DEVENV_DOTFILE/profile" ] || [ "$(/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin/readlink $DEVENV_DOTFILE/profile)" != "/nix/store/mbc3g48f5sjzjhd8xzjybqyhdpnim363-devenv-profile" ]
+if [ ! -L "$DEVENV_DOTFILE/profile" ] || [ "$(/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin/readlink $DEVENV_DOTFILE/profile)" != "/nix/store/948bscxr8001bzblhdb9jicbg3ifg7si-devenv-profile" ]
 then
-  ln -snf /nix/store/mbc3g48f5sjzjhd8xzjybqyhdpnim363-devenv-profile "$DEVENV_DOTFILE/profile"
+  ln -snf /nix/store/948bscxr8001bzblhdb9jicbg3ifg7si-devenv-profile "$DEVENV_DOTFILE/profile"
 fi
 unset HOST_PATH NIX_BUILD_CORES __structuredAttrs buildInputs buildPhase builder depsBuildBuild depsBuildBuildPropagated depsBuildTarget depsBuildTargetPropagated depsHostHost depsHostHostPropagated depsTargetTarget depsTargetTargetPropagated dontAddDisableDepTrack doCheck doInstallCheck nativeBuildInputs out outputs patches phases preferLocalBuild propagatedBuildInputs propagatedNativeBuildInputs shell shellHook stdenv strictDeps
 
