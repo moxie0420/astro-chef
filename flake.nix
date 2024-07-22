@@ -20,11 +20,32 @@
   } @ inputs: let
     forEachSystem = nixpkgs.lib.genAttrs (import systems);
   in {
-    packages = forEachSystem (system: {
+    packages = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      node-modules = pkgs.mkYarnPackage {
+        name = "node-modules";
+        src = ./.;
+      };
+      astro-chef = pkgs.stdenv.mkDerivation {
+        name = "astro-chef";
+        src = ./.;
+        buildInputs = [pkgs.yarn node-modules];
+        buildPhase = ''
+          export ASTRO_TELEMETRY_DISABLED=1
+          export ASTRO_DATABASE_FILE=/srv/astro-chef/database.db
+          ln -s ${node-modules}/libexec/astro-chef/node_modules node_modules
+          ${pkgs.yarn}/bin/yarn build --global-folder ./node_modules/  --cache-folder ./node_modules/
+        '';
+        installPhase = ''
+          mkdir $out
+          mv dist $out
+        '';
+      };
+    in {
       devenv-up = self.devShells.${system}.default.config.procfileScript;
-
+      dependencies = node-modules;
       #astro chef build deriviation
-      default = ./build.nix;
+      default = astro-chef;
     });
 
     devShells =
@@ -39,10 +60,13 @@
               dotenv.enable = true;
 
               env = {
-                ASTRO_DATABASE_FILE = "/srv/astro-chef.db";
+                ASTRO_DATABASE_FILE = "/srv/astro-chef/database.db";
               };
 
-              packages = with pkgs; [alejandra];
+              packages = with pkgs; [
+                alejandra
+                yarn2nix
+              ];
 
               languages.javascript = {
                 enable = true;

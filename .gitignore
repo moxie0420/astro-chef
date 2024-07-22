@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 .devenv
 .env
+
+result/
