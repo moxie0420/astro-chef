@@ -32,13 +32,14 @@
         buildInputs = [pkgs.yarn node-modules];
         buildPhase = ''
           export ASTRO_TELEMETRY_DISABLED=1
-          export ASTRO_DATABASE_FILE=/srv/astro-chef/database.db
+          export ASTRO_DATABASE_FILE=./database.db
           ln -s ${node-modules}/libexec/astro-chef/node_modules node_modules
           ${pkgs.yarn}/bin/yarn build --global-folder ./node_modules/  --cache-folder ./node_modules/
         '';
         installPhase = ''
           mkdir $out
           mv dist $out
+          mv database.db $out
         '';
       };
     in {
@@ -58,11 +59,6 @@
           modules = [
             {
               dotenv.enable = true;
-
-              env = {
-                ASTRO_DATABASE_FILE = "/srv/astro-chef/database.db";
-              };
-
               packages = with pkgs; [
                 alejandra
                 yarn2nix

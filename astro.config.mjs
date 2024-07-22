@@ -24,7 +24,7 @@ export default defineConfig({
     playformInline(),
     purgecss({
       fontFace: true,
-      keyframes: false,
+      keyframes: true,
       rejected: true,
       variables: true,
       extractors: [
@@ -37,7 +37,7 @@ export default defineConfig({
     }),
     playformCompress(),
     compressor({
-      gzip: false,
+      gzip: true,
       brotli: true,
     }),
     db(),

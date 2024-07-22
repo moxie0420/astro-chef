@@ -3,6 +3,7 @@ import { defineDb, defineTable, column } from "astro:db";
 export const ingredient = defineTable({
   columns: {
     Id: column.number({ primaryKey: true }),
+    recipeId: column.number({ references: () => Recipes.columns.id }),
     Name: column.text(),
     amount: column.number(),
     unit: column.text(),
@@ -11,13 +12,10 @@ export const ingredient = defineTable({
 
 export const Recipes = defineTable({
   columns: {
-    title: column.text({ primaryKey: true, unique: true }),
+    id: column.number({ primaryKey: true, unique: true }),
+    title: column.text({ unique: true }),
     author: column.text({ optional: true }),
     keywords: column.text(),
-    ingredients: column.number({
-      references: () => ingredient.columns.Id,
-      optional: true,
-    }),
     body: column.text({ optional: true }),
   },
 });

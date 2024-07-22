@@ -1,0 +1,23 @@
+---
+import { ingredient } from "astro:db";
+
+interface Props {
+  ingredients: (typeof ingredient)[];
+}
+const { ingredients } = Astro.props;
+---
+
+<div>
+  {
+    typeof ingredients === "undefined"
+      ? null
+      : ingredients.map((ingredient) => (
+          <div>
+            <p>{ingredient.Name}</p>
+            <p>
+              {ingredient.amount} {ingredient.unit}
+            </p>
+          </div>
+        ))
+  }
+</div>

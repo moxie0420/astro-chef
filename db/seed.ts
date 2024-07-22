@@ -12,5 +12,10 @@ export default async function seed() {
       keywords: "Example",
       body: "# Header \n not a header \n\n ![alt](https://picsum.photos/200)",
     },
+    {
+      title: "Example 2",
+      keywords: "Example 2",
+      body: "# Header \n not a header \n\n ![alt](https://picsum.photos/200)",
+    },
   ]);
 }

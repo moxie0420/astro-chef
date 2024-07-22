@@ -3,13 +3,19 @@ import MainLayout from "../../layouts/mainLayout.astro";
 
 import { Markdown } from "@astropub/md";
 
+import IngredientsTable from "@components/ingredientsTable.astro";
+
 import { db, eq, count } from "astro:db";
-import { Recipes } from "astro:db";
+import { Recipes, ingredient } from "astro:db";
 
 const { slug } = Astro.params;
 
 async function getByTitle(title: string) {
-  return db.select().from(Recipes).where(eq(Recipes.title, title)).limit(1);
+  return await db
+    .select()
+    .from(Recipes)
+    .where(eq(Recipes.title, title))
+    .limit(1);
 }
 async function getRandom() {
   const counted = await db.select({ count: count() }).from(Recipes);
@@ -25,9 +31,92 @@ async function getRandom() {
 const [recipe] =
   slug === "random" ? await getRandom() : await getByTitle(slug as string);
 
-if (!recipe) Astro.redirect("/404");
+if (slug == "random") return Astro.redirect("/recipes/" + recipe.title);
+
+if (!recipe) return Astro.redirect("/404");
+
+const editMode = Astro.url.searchParams.get("edit") === "true";
+
+if (Astro.request.method === "POST") {
+  const data = await Astro.request.formData();
+
+  const newTitle = data.get("title");
+  const newBody = data.get("body");
+
+  await db
+    .update(Recipes)
+    .set({
+      title: newTitle as string,
+      body: newBody as string,
+    })
+    .where(eq(Recipes.title, slug as string));
+}
+
+const currentIngredients = await db
+  .select()
+  .from(ingredient)
+  .where(eq(ingredient.recipeId, recipe.id));
 ---
 
 <MainLayout title={recipe.title}>
-  <Markdown of={(recipe.body as string) ?? ""} />
+  {
+    editMode ? (
+      <>
+        <div class="shadow-xl rounded-lg justify-between flex p-1 sticky top-0 z-10">
+          <div>
+            <label for="title">Recipe Title:</label>
+            <input
+              form="text"
+              type="text"
+              required
+              minlength="4"
+              maxlength="125"
+              value={recipe.title}
+              name="title"
+              class="bg-transparent border border-kitchen-fg backdrop-blur-sm rounded-sm"
+            />
+          </div>
+          <div>
+            <a href={Astro.url.pathname}>
+              <button>Cancel</button>
+            </a>
+
+            <button form="text" type="submit">
+              Save
+            </button>
+          </div>
+        </div>
+        <form id="text" method="post">
+          <textarea
+            form="text"
+            name="body"
+            cols="120"
+            rows="50"
+            class="bg-transparent mx-auto"
+            required
+            spellcheck="true"
+            set:text={recipe.body as string}
+          />
+        </form>
+      </>
+    ) : (
+      <>
+        <div class="flex flex-col gap-5 items-center">
+          <div class="justify-between shadow-2xl flex w-full h-20 p-1 text-5xl text-kitchen-fg">
+            <span class="my-auto font-bold">{recipe.title}</span>
+            <a href={Astro.url.pathname + "?edit=true"}>
+              <button
+                id="editButton"
+                class="bg-kitchen-primary rounded-2xl justify-self-end my-auto p-3"
+              >
+                Edit
+              </button>
+            </a>
+          </div>
+          <IngredientsTable ingredients={currentIngredients} />
+          <Markdown of={(recipe.body as string) ?? ""} />
+        </div>
+      </>
+    )
+  }
 </MainLayout>

@@ -27,14 +27,12 @@ const { title, description, OpenGraphImg } = Astro.props;
     />
   </head>
 
-  <body>
-    <div class="bg-kitchen-accent flex flex-col gap-3 p-2">
-      <Header />
-      <div
-        class="md:prose-lg w-3/4 mx-auto rounded-md min-h-screen bg-kitchen-bg p-2"
-      >
-        <slot />
-      </div>
+  <body class="bg-kitchen-accent gap-3 p-2 flex flex-col h-screen">
+    <Header />
+    <div
+      class="md:prose-lg 2xl:prose-2xl mx-auto rounded-md bg-kitchen-bg p-2 shadow-2xl size-full h-10/12 overflow-y-scroll text-kitchen-fg"
+    >
+      <slot />
     </div>
   </body>
 </html>
