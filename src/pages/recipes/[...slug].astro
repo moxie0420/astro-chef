@@ -1,9 +1,8 @@
 ---
 import MainLayout from "../../layouts/mainLayout.astro";
+import IngredientHolder from "@components/ingredientHolder.astro";
 
 import { Markdown } from "@astropub/md";
-
-import IngredientsTable from "@components/ingredientsTable.astro";
 
 import { db, eq, count } from "astro:db";
 import { Recipes, ingredient } from "astro:db";
@@ -38,18 +37,25 @@ if (!recipe) return Astro.redirect("/404");
 const editMode = Astro.url.searchParams.get("edit") === "true";
 
 if (Astro.request.method === "POST") {
-  const data = await Astro.request.formData();
+  try {
+    const data = await Astro.request.formData();
 
-  const newTitle = data.get("title");
-  const newBody = data.get("body");
+    const newTitle = data.get("title");
+    const newBody = data.get("body");
 
-  await db
-    .update(Recipes)
-    .set({
-      title: newTitle as string,
-      body: newBody as string,
-    })
-    .where(eq(Recipes.title, slug as string));
+    await db
+      .update(Recipes)
+      .set({
+        title: newTitle as string,
+        body: newBody as string,
+      })
+      .where(eq(Recipes.title, slug as string));
+    return Astro.redirect(Astro.url.pathname);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
 }
 
 const currentIngredients = await db
@@ -86,6 +92,8 @@ const currentIngredients = await db
             </button>
           </div>
         </div>
+        <IngredientHolder ingredients={currentIngredients} />
+
         <form id="text" method="post">
           <textarea
             form="text"
@@ -113,7 +121,9 @@ const currentIngredients = await db
               </button>
             </a>
           </div>
-          <IngredientsTable ingredients={currentIngredients} />
+
+          <div />
+
           <Markdown of={(recipe.body as string) ?? ""} />
         </div>
       </>
