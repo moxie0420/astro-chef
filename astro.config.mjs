@@ -5,16 +5,19 @@ import compressor from "astro-compressor";
 import playformCompress from "@playform/compress";
 import purgecss from "astro-purgecss";
 import db from "@astrojs/db";
-import node from "@astrojs/node";
+
 import markdownIntegration from "@astropub/md";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
 
-import icon from "astro-icon";
+import bun from "@nurodev/astro-bun";
 
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    cacheDir: ".vite",
+  vite: {},
+  image: {
+    service: {
+      entrypoint: "src/lib/bun-image.ts",
+    },
   },
   integrations: [
     markdownIntegration(),
@@ -42,10 +45,7 @@ export default defineConfig({
     }),
     db(),
     devtoolBreakpoints(),
-    icon(),
   ],
-  output: "server",
-  adapter: node({
-    mode: "standalone",
-  }),
+  output: "hybrid",
+  adapter: bun(),
 });

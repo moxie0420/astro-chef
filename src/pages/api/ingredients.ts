@@ -11,6 +11,7 @@ export const POST: APIRoute = async ({ params }) => {
     amount: params.amount,
     unit: params.unit,
     recipeId: params.id,
+    id: 0,
   });
   return new Response(null, { status: 204 });
 };
