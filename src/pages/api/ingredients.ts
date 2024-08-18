@@ -1,16 +1,15 @@
 import type { APIRoute } from "astro";
-import { db } from "astro:db";
-import { ingredient } from "db/config";
-import { asDrizzleTable } from "@astrojs/db/utils";
+import { db, ingredient } from "astro:db";
+import { v4 as uuidv4 } from "uuid";
 
 export const POST: APIRoute = async ({ params }) => {
-  const typeSafeIngredient = asDrizzleTable("ingredient", ingredient);
-
-  await db.insert(typeSafeIngredient).values({
-    name: params.name as string,
+  const uuid: string = uuidv4();
+  await db.insert(ingredient).values({
+    id: uuid,
+    recipeId: params.id,
+    name: params.name,
     amount: params.amount,
     unit: params.unit,
-    recipeId: params.id,
   });
   return new Response(null, { status: 204 });
 };

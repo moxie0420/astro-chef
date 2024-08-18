@@ -14,15 +14,15 @@ CONFIG_SHELL='/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin/bash'
 export CONFIG_SHELL
 CXX='g++'
 export CXX
-DEVENV_DOTFILE='/workspaces/astro-chef/.devenv'
+DEVENV_DOTFILE='/home/moxie/src/astro-chef/.devenv'
 export DEVENV_DOTFILE
 DEVENV_PROFILE='/nix/store/948bscxr8001bzblhdb9jicbg3ifg7si-devenv-profile'
 export DEVENV_PROFILE
-DEVENV_ROOT='/workspaces/astro-chef'
+DEVENV_ROOT='/home/moxie/src/astro-chef'
 export DEVENV_ROOT
-DEVENV_RUNTIME='/tmp/user/1000/devenv-6268963'
+DEVENV_RUNTIME='/run/user/1000/devenv-4ebcb0b'
 export DEVENV_RUNTIME
-DEVENV_STATE='/workspaces/astro-chef/.devenv/state'
+DEVENV_STATE='/home/moxie/src/astro-chef/.devenv/state'
 export DEVENV_STATE
 HOSTTYPE='x86_64'
 HOST_PATH='/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jg2i1qj5js5ckzvfq5b9p9j1gcv69750-findutils-4.9.0/bin:/nix/store/ksyif7fp4p0baafvdm5szd375s7qf6cz-diffutils-3.10/bin:/nix/store/237dff1igc3v09p9r23a37yw8dr04bv6-gnused-4.9/bin:/nix/store/avqi5nnx7qydr078ssgifc2hgzqipqgx-gnugrep-3.11/bin:/nix/store/2s1h0q7xhk33nsw90l0g53bxax0d19ih-gawk-5.2.2/bin:/nix/store/xwvgwr85gghbl66kj30sp19p2y1cypqv-gnutar-1.35/bin:/nix/store/vnfi66rm1dykn8gwwy5i4f48bhbk9x6x-gzip-1.13/bin:/nix/store/3bdjxil2cz8dkd6l5sf4qalla762m99d-bzip2-1.0.8-bin/bin:/nix/store/pg3wkw0as88676ib4ckbibrfwy5c5vzg-gnumake-4.4.1/bin:/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin:/nix/store/bf9rz7vvxannxp15wfi7x0bx5b68ky7z-patch-2.7.6/bin:/nix/store/jdg5lv2j7d765h8pn73qz72lilxrcb5x-xz-5.4.6-bin/bin:/nix/store/j3f0hag67n4piz2avqgf07gja8a2ifn6-file-5.45/bin'
@@ -39,19 +39,19 @@ NIX_BINTOOLS='/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41'
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='8'
+NIX_BUILD_CORES='16'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=4hjyidigbi -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=h3k99v7bxl -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include -isystem /nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
 NIX_HARDENING_ENABLE='bindnow format fortify fortify3 pic relro stackprotector strictoverflow'
 export NIX_HARDENING_ENABLE
-NIX_LDFLAGS='-rpath /workspaces/astro-chef/outputs/out/lib '
+NIX_LDFLAGS='-rpath /home/moxie/src/astro-chef/outputs/out/lib '
 export NIX_LDFLAGS
 NIX_NO_SELF_RPATH='1'
 NIX_PKG_CONFIG_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
@@ -79,8 +79,6 @@ RANLIB='ranlib'
 export RANLIB
 READELF='readelf'
 export READELF
-SHELL='/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin/bash'
-export SHELL
 SIZE='size'
 export SIZE
 SOURCE_DATE_EPOCH='315532800'
@@ -143,6 +141,7 @@ declare -a envHostHostHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addC
 declare -a envHostTargetHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
+guess='16'
 initialPath='/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4 /nix/store/jg2i1qj5js5ckzvfq5b9p9j1gcv69750-findutils-4.9.0 /nix/store/ksyif7fp4p0baafvdm5szd375s7qf6cz-diffutils-3.10 /nix/store/237dff1igc3v09p9r23a37yw8dr04bv6-gnused-4.9 /nix/store/avqi5nnx7qydr078ssgifc2hgzqipqgx-gnugrep-3.11 /nix/store/2s1h0q7xhk33nsw90l0g53bxax0d19ih-gawk-5.2.2 /nix/store/xwvgwr85gghbl66kj30sp19p2y1cypqv-gnutar-1.35 /nix/store/vnfi66rm1dykn8gwwy5i4f48bhbk9x6x-gzip-1.13 /nix/store/3bdjxil2cz8dkd6l5sf4qalla762m99d-bzip2-1.0.8-bin /nix/store/pg3wkw0as88676ib4ckbibrfwy5c5vzg-gnumake-4.4.1 /nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26 /nix/store/bf9rz7vvxannxp15wfi7x0bx5b68ky7z-patch-2.7.6 /nix/store/jdg5lv2j7d765h8pn73qz72lilxrcb5x-xz-5.4.6-bin /nix/store/j3f0hag67n4piz2avqgf07gja8a2ifn6-file-5.45'
 mesonFlags=''
 export mesonFlags
@@ -150,7 +149,7 @@ name='devenv-shell-env'
 export name
 nativeBuildInputs='/nix/store/wcg03hp9av1pgr3mj5m3dbanmz8jqq69-nodejs-slim-20.11.1 /nix/store/vh9l5ik14vsvvkvdgjnm0409bvraq3hl-yarn-1.22.22 /nix/store/bnagpspnmgf2j2xn5hbh72xz5xvylln9-build /nix/store/bg01n4pdmirdl99qgzqk07m142jw8b5p-clean /nix/store/0vpdgk2ma1m9lc8ac0l7vl0gjsqf8c7a-deploy /nix/store/9hz96fx490l8s8y8v7vzkfi9ghlm7xjs-dev /nix/store/i0yi0rwr8ikq4jrjd84rz4g7f0qzqbh3-preview /nix/store/mnfq3832h6qyr48rnl8qnrfnkfc2qqik-setup /nix/store/4vsvfp3lp7l7rpavp5ndyn083d63a775-update /nix/store/8hbds0w6jwipgkbisy76y57sbry05wj0-alejandra-3.0.0 /nix/store/n9v25f241k8lqyzr6r324giqpfn1wxpc-yarn2nix-1.0.0 /nix/store/4xdpyl99ry0nihjayglbcy4qrxmra87g-devenv /nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2'
 export nativeBuildInputs
-out='/workspaces/astro-chef/outputs/out'
+out='/home/moxie/src/astro-chef/outputs/out'
 export out
 outputBin='out'
 outputDev='out'
@@ -181,7 +180,7 @@ preConfigurePhases=' updateAutotoolsGnuConfigScriptsPhase'
 declare -a preFixupHooks=('_moveToShare' '_multioutDocs' '_multioutDevs' )
 preferLocalBuild='1'
 export preferLocalBuild
-prefix='/workspaces/astro-chef/outputs/out'
+prefix='/home/moxie/src/astro-chef/outputs/out'
 declare -a propagatedBuildDepFiles=('propagated-build-build-deps' 'propagated-native-build-inputs' 'propagated-build-target-deps' )
 propagatedBuildInputs=''
 export propagatedBuildInputs
@@ -222,8 +221,8 @@ then
 fi
 unset HOST_PATH NIX_BUILD_CORES __structuredAttrs buildInputs buildPhase builder depsBuildBuild depsBuildBuildPropagated depsBuildTarget depsBuildTargetPropagated depsHostHost depsHostHostPropagated depsTargetTarget depsTargetTargetPropagated dontAddDisableDepTrack doCheck doInstallCheck nativeBuildInputs out outputs patches phases preferLocalBuild propagatedBuildInputs propagatedNativeBuildInputs shell shellHook stdenv strictDeps
 
-mkdir -p '\''/tmp/user/1000/devenv-6268963'\''
-ln -snf '\''/tmp/user/1000/devenv-6268963'\'' '\''/workspaces/astro-chef/.devenv'\''/run
+mkdir -p '\''/run/user/1000/devenv-4ebcb0b'\''
+ln -snf '\''/run/user/1000/devenv-4ebcb0b'\'' '\''/home/moxie/src/astro-chef/.devenv'\''/run
 
 '
 export shellHook
@@ -1942,4 +1941,4 @@ export TMP="$NIX_BUILD_TOP"
 export TMPDIR="$NIX_BUILD_TOP"
 export TEMP="$NIX_BUILD_TOP"
 export TEMPDIR="$NIX_BUILD_TOP"
-eval "${shellHook:-}"
+eval "$shellHook"
