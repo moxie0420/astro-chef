@@ -1,9 +1,13 @@
 {
   inputs = {
-    nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
     devenv.inputs.nixpkgs.follows = "nixpkgs";
+    bun-image-delivery = {
+      url = "github:moxie0420/Bun-image-delivery";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -16,6 +20,7 @@
     nixpkgs,
     devenv,
     systems,
+    bun-image-delivery,
     ...
   } @ inputs: let
     forEachSystem = nixpkgs.lib.genAttrs (import systems);
@@ -58,20 +63,41 @@
           inherit inputs pkgs;
           modules = [
             {
+              env = {
+                IMAGE_PATH = "./Assets";
+                CACHE_PATH = "./Assets/cache";
+              };
+              processes = {
+                images.exec = ''
+                  bun-image-delivery
+                '';
+              };
+              services.postgres = {
+                enable = true;
+                package = pkgs.postgresql_15;
+                initialDatabases = [{name = "recipes";}];
+                extensions = extensions: [
+                  extensions.timescaledb
+                ];
+                settings.shared_preload_libraries = "timescaledb";
+                initialScript = "CREATE EXTENSION IF NOT EXISTS timescaledb;";
+              };
               dotenv.enable = true;
               packages = with pkgs; [
                 alejandra
                 yarn2nix
+                unzip
+                inputs.bun-image-delivery.packages.x86_64-linux.default
               ];
 
               languages.javascript = {
                 enable = true;
-                yarn.enable = true;
+                bun.enable = true;
               };
 
               scripts = {
                 setup.exec = ''
-                  yarn
+                  bun install --frozen-lockfile
                 '';
                 clean.exec = ''
                   rm -rf node_modules 2> /dev/null
@@ -79,23 +105,19 @@
                   setup
                 '';
                 dev.exec = ''
-                  yarn run dev
+                  bun dev
                 '';
                 build.exec = ''
                   clean
-                  yarn run build
+                  bun build
                 '';
                 deploy.exec = ''
                   clean
-                  yarn run deploy
+                  bun deploy
                 '';
                 preview.exec = ''
                   build
-                  yarn run preview
-                '';
-                update.exec = ''
-                  nix flake update
-                  yarn upgrade
+                  bun preview
                 '';
               };
             }
