@@ -1,5 +1,5 @@
 ---
-import { ingredients, recipes } from "schema";
+import { ingredients, Units } from "schema";
 import {eq} from "drizzle-orm";
 import { db } from "@lib/database";
 
@@ -7,34 +7,61 @@ interface Props {
     recipeId: number;
     prepTime?: string;
     cookTime?: string;
+    editMode: boolean
 }
-const {recipeId} = Astro.props;
+const {recipeId, prepTime, cookTime, editMode} = Astro.props;
 
 const fullIngredientsList = await db.select().from(ingredients).where(eq(ingredients.Recipe, recipeId));
 ---
 
-<div class="bg-kitchen-bg flex-col w-1/2 border border-kitchen-primary">
-    <div class="flex justify-between font-bold">
-        <span class="w-full border border-kitchen-primary ">Ingredients</span>
-        <span class="w-fit border border-kitchen-primary">Amount</span>
+<div class="bg-kitchen-bg grid grid-cols-5 w-3/4 border border-kitchen-primary mx-auto">
+    <span class="border border-kitchen-primary col-span-3">Ingredients</span>
+    <span class="border border-kitchen-primary col-span-2">Amount</span>
+    <div class="grid col-span-5">
+        {
+            fullIngredientsList.map((ingredient) =>
+            <div>
+                {ingredient.Amount}
+                {ingredient.Unit}
+            </div>)
+        }
     </div>
-    {
-        fullIngredientsList.map((ingredient) => 
-        <div>
-            {ingredient.Amount}
-            {ingredient.Unit}
-        </div>)
-    }
-    <div class="flex justify-between">
-        <div class="grid">
-            <span>Prep Time::{</span>
-            <span>Cook Time:: </span>
-        </div>
-        <div class="my-auto">
-            <select>
-                <option>Metric</option>
-                <option>U.S. Customary</option>
+
+    { editMode ?
+        <form method="post" class="grid grid-cols-4 col-span-4 h-fit">
+            <input name="Name" type="text" class="col-span-3 border"/>
+            <input name="Amount" type="number" class="col-span-1 border"/>
+
+            <select name="Unit" class="col-span-1 border" >
+                <option value="">Please select a unit</option>
+                {Units.map((unit) => <option value={unit}>{unit}</option>)}
             </select>
-        </div>
-    </div>
+
+            <label for="prep" class="col-span-2">
+                Prep time :: <input type="time" name="prep" class="bg-transparent">
+            </label>
+
+            <label for="cook" class="col-span-2 ">
+                Cook time :: <input type="time" name="cook" class="bg-transparent">
+            </label>
+
+            <button form="ingredients" type="submit" class="bg-kitchen-primary rounded-lg font-bold col-span-1 col-start-4 row-start-1 row-span-2 m-1">Update Ingredients</button>
+        </form>
+    :
+        <span>Prep Time:: {prepTime || "Not added yet"}</span>
+        <span>Cook Time:: {cookTime || "Not added yet"}</span>
+    }
+
+    <select class="col-span-1 col-start-5 m-1 text-2xl font-bold p-2 rounded-lg bg-kitchen-accent">
+        <option>Metric</option>
+        <option>U.S. Customary</option>
+    </select>
 <div>
+
+<script>
+    const UnitSelector = document.getElementById("UnitSelector");
+    UnitSelector?.addEventListener("click", () => {
+        console.log("TODO: add ingredient add button")
+    })
+
+</script>

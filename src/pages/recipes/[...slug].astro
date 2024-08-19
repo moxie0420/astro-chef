@@ -1,7 +1,7 @@
 ---
 import MainLayout from "../../layouts/mainLayout.astro";
 import {db} from "@lib/database";
-import { recipes } from "schema";
+import { ingredients, recipes } from "schema";
 import {eq, count} from "drizzle-orm"
 import { Markdown } from "@astropub/md";
 
@@ -16,19 +16,19 @@ switch (slug) {
     .insert(recipes)
     .values({ Title: "new recipe" })
     .returning({ Id: recipes.Id });
-    return Astro.redirect("/recipes/"+newRecipe[0].Id)
+    return Astro.redirect("/recipes/"+newRecipe[0].Id);
 
-  case "random": 
+  case "random":
     const counted = await db.select({ count: count() }).from(recipes);
-     res = await db
+    const random = await db
       .select()
       .from(recipes)
       .orderBy(recipes.Id)
       .limit(1)
       .offset(Math.floor(Math.random() * counted[0].count));
-    break;
-  
-  default: 
+    return Astro.redirect("/recipes/"+random[0].Id);
+
+  default:
     res = await db
       .select()
       .from(recipes)
@@ -42,6 +42,24 @@ const recipe = res[0];
 if (!recipe) return Astro.redirect("/404");
 
 const editMode = Astro.url.searchParams.get("edit") === "true";
+
+if (Astro.request.method === "POST") {
+  try {
+    const formdata = await Astro.request.formData();
+    let update = {}: {
+      prep?: tim
+    };
+    if (formdata.has("prep")) {
+
+    }
+
+
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  )
+}
 ---
 
 <MainLayout title={recipe.Title || ""}>
@@ -72,6 +90,7 @@ const editMode = Astro.url.searchParams.get("edit") === "true";
             </button>
           </div>
         </div>
+        <Ingredientholder recipeId={recipe.Id} editMode={editMode}/>
 
         <form id="text" method="post">
           <textarea
@@ -100,7 +119,7 @@ const editMode = Astro.url.searchParams.get("edit") === "true";
               </button>
             </a>
           </div>
-          <Ingredientholder recipeId={recipe.Id}/>
+          <Ingredientholder recipeId={recipe.Id} editMode={editMode}/>
           <div />
           <Markdown of={recipe.Body || ""} />
         </div>
