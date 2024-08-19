@@ -82,7 +82,6 @@
                 settings.shared_preload_libraries = "timescaledb";
                 initialScript = "CREATE EXTENSION IF NOT EXISTS timescaledb;";
               };
-              dotenv.enable = true;
               packages = with pkgs; [
                 alejandra
                 yarn2nix

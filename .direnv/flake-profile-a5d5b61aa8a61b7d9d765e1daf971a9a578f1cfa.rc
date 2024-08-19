@@ -49,7 +49,7 @@ NIX_CC='/nix/store/lbk30k56awz9vz9qpid93fkjns0xwlhd-gcc-wrapper-13.3.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=4yhsi3xzlg -isystem /nix/store/h48ar22f5z3khhmzyyq8256w9ayi2cl2-postgresql-and-plugins-15.8/include -isystem /nix/store/ypcn728wnqblyapkdix3hywdy574xd22-nodejs-slim-20.15.1/include -isystem /nix/store/h48ar22f5z3khhmzyyq8256w9ayi2cl2-postgresql-and-plugins-15.8/include -isystem /nix/store/ypcn728wnqblyapkdix3hywdy574xd22-nodejs-slim-20.15.1/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=z53lah77x6 -isystem /nix/store/h48ar22f5z3khhmzyyq8256w9ayi2cl2-postgresql-and-plugins-15.8/include -isystem /nix/store/ypcn728wnqblyapkdix3hywdy574xd22-nodejs-slim-20.15.1/include -isystem /nix/store/h48ar22f5z3khhmzyyq8256w9ayi2cl2-postgresql-and-plugins-15.8/include -isystem /nix/store/ypcn728wnqblyapkdix3hywdy574xd22-nodejs-slim-20.15.1/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -203,8 +203,6 @@ declare -a propagatedTargetDepFiles=('propagated-target-target-deps' )
 shell='/nix/store/4bj2kxdm1462fzcc2i2s4dn33g2angcc-bash-5.2p32/bin/bash'
 export shell
 shellHook='
-echo "💡 The dotenv file '\''.env'\'' was not found."
-
 
 
 export PS1="\[\e[0;34m\](devenv)\[\e[0m\] ${PS1-}"
