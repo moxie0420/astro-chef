@@ -31,3 +31,5 @@ result/
 *.png
 *.jpg
 *.webp
+
+database.db

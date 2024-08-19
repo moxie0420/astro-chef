@@ -37,7 +37,6 @@
         buildInputs = [pkgs.yarn node-modules];
         buildPhase = ''
           export ASTRO_TELEMETRY_DISABLED=1
-          export ASTRO_DATABASE_FILE=./database.db
           ln -s ${node-modules}/libexec/astro-chef/node_modules node_modules
           ${pkgs.yarn}/bin/yarn build --global-folder ./node_modules/  --cache-folder ./node_modules/
         '';

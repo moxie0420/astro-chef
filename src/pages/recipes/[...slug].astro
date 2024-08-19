@@ -1,70 +1,50 @@
 ---
 import MainLayout from "../../layouts/mainLayout.astro";
-import IngredientHolder from "@components/ingredientHolder.astro";
-
+import {db} from "@lib/database";
+import { recipes } from "schema";
+import {eq, count} from "drizzle-orm"
 import { Markdown } from "@astropub/md";
 
-import { db, eq, count } from "astro:db";
-import { Recipes, ingredient } from "astro:db";
+import Ingredientholder from "@components/ingredientholder.astro";
 
 const { slug } = Astro.params;
 
-async function getByTitle(title: string) {
-  return await db
-    .select()
-    .from(Recipes)
-    .where(eq(Recipes.title, title))
-    .limit(1);
+let res;
+switch (slug) {
+  case "new":
+    const newRecipe = await db
+    .insert(recipes)
+    .values({ Title: "new recipe" })
+    .returning({ Id: recipes.Id });
+    return Astro.redirect("/recipes/"+newRecipe[0].Id)
+
+  case "random": 
+    const counted = await db.select({ count: count() }).from(recipes);
+     res = await db
+      .select()
+      .from(recipes)
+      .orderBy(recipes.Id)
+      .limit(1)
+      .offset(Math.floor(Math.random() * counted[0].count));
+    break;
+  
+  default: 
+    res = await db
+      .select()
+      .from(recipes)
+      .where(eq(recipes.Id, parseInt(slug as string)));
+    break;
 }
-async function getRandom() {
-  const counted = await db.select({ count: count() }).from(Recipes);
 
-  return db
-    .select()
-    .from(Recipes)
-    .orderBy(Recipes.title)
-    .limit(1)
-    .offset(Math.floor(Math.random() * counted[0].count));
-}
+const recipe = res[0];
 
-const [recipe] =
-  slug === "random" ? await getRandom() : await getByTitle(slug as string);
-
-if (slug == "random") return Astro.redirect("/recipes/" + recipe.title);
 
 if (!recipe) return Astro.redirect("/404");
 
 const editMode = Astro.url.searchParams.get("edit") === "true";
-
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-
-    const newTitle = data.get("title");
-    const newBody = data.get("body");
-
-    await db
-      .update(Recipes)
-      .set({
-        title: newTitle as string,
-        body: newBody as string,
-      })
-      .where(eq(Recipes.title, slug as string));
-    return Astro.redirect(Astro.url.pathname);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
-
-const currentIngredients = await db
-  .select()
-  .from(ingredient)
-  .where(eq(ingredient.recipeId, recipe.id));
 ---
 
-<MainLayout title={recipe.title}>
+<MainLayout title={recipe.Title || ""}>
   {
     editMode ? (
       <>
@@ -77,7 +57,7 @@ const currentIngredients = await db
               required
               minlength="4"
               maxlength="125"
-              value={recipe.title}
+              value={recipe.Title}
               name="title"
               class="bg-transparent border border-kitchen-fg backdrop-blur-sm rounded-sm"
             />
@@ -92,7 +72,6 @@ const currentIngredients = await db
             </button>
           </div>
         </div>
-        <IngredientHolder ingredients={currentIngredients} />
 
         <form id="text" method="post">
           <textarea
@@ -103,7 +82,7 @@ const currentIngredients = await db
             class="bg-transparent mx-auto"
             required
             spellcheck="true"
-            set:text={recipe.body as string}
+            set:text={recipe.Body as string}
           />
         </form>
       </>
@@ -111,7 +90,7 @@ const currentIngredients = await db
       <>
         <div class="flex flex-col gap-5 items-center">
           <div class="justify-between shadow-2xl flex w-full h-20 p-1 text-5xl text-kitchen-fg">
-            <span class="my-auto font-bold">{recipe.title}</span>
+            <span class="my-auto font-bold">{recipe.Title}</span>
             <a href={Astro.url.pathname + "?edit=true"}>
               <button
                 id="editButton"
@@ -121,10 +100,9 @@ const currentIngredients = await db
               </button>
             </a>
           </div>
-
+          <Ingredientholder recipeId={recipe.Id}/>
           <div />
-
-          <Markdown of={(recipe.body as string) ?? ""} />
+          <Markdown of={recipe.Body || ""} />
         </div>
       </>
     )

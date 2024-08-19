@@ -1,0 +1,40 @@
+---
+import { ingredients, recipes } from "schema";
+import {eq} from "drizzle-orm";
+import { db } from "@lib/database";
+
+interface Props {
+    recipeId: number;
+    prepTime?: string;
+    cookTime?: string;
+}
+const {recipeId} = Astro.props;
+
+const fullIngredientsList = await db.select().from(ingredients).where(eq(ingredients.Recipe, recipeId));
+---
+
+<div class="bg-kitchen-bg flex-col w-1/2 border border-kitchen-primary">
+    <div class="flex justify-between font-bold">
+        <span class="w-full border border-kitchen-primary ">Ingredients</span>
+        <span class="w-fit border border-kitchen-primary">Amount</span>
+    </div>
+    {
+        fullIngredientsList.map((ingredient) => 
+        <div>
+            {ingredient.Amount}
+            {ingredient.Unit}
+        </div>)
+    }
+    <div class="flex justify-between">
+        <div class="grid">
+            <span>Prep Time::{</span>
+            <span>Cook Time:: </span>
+        </div>
+        <div class="my-auto">
+            <select>
+                <option>Metric</option>
+                <option>U.S. Customary</option>
+            </select>
+        </div>
+    </div>
+<div>

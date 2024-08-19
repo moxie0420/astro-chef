@@ -16,10 +16,10 @@ const service: ExternalImageService = {
 
     return options;
   },
-  getURL(options, imageConfig) {
+  getURL(options) {
     return `http://localhost:8000/${options.src}?w=${options.width},h=${options.height}`;
   },
-  getHTMLAttributes(options, imageConfig) {
+  getHTMLAttributes(options) {
     const { src, format, ...attributes } = options;
     return {
       ...attributes,
