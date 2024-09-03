@@ -43,7 +43,7 @@ NIX_BINTOOLS='/nix/store/qrw9mznq4p1135k53aa5g9saz229srf4-binutils-wrapper-2.42'
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='8'
+NIX_BUILD_CORES='16'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/lbk30k56awz9vz9qpid93fkjns0xwlhd-gcc-wrapper-13.3.0'
 export NIX_CC
@@ -153,7 +153,7 @@ declare -a envHostHostHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addC
 declare -a envHostTargetHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
-guess='8'
+guess='16'
 initialPath='/nix/store/w1iq3315z63558j04gnlzdd2yk1v1hfz-coreutils-9.5 /nix/store/ajymwgc23snyw48wvkapw4qjggsi2vbw-findutils-4.10.0 /nix/store/frx30r9405q0d4jfxnf969mgq4q8rjk2-diffutils-3.10 /nix/store/d58flzaagmfb5pyvmknly4cnws45nc80-gnused-4.9 /nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11 /nix/store/wab5wlc7rrn58z6ay4ls42av4n8rlqia-gawk-5.2.2 /nix/store/k11rxbj9mvpgfk15rriqjn97by18r2xk-gnutar-1.35 /nix/store/ybpxfq146szbqv8xxlc7ixnj9k6l1y5d-gzip-1.13 /nix/store/07lm36zpghw8i9spwbcgkwzisw22k1kn-bzip2-1.0.8-bin /nix/store/nkza13k6khbmm7z2j6vj40k7081w6c9q-gnumake-4.4.1 /nix/store/4bj2kxdm1462fzcc2i2s4dn33g2angcc-bash-5.2p32 /nix/store/rr31bwb0jym6mgspqp54wdydr94skqvc-patch-2.7.6 /nix/store/1idcyg3ldcggjzfznb5klr7b2wa1vznf-xz-5.6.2-bin /nix/store/2cqhdkxl71p1afk02g34hm3mbzwb8h1a-file-5.45'
 mesonFlags=''
 export mesonFlags

@@ -71,16 +71,6 @@
                   bun-image-delivery
                 '';
               };
-              services.postgres = {
-                enable = true;
-                package = pkgs.postgresql_15;
-                initialDatabases = [{name = "recipes";}];
-                extensions = extensions: [
-                  extensions.timescaledb
-                ];
-                settings.shared_preload_libraries = "timescaledb";
-                initialScript = "CREATE EXTENSION IF NOT EXISTS timescaledb;";
-              };
               packages = with pkgs; [
                 alejandra
                 yarn2nix
@@ -90,12 +80,13 @@
 
               languages.javascript = {
                 enable = true;
-                bun.enable = true;
+                npm.enable = true;
+                yarn.enable = true;
               };
 
               scripts = {
                 setup.exec = ''
-                  bun install --frozen-lockfile
+                  yarn install
                 '';
                 clean.exec = ''
                   rm -rf node_modules 2> /dev/null
@@ -103,19 +94,19 @@
                   setup
                 '';
                 dev.exec = ''
-                  bun dev
+                  yarn dev
                 '';
                 build.exec = ''
                   clean
-                  bun build
+                  yarn build
                 '';
                 deploy.exec = ''
                   clean
-                  bun deploy
+                  yarn deploy
                 '';
                 preview.exec = ''
                   build
-                  bun preview
+                  yarn preview
                 '';
               };
             }
