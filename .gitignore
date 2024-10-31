@@ -23,8 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-.devenv
-.env
+
 
 result/
 .vite/
@@ -33,3 +32,8 @@ result/
 *.webp
 
 database.db
+
+# nix system specific stuff
+.direnv
+.devenv
+.env
