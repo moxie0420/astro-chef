@@ -9,7 +9,7 @@ import db from "@astrojs/db";
 import markdownIntegration from "@astropub/md";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
 
-import bun from "@nurodev/astro-bun";
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,5 +47,7 @@ export default defineConfig({
     devtoolBreakpoints(),
   ],
   output: "hybrid",
-  adapter: bun(),
+  adapter: node({
+    mode: "standalone",
+  }),
 });

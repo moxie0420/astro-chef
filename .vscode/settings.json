@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Catppuccin Mocha",
   "workbench.iconTheme": "catppuccin-perfect-mocha",
   "remote.autoForwardPortsSource": "hybrid",
   "editor.defaultFormatter": "esbenp.prettier-vscode",

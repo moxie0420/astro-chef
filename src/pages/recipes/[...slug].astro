@@ -1,8 +1,7 @@
 ---
 import MainLayout from "../../layouts/mainLayout.astro";
-import {db} from "@lib/database";
-import { ingredients, recipes } from "schema";
-import {eq, count} from "drizzle-orm"
+
+import {db } from "astro:db"
 import { Markdown } from "@astropub/md";
 
 import Ingredientholder from "@components/ingredientholder.astro";

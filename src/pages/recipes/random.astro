@@ -1,0 +1,11 @@
+---
+import { db, Recipe } from "astro:db";
+
+const counted = await db.select({ count: count() }).from(recipes);
+const random = await db
+  .select()
+  .from(Recipe)
+  .orderBy(Recipe.id)
+  .limit(1)
+  .offset(Math.floor(Math.random() * counted[0].count));
+---
