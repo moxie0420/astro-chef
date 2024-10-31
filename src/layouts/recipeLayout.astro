@@ -1,0 +1,47 @@
+---
+import { SEO } from "astro-seo";
+import { Recipe } from "astro:db";
+
+import Header from "@components/Header.astro";
+
+interface Props {
+  description?: string;
+  OpenGraphImg?: string;
+  recipe: typeof Recipe;
+}
+
+const { recipe } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <SEO
+      charset="utf-8"
+      title={recipe.title}
+      description={"No description made yet"}
+      extend={{
+        link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+        meta: [
+          { name: "viewport", content: "width=device-width" },
+          { name: "generator", content: Astro.generator },
+        ],
+      }}
+    />
+  </head>
+
+  <body class="bg-kitchen-accent gap-3 p-2 flex flex-col h-screen">
+    <Header />
+    <div
+      class="md:prose-lg 2xl:prose-2xl mx-auto rounded-md bg-kitchen-bg p-2 shadow-2xl size-full h-10/12 overflow-y-scroll text-kitchen-fg"
+    >
+      <div class="flex flex-col gap-5 items-center">
+        <div
+          class="justify-between shadow-2xl flex w-full h-20 p-1 text-5xl text-kitchen-fg"
+        >
+          <span class="my-auto font-bold">{recipe?.title || ""}</span>
+        </div>
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>

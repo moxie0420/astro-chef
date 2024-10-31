@@ -1,4 +1,4 @@
-import { defineDb, defineTable, column } from 'astro:db';
+import { defineDb, defineTable, column, NOW } from 'astro:db';
 
 export const Units = [
   "teaspoon",
@@ -29,11 +29,11 @@ const Recipe = defineTable({
     id: column.number({ primaryKey: true }),
     title: column.text(),
     author: column.text(),
-    created: column.date(),
-    edited: column.date(),
-    prepTime: column.number(),
-    cookTime: column.number(),
-    body: column.text(),
+    created: column.date({  default: NOW }),
+    edited: column.date({ optional: true }),
+    prepTime: column.number({ optional: true }),
+    cookTime: column.number({ optional: true }),
+    body: column.text({ optional: true }),
   }
 });
 

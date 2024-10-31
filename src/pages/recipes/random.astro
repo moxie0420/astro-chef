@@ -1,11 +1,20 @@
 ---
-import { db, Recipe } from "astro:db";
+import RecipeLayout from "@layouts/recipeLayout.astro";
 
-const counted = await db.select({ count: count() }).from(recipes);
-const random = await db
+import { db, Recipe, count } from "astro:db";
+import { Markdown } from "@astropub/md";
+
+const [counted] = await db.select({ count: count() }).from(Recipe);
+const [recipe] = await db
   .select()
   .from(Recipe)
   .orderBy(Recipe.id)
   .limit(1)
-  .offset(Math.floor(Math.random() * counted[0].count));
+  .offset(Math.floor(Math.random() * counted.count));
+
+if (!recipe) return Astro.redirect("/404");
 ---
+
+<RecipeLayout title={recipe.title || ""}>
+  <Markdown of={recipe.body || ""} />
+</RecipeLayout>

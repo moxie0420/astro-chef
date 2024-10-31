@@ -46,7 +46,7 @@ export default defineConfig({
     db(),
     devtoolBreakpoints(),
   ],
-  output: "hybrid",
+  output: "server",
   adapter: node({
     mode: "standalone",
   }),
