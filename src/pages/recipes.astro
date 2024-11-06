@@ -11,6 +11,8 @@ const recipes = await db
 ---
 
 <MainLayout title={"Browse Recipes"}>
+  <div class="text-center text-4xl font-bold mb-4">All Recipes</div>
+
   <div class="columns-4">
     {recipes.map((r: typeof Recipe) => <RecipeCard {...r} />)}
   </div>
