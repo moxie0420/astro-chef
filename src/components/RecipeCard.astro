@@ -1,0 +1,54 @@
+---
+import CardImage from "./CardImage.astro";
+
+interface Props {
+  id?: number;
+
+  created?: Date;
+  edited?: Date;
+
+  prepTime?: number;
+  cookTime?: number;
+
+  title?: string;
+  author?: string;
+  description?: string;
+
+  image?: string;
+  imageAlt?: string;
+}
+
+const props: Props = Astro.props;
+
+let link;
+if (props.title && props.title != "") link = "/recipes/by-title/" + props.title;
+else link = "/recipes/by-id/" + props.id;
+---
+
+<a href={link}>
+  <div class="max-w-sm rounded overflow-hidden shadow-lg">
+    <CardImage src={props.image} />
+
+    <div class="px-6 pt-4">
+      <div class="font-bold text-3xl mb-2">{props.title}</div>
+      <div class="text-base">{props.description}</div>
+
+      <div class="grid gap-2 p-2">
+        <div class="text-sm">
+          Time to Prep: {props.prepTime || "Not set yet"}
+          <br />
+          Time to Cook: {props.cookTime || "Not set yet"}
+        </div>
+        <div class="text-sm">
+          Created: {props.created?.toDateString()} at {
+            props.edited?.toLocaleTimeString()
+          }
+          <br />
+          Edited: {props.edited?.toDateString()} at {
+            props.edited?.toLocaleTimeString()
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</a>

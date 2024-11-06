@@ -1,0 +1,19 @@
+---
+import { db, eq, Recipe } from "astro:db";
+import { Markdown } from "@astropub/md";
+
+import RecipeLayout from "@layouts/recipeLayout.astro";
+
+const { id } = Astro.params;
+
+const [recipe] = await db
+  .select()
+  .from(Recipe)
+  .where(eq(Recipe.id, parseInt(id as string)));
+
+if (!recipe) return Astro.redirect("/404");
+---
+
+<RecipeLayout title={recipe.title}>
+  <Markdown of={recipe.body || ""} />
+</RecipeLayout>

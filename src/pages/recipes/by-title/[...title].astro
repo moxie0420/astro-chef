@@ -4,16 +4,16 @@ import { Markdown } from "@astropub/md";
 
 import RecipeLayout from "@layouts/recipeLayout.astro";
 
-const { slug } = Astro.params;
+const { title } = Astro.params;
 
 const [recipe] = await db
   .select()
   .from(Recipe)
-  .where(eq(Recipe.title, slug as string));
+  .where(eq(Recipe.title, title as string));
 
 if (!recipe) return Astro.redirect("/404");
 ---
 
-<RecipeLayout recipe={recipe}>
+<RecipeLayout title={recipe.title}>
   <Markdown of={recipe.body || ""} />
 </RecipeLayout>

@@ -30,9 +30,10 @@ const Recipe = defineTable({
     title: column.text(),
     author: column.text(),
     created: column.date({  default: NOW }),
-    edited: column.date({ optional: true }),
-    prepTime: column.number({ optional: true }),
-    cookTime: column.number({ optional: true }),
+    edited: column.date({ default: NOW }),
+    prepTime: column.text({ optional: true }),
+    cookTime: column.text({ optional: true }),
+    description: column.text({ optional: true }),
     body: column.text({ optional: true }),
   }
 });

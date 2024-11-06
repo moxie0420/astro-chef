@@ -7,17 +7,17 @@ import Header from "@components/Header.astro";
 interface Props {
   description?: string;
   OpenGraphImg?: string;
-  recipe: typeof Recipe;
+  title?: string;
 }
 
-const { recipe } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <html lang="en">
   <head>
     <SEO
       charset="utf-8"
-      title={recipe.title}
+      title={title || "No title yet"}
       description={"No description made yet"}
       extend={{
         link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
@@ -38,7 +38,7 @@ const { recipe } = Astro.props;
         <div
           class="justify-between shadow-2xl flex w-full h-20 p-1 text-5xl text-kitchen-fg"
         >
-          <span class="my-auto font-bold">{recipe?.title || ""}</span>
+          <span class="my-auto font-bold">{title || ""}</span>
         </div>
         <slot />
       </div>

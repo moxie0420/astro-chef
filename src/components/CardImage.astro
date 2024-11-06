@@ -1,0 +1,16 @@
+---
+import { Image } from "astro:assets";
+
+import No_data from "../assets/no_data.svg";
+
+const { src, ...attrs } = Astro.props;
+---
+
+<Image
+  class="m-auto"
+  src={src || No_data}
+  alt="Recipe Image"
+  width={170}
+  height={120}
+  {...attrs}
+/>

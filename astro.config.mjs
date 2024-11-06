@@ -14,11 +14,6 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   vite: {},
-  image: {
-    service: {
-      entrypoint: "src/lib/bun-image.ts",
-    },
-  },
   integrations: [
     markdownIntegration(),
     tailwind({

@@ -1,7 +1,17 @@
 ---
-import MainLayout from "../layouts/mainLayout.astro";
+import MainLayout from "@layouts/mainLayout.astro";
+import RecipeCard from "@components/RecipeCard.astro";
 
-const title = "Browse Recipes";
+import { db, Recipe } from "astro:db";
+
+const recipes = await db
+  .select()
+  .from(Recipe)
+  .orderBy(Recipe.edited || Recipe.created);
 ---
 
-<MainLayout title={title} />
+<MainLayout title={"Browse Recipes"}>
+  <div class="columns-4">
+    {recipes.map((r: typeof Recipe) => <RecipeCard {...r} />)}
+  </div>
+</MainLayout>
