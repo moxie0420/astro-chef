@@ -18,7 +18,7 @@ interface Props {
   imageAlt?: string;
 }
 
-const props: Props = Astro.props;
+const props = Astro.props;
 
 let link;
 if (props.title && props.title != "") link = "/recipes/by-title/" + props.title;
@@ -29,26 +29,37 @@ else link = "/recipes/by-id/" + props.id;
   <div class="max-w-sm rounded overflow-hidden shadow-lg">
     <CardImage src={props.image} />
 
-    <div class="px-6 pt-4">
-      <div class="font-bold text-3xl mb-2">{props.title}</div>
-      <div class="text-base">{props.description}</div>
+    <div class="mx-2">
+      <div class="font-bold text-xl mb-2">{props.title}</div>
+      <p class="text-base">
+        {props.description || "No recipe Description yet"}
+      </p>
+    </div>
 
-      <div class="grid gap-2 p-2">
-        <div class="text-sm">
-          Time to Prep: {props.prepTime || "Not set yet"}
-          <br />
-          Time to Cook: {props.cookTime || "Not set yet"}
-        </div>
-        <div class="text-sm">
-          Created: {props.created?.toDateString()} at {
-            props.edited?.toLocaleTimeString()
-          }
-          <br />
-          Edited: {props.edited?.toDateString()} at {
-            props.edited?.toLocaleTimeString()
-          }
-        </div>
-      </div>
+    <div
+      class="bg-gray-200 rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-gray-700 m-2"
+    >
+      <span>
+        Time to Prep: {props.prepTime || "Not set yet"}
+      </span>
+      <span>
+        Time to Cook: {props.cookTime || "Not set yet"}
+      </span>
+    </div>
+
+    <div
+      class="bg-gray-200 rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-gray-700 m-2"
+    >
+      <span>
+        Created: {props.created?.toDateString()} at {
+          props.created?.toLocaleTimeString()
+        }
+      </span>
+      <span>
+        Edited: {props.edited?.toDateString()} at {
+          props.edited?.toLocaleTimeString()
+        }
+      </span>
     </div>
   </div>
 </a>

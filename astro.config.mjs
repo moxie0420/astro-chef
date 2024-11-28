@@ -5,8 +5,6 @@ import compressor from "astro-compressor";
 import playformCompress from "@playform/compress";
 import purgecss from "astro-purgecss";
 import db from "@astrojs/db";
-
-import markdownIntegration from "@astropub/md";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
 
 import node from "@astrojs/node";
@@ -15,7 +13,6 @@ import node from "@astrojs/node";
 export default defineConfig({
   vite: {},
   integrations: [
-    markdownIntegration(),
     tailwind({
       applyBaseStyles: true,
     }),

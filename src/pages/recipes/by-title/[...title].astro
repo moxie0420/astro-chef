@@ -1,19 +1,21 @@
 ---
-import { db, eq, Recipe } from "astro:db";
-import { Markdown } from "@astropub/md";
+import { actions } from "astro:actions";
+import { marked } from "marked";
 
 import RecipeLayout from "@layouts/recipeLayout.astro";
 
 const { title } = Astro.params;
 
-const [recipe] = await db
-  .select()
-  .from(Recipe)
-  .where(eq(Recipe.title, title as string));
+const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+  title: title,
+});
 
-if (!recipe) return Astro.redirect("/404");
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
+
+const md = await marked.parse(data?.body || "");
 ---
 
-<RecipeLayout title={recipe.title}>
-  <Markdown of={recipe.body || ""} />
+<RecipeLayout title={data?.title}>
+  <article set:html={md} />
 </RecipeLayout>

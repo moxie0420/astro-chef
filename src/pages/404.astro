@@ -3,11 +3,13 @@ import MainLayout from "../layouts/mainLayout.astro";
 
 const title = "404";
 const description = "Page Not Found";
+
+const message = Astro.url.searchParams.get("message");
 ---
 
 <MainLayout title={title}>
   <div class="text-center">
     <p>Error: 404</p>
-    <p>{description}</p>
+    <p>{message || description}</p>
   </div>
 </MainLayout>

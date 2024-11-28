@@ -1,19 +1,21 @@
 ---
-import { db, eq, Recipe } from "astro:db";
-import { Markdown } from "@astropub/md";
+import { actions } from "astro:actions";
+import { marked } from "marked";
+
+import DOMPurify from "dompurify";
 
 import RecipeLayout from "@layouts/recipeLayout.astro";
 
 const { id } = Astro.params;
 
-const [recipe] = await db
-  .select()
-  .from(Recipe)
-  .where(eq(Recipe.id, parseInt(id as string)));
+const { data, error } = await actions.recipe.getRecipe({ id: id });
 
-if (!recipe) return Astro.redirect("/404");
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return;
 ---
 
-<RecipeLayout title={recipe.title}>
-  <Markdown of={recipe.body || ""} />
+<RecipeLayout title={data?.title}>
+  <article
+    set:html={DOMPurify.sanitize(await marked.parse(data?.body || ""))}
+  />
 </RecipeLayout>

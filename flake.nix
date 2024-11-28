@@ -68,6 +68,7 @@
           languages.javascript = {
             enable = true;
             yarn.enable = true;
+            npm.enable = true;
           };
           scripts = {
             setup.exec = ''

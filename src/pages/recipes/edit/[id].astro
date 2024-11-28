@@ -1,0 +1,72 @@
+---
+import { actions } from "astro:actions";
+import { marked } from "marked";
+
+import EditorLayout from "@layouts/editorLayout.astro";
+import Titlebar from "@components/titlebar.astro";
+
+const { id } = Astro.params;
+
+const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+  id: id,
+});
+
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return;
+
+const md = await marked.parse(data?.body || "");
+---
+
+<EditorLayout title={data?.title}>
+  <form>
+    <Titlebar>
+      <input type="text" name="title" value={data?.title} />
+      <button type="submit" id="submit">Save</button>
+    </Titlebar>
+    <div class="flex m-2 gap-1 overflow-y-auto overflow-x-hidden">
+      <textarea id="text" class="prose w-1/2" cols="80" rows="25"
+        >{data?.body}</textarea
+      >
+      <div id="preview" class="prose"></div>
+    </div>
+  </form>
+</EditorLayout>
+
+<script>
+  import { marked } from "marked";
+  import DOMPurify from "dompurify";
+
+  const text = document.getElementById("text") as HTMLTextAreaElement;
+  const preview = document.getElementById("preview");
+  if (preview)
+    preview.innerHTML = DOMPurify.sanitize(await marked.parse(text.value));
+
+  text?.addEventListener("input", async () => {
+    if (preview)
+      preview.innerHTML = DOMPurify.sanitize(await marked.parse(text.value));
+  });
+</script>
+
+<script>
+  import { actions } from "astro:actions";
+
+  import Toastify from "toastify-js";
+  import "toastify-js/src/toastify.css";
+
+  const editor = document.querySelector("form");
+  editor?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(editor);
+    const { error } = await actions.recipe.updateRecipe(formData);
+    if (error)
+      Toastify({
+        text: error.code + ": " + error.message,
+        duration: 1500,
+      }).showToast();
+    else
+      Toastify({
+        text: "Saved " + formData.get("title"),
+        duration: 1500,
+      }).showToast();
+  });
+</script>
