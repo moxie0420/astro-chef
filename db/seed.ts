@@ -1,4 +1,4 @@
-import { db, Recipe } from 'astro:db';
+import { db, Ingredient, Recipe } from 'astro:db';
 
 // https://astro.build/db/seed
 export default async function seed() {
@@ -11,4 +11,25 @@ export default async function seed() {
 		},
 		{ title: "Test Recipe Number 2", author: "Moxie" }
 	]);
+
+	await db.insert(Ingredient).values([
+		{
+			recipeId: 1,
+			amount: "1/2",
+			unit: "cup",
+			name: "love"
+		},
+		{
+			recipeId: 1,
+			amount: "1/4",
+			unit: "cup",
+			name: "milk"
+		},
+		{
+			recipeId: 1,
+			amount: "1/8",
+			unit: "cup",
+			name: "butter"
+		}
+	])
 }

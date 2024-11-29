@@ -6,33 +6,34 @@ import { db, eq, Recipe } from "astro:db";
 export const recipe = {
     getRecipe: defineAction({
         input: z.object({
-            id: z.string().optional(),
-            title: z.string().optional(),
+            method: z.string().optional(),
+            identifier: z.coerce.string().optional(),
         }),
-        handler: async (input) => {
-            if (input.title) {
+        handler: async ({ method, identifier }) => {
+            if (method == "id") {
                 const [recipe] = await db
                     .select()
                     .from(Recipe)
-                    .where(eq(Recipe.title, input.title));
+                    .where(eq(Recipe.id, parseInt(identifier as string)));
 
                 if (!recipe) throw new ActionError({
                     code: "NOT_FOUND",
-                    message: "recipe " + input.id + " was not found"
+                    message: "recipe " + identifier + " was not found"
                 });
+
                 return recipe;
             }
-            if (input.id) {
+
+            if (method == "title") {
                 const [recipe] = await db
                     .select()
                     .from(Recipe)
-                    .where(eq(Recipe.id, parseInt(input.id)));
+                    .where(eq(Recipe.title, identifier as string));
 
                 if (!recipe) throw new ActionError({
                     code: "NOT_FOUND",
-                    message: "recipe " + input.id + " was not found"
+                    message: "recipe " + identifier + " was not found"
                 });
-
                 return recipe;
             }
         }

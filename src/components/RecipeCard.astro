@@ -26,18 +26,20 @@ else link = "/recipes/by-id/" + props.id;
 ---
 
 <a href={link}>
-  <div class="max-w-sm rounded overflow-hidden shadow-lg">
+  <div
+    class="max-w-sm overflow-hidden shadow-lg bg-rosePine-surface p-2 rounded-lg"
+  >
     <CardImage src={props.image} />
 
     <div class="mx-2">
-      <div class="font-bold text-xl mb-2">{props.title}</div>
-      <p class="text-base">
+      <div class="font-bold text-xl text-rosePine-text mb-2">{props.title}</div>
+      <p class="text-rosePine-text">
         {props.description || "No recipe Description yet"}
       </p>
     </div>
 
     <div
-      class="bg-gray-200 rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-gray-700 m-2"
+      class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
     >
       <span>
         Time to Prep: {props.prepTime || "Not set yet"}
@@ -48,7 +50,7 @@ else link = "/recipes/by-id/" + props.id;
     </div>
 
     <div
-      class="bg-gray-200 rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-gray-700 m-2"
+      class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
     >
       <span>
         Created: {props.created?.toDateString()} at {

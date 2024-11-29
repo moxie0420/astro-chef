@@ -1,0 +1,29 @@
+---
+import { actions } from "astro:actions";
+import { marked } from "marked";
+
+import Ingredients from "@components/ingredients.astro";
+import RecipeLayout from "@layouts/recipeLayout.astro";
+
+const { method, identifier } = Astro.params;
+
+const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+  method,
+  identifier,
+});
+
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
+
+if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
+
+const md = await marked.parse(data.body || "");
+---
+
+<RecipeLayout title={data.title}>
+  <Ingredients recipeId={data.id} />
+  <article
+    set:html={md}
+    class="prose text-rosePine-text prose-headings:text-rosePine-text"
+  />
+</RecipeLayout>

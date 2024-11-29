@@ -1,0 +1,32 @@
+---
+import { actions } from "astro:actions";
+
+interface Props {
+  recipeId: number;
+}
+
+const { recipeId } = Astro.props;
+
+const { data, error } = await Astro.callAction(
+  actions.ingredient.getIngredients,
+  {
+    recipeId: recipeId,
+  }
+);
+
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
+
+if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
+---
+
+<div class="h-fit w-1/3 flex flex-col border border-black mx-auto">
+  {/* TODO: unit selector */}
+  {
+    data.map((ingredient) => (
+      <a class="h-fit border border-black">
+        {ingredient.amount} {ingredient.unit} of {ingredient.name}
+      </a>
+    ))
+  }
+</div>

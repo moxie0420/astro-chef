@@ -1,8 +1,8 @@
 ---
 import { actions } from "astro:actions";
-import { marked } from "marked";
 
 import EditorLayout from "@layouts/editorLayout.astro";
+import Ingredients from "@components/ingredients.astro";
 import Titlebar from "@components/titlebar.astro";
 
 const { id } = Astro.params;
@@ -14,15 +14,17 @@ const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
 if (error?.code) return Astro.redirect("/404?message=" + error?.message);
 else if (error) return;
 
-const md = await marked.parse(data?.body || "");
+if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
-<EditorLayout title={data?.title}>
+<EditorLayout title={data.title}>
   <form>
     <Titlebar>
-      <input type="text" name="title" value={data?.title} />
+      <input type="text" name="title" value={data.title} />
       <button type="submit" id="submit">Save</button>
     </Titlebar>
+    <Ingredients recipeId={data.id} />
+
     <div class="flex m-2 gap-1 overflow-y-auto overflow-x-hidden">
       <textarea id="text" class="prose w-1/2" cols="80" rows="25"
         >{data?.body}</textarea

@@ -1,8 +1,7 @@
-import { ActionError, defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
-
 import { recipe } from './recipe';
+import { ingredient } from './ingredient';
 
 export const server = {
-    recipe
+    recipe,
+    ingredient
 }
