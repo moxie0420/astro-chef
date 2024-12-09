@@ -1,0 +1,29 @@
+---
+import Ingredients from "./ingredients.astro";
+
+interface Props {
+  data: {
+    id: number;
+    amount: string;
+    unit: string;
+    name: string;
+    recipeId: number;
+  }[];
+  editing: boolean;
+}
+const { data, editing } = Astro.props;
+---
+
+<div class="table-row-group" id="ingredientRows">
+  {
+    data.map((ingredient) => (
+      <Ingredients
+        editing={editing}
+        id={ingredient.id}
+        amount={ingredient.amount}
+        unit={ingredient.unit}
+        name={ingredient.name}
+      />
+    ))
+  }
+</div>

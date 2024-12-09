@@ -1,0 +1,69 @@
+---
+import { Units } from "@lib/types";
+
+interface Props {
+  recipeId: number;
+  className: string;
+}
+
+const { recipeId, className, ...attrs } = Astro.props;
+---
+
+<ingredient-adder data-recipeid={recipeId} class={className} {...attrs}>
+  <form class="table-row">
+    {/* amount */}
+    <div class="table-cell">
+      <label for="amount" hidden>Amount</label>
+      <input name="amount" type="text" class="bg-inherit text-inherit m-1" />
+    </div>
+
+    {/* unit */}
+    <div class="table-cell">
+      <label for="unit" hidden>Unit</label>
+      <select id="unit" name="unit" class="bg-inherit">
+        <option selected>--None--</option>
+        {Units.map((unit) => <option>{unit}</option>)}
+      </select>
+    </div>
+
+    {/* name */}
+    <div class="table-cell">
+      <label for="name" hidden>Name</label>
+      <input name="name" type="text" class="bg-inherit text-inherit m-1" />
+    </div>
+
+    {/* add button */}
+    <button
+      id="addbtn"
+      class="table-cell bg-rosePine-foam text-rosePine-highlightMed px-5 py-1 m-1 rounded-full"
+      type="submit"
+    >
+      Add
+    </button>
+  </form>
+</ingredient-adder>
+
+<script>
+  import { actions } from "astro:actions";
+
+  class IngredientAdder extends HTMLElement {
+    connectedCallback() {
+      const recipeId = this.dataset.recipeid;
+
+      const ingredientAdderForm = this.querySelector("form");
+      ingredientAdderForm?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(ingredientAdderForm);
+
+        formData.append("recipeId", recipeId as string);
+
+        const { error } = await actions.ingredient.addIngredient(formData);
+        if (error) console.log(error.message);
+
+        location.reload();
+      });
+    }
+  }
+
+  customElements.define("ingredient-adder", IngredientAdder);
+</script>

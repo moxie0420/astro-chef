@@ -1,33 +1,33 @@
 ---
-import CardImage from "./CardImage.astro";
+import CardImage from "@components/cardImage.astro";
 
 interface Props {
-  id?: number;
+  id: number;
 
-  created?: Date;
-  edited?: Date;
+  created: Date;
+  edited: Date;
 
-  prepTime?: number;
-  cookTime?: number;
+  prepTime: string | null;
+  cookTime: string | null;
 
-  title?: string;
-  author?: string;
-  description?: string;
+  title: string | null;
+  author: string | null;
+  description: string | null;
 
-  image?: string;
-  imageAlt?: string;
+  image: string | null;
+  imageAlt: string | null;
 }
 
 const props = Astro.props;
 
-let link;
+let link: string;
 if (props.title && props.title != "") link = "/recipes/by-title/" + props.title;
 else link = "/recipes/by-id/" + props.id;
 ---
 
-<a href={link}>
+<a href={link} class="glide__slide p-1">
   <div
-    class="max-w-sm overflow-hidden shadow-lg bg-rosePine-surface p-2 rounded-lg"
+    class="max-w-sm overflow-hidden outline outline-rosePine-highlightMed shadow-2xl shadow-rosePine-base bg-rosePine-surface p-2 rounded-lg"
   >
     <CardImage src={props.image} />
 

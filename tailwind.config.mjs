@@ -3,6 +3,44 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      typography: ({theme}) => ({
+        rosePine: {
+          css: {
+            '--tw-prose-body': theme('colors.rosePine.text'),
+            '--tw-prose-headings': theme('colors.rosePine.text'),
+            '--tw-prose-lead': theme('colors.rosePine.text'),
+            '--tw-prose-links': theme('colors.rosePine.text'),
+            '--tw-prose-bold': theme('colors.rosePine.text'),
+            '--tw-prose-counters': theme('colors.rosePine.text'),
+            '--tw-prose-bullets': theme('colors.rosePine.text'),
+            '--tw-prose-hr': theme('colors.rosePine.text'),
+            '--tw-prose-quotes': theme('colors.rosePine.text'),
+            '--tw-prose-quote-borders': theme('colors.rosePine.text'),
+            '--tw-prose-captions': theme('colors.rosePine.text'),
+            '--tw-prose-code': theme('colors.rosePine.text'),
+            '--tw-prose-pre-code': theme('colors.rosePine.text'),
+            '--tw-prose-pre-bg': theme('colors.rosePine.text'),
+            '--tw-prose-th-borders': theme('colors.rosePine.text'),
+            '--tw-prose-td-borders': theme('colors.rosePine.text'),
+            '--tw-prose-invert-body': theme('colors.rosePine.text'),
+            '--tw-prose-invert-headings': theme('colors.rosePine.text'),
+            '--tw-prose-invert-lead': theme('colors.rosePine.text'),
+            '--tw-prose-invert-links': theme('colors.rosePine.text'),
+            '--tw-prose-invert-bold': theme('colors.rosePine.text'),
+            '--tw-prose-invert-counters': theme('colors.rosePine.text'),
+            '--tw-prose-invert-bullets': theme('colors.rosePine.text'),
+            '--tw-prose-invert-hr': theme('colors.rosePine.text'),
+            '--tw-prose-invert-quotes': theme('colors.rosePine.text'),
+            '--tw-prose-invert-quote-borders': theme('colors.rosePine.text'),
+            '--tw-prose-invert-captions': theme('colors.rosePine.text'),
+            '--tw-prose-invert-code': theme('colors.rosePine.text'),
+            '--tw-prose-invert-pre-code': theme('colors.rosePine.text'),
+            '--tw-prose-invert-pre-bg': theme('colors.rosePine.text'),
+            '--tw-prose-invert-th-borders': theme('colors.rosePine.text'),
+            '--tw-prose-invert-td-borders': theme('colors.rosePine.text')
+          }
+        }
+      }),
       colors: {
         rosePine: {
           base: "#191724",

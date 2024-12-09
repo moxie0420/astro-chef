@@ -1,0 +1,60 @@
+---
+import { Units } from '@lib/types';
+
+interface Props {
+  id: number;
+  editing: boolean;
+  amount: string;
+  unit: string;
+  name: string;
+}
+const props = Astro.props;
+---
+
+<ingredient-box data-id={props.id} class="table-row text-2xl">
+  {
+    props.editing ? (
+      <div class="table-cell">
+        <input type="text" class="bg-inherit text-inherit" value={props.amount}>
+      </div>
+      <div class="table-cell">
+        <select class="bg-inherit ">
+          {Units.map((unit) => (
+            <option>
+              {unit}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div class="table-cell">
+        <input type="text" class="bg-inherit text-inherit m-1" value={props.name}>
+      </div> 
+      <button id="delete" class="table-cell bg-rosePine-love px-7 py-1 m-1 rounded-full" type="button">x</button>
+    ) : (
+      <p class="table-cell text-left text-3xl px-2"> {props.amount} {props.unit} of {props.name}</p>
+    )
+  }
+</ingredient-box>
+
+<script>
+  import { actions } from "astro:actions";
+
+  class Ingredient extends HTMLElement {
+    connectedCallback() {
+      const id = this.dataset.id as string;
+      const deletebutton = this.querySelector("#delete");
+
+      deletebutton?.addEventListener("click", async () => {
+        const { error } = await actions.ingredient.removeIngredient({
+          ingredientId: parseInt(id),
+        });
+        if (error) console.log(error.message);
+        else this.remove();
+      });
+
+      const updateButton = this.querySelector("#update");
+    }
+  }
+
+  customElements.define("ingredient-box", Ingredient);
+</script>

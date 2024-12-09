@@ -1,0 +1,72 @@
+---
+import { actions } from "astro:actions";
+
+import IngredientAdder from "./ingredientAdder.astro";
+import IngredientsContent from "./ingredientsContent.astro";
+
+interface Props {
+  recipeId: number;
+  editing: boolean;
+}
+
+const { recipeId, editing } = Astro.props;
+
+const { data, error } = await Astro.callAction(
+  actions.ingredient.getIngredients,
+  {
+    recipeId: recipeId,
+  },
+);
+---
+
+<div
+  class="bg-rosePine-surface size-fit table rounded-md border-2 border-rosePine-highlightHigh text-rosePine-text"
+>
+  {/* TODO: unit selector */}
+  <div class="table-header-group">
+    <div class="table-row 2xl:text-4xl font-bold">
+      
+      {
+        editing ? (
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+            Amount
+          </p>
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+            Unit
+          </p>
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+            Name
+          </p>
+          <div class="table-cell border-b-2 border-rosePine-highlightHigh" />
+        ) : <span class="border-b-2 border-rosePine-highlightHigh table-cell pr-2">Ingredients</span>
+      }
+    </div>
+  </div>
+  {
+    data ? <IngredientsContent data={data} editing={editing} /> :
+    editing ?
+    <div class="text-center">
+    </div>
+    : <div class="text-center">
+      No Ingredients yet
+    </div>
+  }
+  
+  <div class="table-row-group">
+    {
+      editing ? (
+        <div id="ingredient-divider" class="table-row">
+          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
+          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
+          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
+          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
+        </div>
+      ) : null
+    }
+  </div>
+  {
+    editing ? (
+      <IngredientAdder recipeId={recipeId} className="table-row-group w-fit" />
+    ) : null
+  }
+</div>

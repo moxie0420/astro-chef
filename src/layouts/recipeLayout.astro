@@ -1,8 +1,7 @@
 ---
 import { SEO } from "astro-seo";
 
-import Header from "@components/Header.astro";
-import Titlebar from "@components/titlebar.astro";
+import Header from "@components/header.astro";
 
 interface Props {
   description?: string;
@@ -32,7 +31,7 @@ const { title } = Astro.props;
   <body class="bg-rosePine-base gap-3 p-2 flex flex-col h-screen">
     <Header />
     <div class="flex flex-col gap-5 items-center text-rosePine-text">
-      <Titlebar>{title}</Titlebar>
+      <slot name="titlebar" />
       <slot />
     </div>
   </body>

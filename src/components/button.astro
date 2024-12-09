@@ -1,0 +1,43 @@
+---
+interface Props {
+  destination?: string | URL | null;
+  type: "generic" | "submit" | "cancel";
+  size: "small" | "medium" | "large";
+  rounded?: boolean;
+}
+
+const { destination, type, size, rounded = false } = Astro.props;
+
+let classes: string[] = ["text-rosePine-text my-auto"];
+
+classes = classes.concat(rounded ? "rounded-full" : "rounded-md");
+
+switch (type) {
+  case "cancel":
+    classes = classes.concat("bg-rosePine-love");
+    break;
+  case "submit":
+    classes = classes.concat("bg-rosePine-foam");
+    break;
+  case "generic":
+    classes = classes.concat("bg-rosePine-highlightHigh");
+    break;
+}
+
+switch (size) {
+  case "small":
+    classes = classes.concat("px-5 py-1 text-xl");
+    break;
+  case "medium":
+    classes = classes.concat("px-5 py-1 text-3xl");
+    break;
+
+  case "large":
+    classes = classes.concat("px-5 py-1 text-5xl");
+    break;
+}
+---
+
+<a href={destination} class="size-fit my-auto">
+  <button class:list={classes}><slot /></button>
+</a>

@@ -1,0 +1,61 @@
+---
+import Button from "./button.astro";
+import RecipeCard from "./recipe/recipeCard.astro";
+
+interface Props {
+  slides: {
+    id: number;
+
+    created: Date;
+    edited: Date;
+
+    prepTime: string | null;
+    cookTime: string | null;
+
+    title: string | null;
+    author: string | null;
+    description: string | null;
+
+    image: string | null;
+    imageAlt: string | null;
+  }[];
+}
+const { slides } = Astro.props;
+---
+
+<link
+  rel="stylesheet"
+  href="node_modules/@glidejs/glide/dist/css/glide.core.min.css"
+/>
+<div class="glide bg-rosePine-surface p-2 rounded-lg">
+  <div class="glide__track" data-glide-el="track">
+    <ul class="glide__slides">
+      {slides.map((recipe) => <RecipeCard {...recipe} />)}
+    </ul>
+  </div>
+
+  <div class="glide__arrows flex justify-between py-2" data-glide-el="controls">
+    <Button
+      size="medium"
+      type="generic"
+      class:list="glide__arrow glide__arrow--left"
+      data-glide-dir="<">prev</Button
+    >
+    <Button
+      size="medium"
+      type="generic"
+      class:list="glide__arrow glide__arrow--right"
+      data-glide-dir=">">next</Button
+    >
+  </div>
+</div>
+
+<script>
+  import Glide from "@glidejs/glide";
+
+  new Glide(".glide", {
+    type: "slider",
+    startAt: 0,
+    perView: 5,
+  }).mount();
+</script>

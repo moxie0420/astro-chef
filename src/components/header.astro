@@ -1,5 +1,6 @@
 ---
-import RecipeSearch from "./RecipeSearch.astro";
+import Button from "./button.astro";
+import RecipeSearch from "@components/recipe/recipeSearch.astro";
 ---
 
 <nav
@@ -16,7 +17,10 @@ import RecipeSearch from "./RecipeSearch.astro";
       <button type="button">Random</button>
     </a>
   </div>
-  <div class="p-1">
+  <div class="p-1 flex gap-2">
     <RecipeSearch />
+    <Button type="generic" size="small" destination={"/recipes/new"}
+      >New Recipe</Button
+    >
   </div>
 </nav>

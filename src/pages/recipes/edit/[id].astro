@@ -2,13 +2,18 @@
 import { actions } from "astro:actions";
 
 import EditorLayout from "@layouts/editorLayout.astro";
-import Ingredients from "@components/ingredients.astro";
+import Ingredients from "@components/ingredients/ingredientHolder.astro";
+import MarkdownEditor from "@components/mde.astro";
 import Titlebar from "@components/titlebar.astro";
 
 const { id } = Astro.params;
 
+if (typeof id === "undefined")
+  return Astro.redirect("/404?message=Recipe came back undefined");
+
 const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
-  id: id,
+  method: "id",
+  identifier: id,
 });
 
 if (error?.code) return Astro.redirect("/404?message=" + error?.message);
@@ -18,36 +23,34 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
 <EditorLayout title={data.title}>
-  <form>
-    <Titlebar>
-      <input type="text" name="title" value={data.title} />
-      <button type="submit" id="submit">Save</button>
-    </Titlebar>
-    <Ingredients recipeId={data.id} />
-
-    <div class="flex m-2 gap-1 overflow-y-auto overflow-x-hidden">
-      <textarea id="text" class="prose w-1/2" cols="80" rows="25"
-        >{data?.body}</textarea
-      >
-      <div id="preview" class="prose"></div>
+  <Titlebar slot="titlebar">
+    <div class="flex">
+      <input
+        form="editor"
+        type="text"
+        name="title"
+        value={data.title}
+        class="bg-rosePine-overlay rounded-md"
+      />
+      <input
+        form="editor"
+        type="text"
+        name="id"
+        value={data.id}
+        readonly
+        class="hidden"
+      />
     </div>
+
+    <button form="editor" type="submit">Save</button>
+  </Titlebar>
+
+  <Ingredients recipeId={data.id} editing={true} />
+
+  <form id="editor">
+    <MarkdownEditor body={data.body || ""} />
   </form>
 </EditorLayout>
-
-<script>
-  import { marked } from "marked";
-  import DOMPurify from "dompurify";
-
-  const text = document.getElementById("text") as HTMLTextAreaElement;
-  const preview = document.getElementById("preview");
-  if (preview)
-    preview.innerHTML = DOMPurify.sanitize(await marked.parse(text.value));
-
-  text?.addEventListener("input", async () => {
-    if (preview)
-      preview.innerHTML = DOMPurify.sanitize(await marked.parse(text.value));
-  });
-</script>
 
 <script>
   import { actions } from "astro:actions";
@@ -55,20 +58,22 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
   import Toastify from "toastify-js";
   import "toastify-js/src/toastify.css";
 
-  const editor = document.querySelector("form");
+  const editor = document.getElementById("editor") as HTMLFormElement;
   editor?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(editor);
-    const { error } = await actions.recipe.updateRecipe(formData);
+    const { error, data } = await actions.recipe.updateRecipe(formData);
     if (error)
       Toastify({
         text: error.code + ": " + error.message,
         duration: 1500,
       }).showToast();
-    else
+    else {
+      console.log(data[0].body);
       Toastify({
-        text: "Saved " + formData.get("title"),
+        text: "Saved recipe:\n" + data[0].id,
         duration: 1500,
       }).showToast();
+    }
   });
 </script>

@@ -1,10 +1,5 @@
 {
   inputs = {
-    bun-image-delivery = {
-      url = "github:moxie0420/Bun-image-delivery";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     devenv = {
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,26 +20,7 @@
 
       perSystem = {pkgs, ...}: {
         packages = rec {
-          dependencies = pkgs.mkYarnPackage {
-            name = "node-modules";
-            src = ./.;
-          };
-
-          astro-chef = pkgs.stdenv.mkDerivation {
-            name = "astro-chef";
-            src = ./.;
-            buildInputs = [pkgs.yarn dependencies];
-            buildPhase = ''
-              export ASTRO_TELEMETRY_DISABLED=1
-              ln -s ${dependencies}/libexec/astro-chef/node_modules node_modules
-              ${pkgs.yarn}/bin/yarn build --global-folder ./node_modules/  --cache-folder ./node_modules/
-            '';
-            installPhase = ''
-              mkdir $out
-              mv dist $out
-              mv database.db $out
-            '';
-          };
+          astro-chef = pkgs.callPackage ./package.nix {};
 
           default = astro-chef;
         };
@@ -63,37 +39,14 @@
             alejandra
             yarn2nix
             unzip
-            inputs.bun-image-delivery.packages.x86_64-linux.default
           ];
           languages.javascript = {
             enable = true;
-            yarn.enable = true;
-            npm.enable = true;
-          };
-          scripts = {
-            setup.exec = ''
-              yarn install
-            '';
-            clean.exec = ''
-              rm -rf node_modules 2> /dev/null
-              rm -rf dist 2> /dev/null
-              setup
-            '';
-            dev.exec = ''
-              yarn dev
-            '';
-            build.exec = ''
-              clean
-              yarn build
-            '';
-            deploy.exec = ''
-              clean
-              yarn deploy
-            '';
-            preview.exec = ''
-              build
-              yarn preview
-            '';
+            package = pkgs.nodejs-slim_latest;
+            pnpm = {
+              enable = true;
+              package = pkgs.pnpm;
+            };
           };
         };
       };

@@ -2,8 +2,10 @@
 import { actions } from "astro:actions";
 import { marked } from "marked";
 
-import Ingredients from "@components/ingredients.astro";
+import Button from "@components/button.astro";
+import IngredientHolder from "@components/ingredients/ingredientHolder.astro";
 import RecipeLayout from "@layouts/recipeLayout.astro";
+import Titlebar from "@components/titlebar.astro";
 
 const { method, identifier } = Astro.params;
 
@@ -21,9 +23,27 @@ const md = await marked.parse(data.body || "");
 ---
 
 <RecipeLayout title={data.title}>
-  <Ingredients recipeId={data.id} />
-  <article
-    set:html={md}
-    class="prose text-rosePine-text prose-headings:text-rosePine-text"
-  />
+  <Titlebar>
+    <span class="my-auto h-fit">{data.title}</span>
+
+    <Button
+      type="generic"
+      size="medium"
+      destination={"/recipes/edit/" + data.id}
+    >
+      Edit
+    </Button>
+  </Titlebar>
+  <div
+    class="w-1/3 flex flex-col rounded-lg bg-rosePine-surface overflow-scroll overflow-y-auto"
+  >
+    <div class="mx-auto p-3">
+      <IngredientHolder recipeId={data.id} editing={false} />
+    </div>
+
+    <article
+      set:html={md}
+      class="text-center p-2 2xl:prose-2xl prose-rosePine"
+    />
+  </div>
 </RecipeLayout>

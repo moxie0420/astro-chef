@@ -1,6 +1,6 @@
 ---
 import MainLayout from "@layouts/mainLayout.astro";
-import RecipeCard from "@components/RecipeCard.astro";
+import RecipeCard from "@components/recipe/recipeCard.astro";
 
 import { db, Recipe } from "astro:db";
 
@@ -11,7 +11,9 @@ const recipes = await db
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <div class="text-center text-4xl font-bold mb-4">All Recipes</div>
+  <div class="text-center text-4xl font-bold mb-4 text-rosePine-text">
+    All Recipes
+  </div>
 
   <div class="md:columns-3">
     {recipes.map((r) => <RecipeCard {...r} />)}

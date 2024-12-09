@@ -1,27 +1,13 @@
-import { defineDb, defineTable, column, NOW } from 'astro:db';
-
-export const Units = [
-  "teaspoon",
-  "tablespoon",
-  "cup",
-  "ounce",
-  "fluid cup",
-  "fluid ounce",
-  "pint",
-  "quart",
-  "gallon",
-  "kilograms",
-  "grams",
-  "miligram",
-]
+import { defineDb, defineTable, column, NOW } from "astro:db";
 
 const Ingredient = defineTable({
   columns: {
+    id: column.number({ primaryKey: true }),
     recipeId: column.number(),
     name: column.text(),
     amount: column.text(),
     unit: column.text(),
-  }
+  },
 });
 
 const Recipe = defineTable({
@@ -35,10 +21,12 @@ const Recipe = defineTable({
     cookTime: column.text({ optional: true }),
     description: column.text({ optional: true }),
     body: column.text({ optional: true }),
-  }
+    image: column.text({ optional: true }),
+    imageAlt: column.text({ optional: true }),
+  },
 });
 
 // https://astro.build/db/config
 export default defineDb({
-  tables: { Recipe, Ingredient }
+  tables: { Recipe, Ingredient },
 });

@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+
+import No_data from "@assets/no_data.svg";
+
+interface Props {
+  src?: string | null;
+  alt?: string | null;
+}
+
+const { src, alt } = Astro.props;
+
+const imageAlt = alt ? alt : "Not found";
+---
+
+{
+  src && alt ? (
+    <Image
+      class="m-auto rounded-sm"
+      src={src}
+      alt={imageAlt}
+      width="140"
+      height="140"
+      inferSize={true}
+      layout="responsive"
+    />
+  ) : (
+    <Image
+      class="m-auto rounded-sm"
+      src={No_data}
+      alt="Not found"
+      width="140"
+      height="140"
+      layout="responsive"
+    />
+  )
+}
