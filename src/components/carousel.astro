@@ -1,61 +1,78 @@
 ---
+import { actions } from "astro:actions";
+import "glider-js/glider.min.css";
+
 import Button from "./button.astro";
 import RecipeCard from "./recipe/recipeCard.astro";
 
+const signature = Math.floor(Math.random() * 100);
+
 interface Props {
-  slides: {
-    id: number;
-
-    created: Date;
-    edited: Date;
-
-    prepTime: string | null;
-    cookTime: string | null;
-
-    title: string | null;
-    author: string | null;
-    description: string | null;
-
-    image: string | null;
-    imageAlt: string | null;
-  }[];
+  type: "random" | "popular";
+  filters?: string[];
+  number?: number;
 }
-const { slides } = Astro.props;
+const { type, filters, number } = Astro.props;
+
+const { data } = await Astro.callAction(actions.recipe.getRecipes, {
+  sort: type,
+  filter: filters,
+  number: number || 20,
+});
 ---
 
-<link
-  rel="stylesheet"
-  href="node_modules/@glidejs/glide/dist/css/glide.core.min.css"
-/>
-<div class="glide bg-rosePine-surface p-2 rounded-lg">
-  <div class="glide__track" data-glide-el="track">
-    <ul class="glide__slides">
-      {slides.map((recipe) => <RecipeCard {...recipe} />)}
-    </ul>
+<glide-carousel data-signature={signature}>
+  <div>
+    <div id="glider" class="glider bg-rosePine-surface p-2 rounded-lg">
+      {data?.map((recipe) => <RecipeCard {...recipe} />)}
+    </div>
+    <div class="grid grid-cols-5">
+      <div class="col-start-1">
+        <Button
+          id={"glider-prev-" + signature}
+          size="medium"
+          style="generic"
+          extraClasses="w-full">prev</Button
+        >
+      </div>
+      <div
+        role="tablist"
+        id={"dots-" + signature}
+        class="dots w-full col-start-3"
+      >
+      </div>
+      <div class="col-start-5">
+        <Button
+          id={"glider-next-" + signature}
+          size="medium"
+          style="generic"
+          extraClasses="w-full">next</Button
+        >
+      </div>
+    </div>
   </div>
-
-  <div class="glide__arrows flex justify-between py-2" data-glide-el="controls">
-    <Button
-      size="medium"
-      type="generic"
-      class:list="glide__arrow glide__arrow--left"
-      data-glide-dir="<">prev</Button
-    >
-    <Button
-      size="medium"
-      type="generic"
-      class:list="glide__arrow glide__arrow--right"
-      data-glide-dir=">">next</Button
-    >
-  </div>
-</div>
+</glide-carousel>
 
 <script>
-  import Glide from "@glidejs/glide";
+  import Glider from "glider-js";
 
-  new Glide(".glide", {
-    type: "slider",
-    startAt: 0,
-    perView: 5,
-  }).mount();
+  class GlideCarousel extends HTMLElement {
+    connectedCallback() {
+      const signature = this.dataset.signature as string;
+
+      const mainDiv = this.querySelector("#glider") as HTMLElement;
+      if (mainDiv)
+        new Glider(mainDiv, {
+          slidesToScroll: 5,
+          slidesToShow: 5.5,
+          dots: "#dots-" + parseInt(signature),
+          arrows: {
+            prev: "#glider-prev-" + parseInt(signature),
+            next: "#glider-next-" + parseInt(signature),
+          },
+        });
+    }
+  }
+
+  customElements.define("glide-carousel", GlideCarousel);
 </script>

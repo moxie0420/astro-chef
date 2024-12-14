@@ -1,0 +1,15 @@
+---
+import MainLayout from "../layouts/mainLayout.astro";
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<MainLayout title={error instanceof Error ? error.name : "Unkown Error"}>
+  <div class="text-center">
+    {error instanceof Error ? error.message : "Unkown Error"}
+  </div>
+</MainLayout>

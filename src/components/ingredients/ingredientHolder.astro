@@ -1,8 +1,8 @@
 ---
 import { actions } from "astro:actions";
 
+import Ingredients from "./ingredients.astro";
 import IngredientAdder from "./ingredientAdder.astro";
-import IngredientsContent from "./ingredientsContent.astro";
 
 interface Props {
   recipeId: number;
@@ -11,7 +11,7 @@ interface Props {
 
 const { recipeId, editing } = Astro.props;
 
-const { data, error } = await Astro.callAction(
+const { data } = await Astro.callAction(
   actions.ingredient.getIngredients,
   {
     recipeId: recipeId,
@@ -24,49 +24,37 @@ const { data, error } = await Astro.callAction(
 >
   {/* TODO: unit selector */}
   <div class="table-header-group">
-    <div class="table-row 2xl:text-4xl font-bold">
+    <div class="table-row 2xl:text-4xl font-bold ">
       
       {
         editing ? (
-          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh px-1">
             Amount
           </p>
-          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh px-1">
             Unit
           </p>
-          <p class="table-cell border-b-2 border-rosePine-highlightHigh pr-2">
+          <p class="table-cell border-b-2 border-rosePine-highlightHigh px-1">
             Name
           </p>
+          <div class="table-cell border-b-2 border-rosePine-highlightHigh" />
           <div class="table-cell border-b-2 border-rosePine-highlightHigh" />
         ) : <span class="border-b-2 border-rosePine-highlightHigh table-cell pr-2">Ingredients</span>
       }
     </div>
   </div>
-  {
-    data ? <IngredientsContent data={data} editing={editing} /> :
-    editing ?
-    <div class="text-center">
-    </div>
-    : <div class="text-center">
-      No Ingredients yet
-    </div>
-  }
-  
-  <div class="table-row-group">
+  <div class="table-row-group" id="ingredientRows">
     {
-      editing ? (
-        <div id="ingredient-divider" class="table-row">
-          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
-          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
-          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
-          <div class="table-cell border-t-2 border-rosePine-highlightHigh" />
-        </div>
-      ) : null
+      data?.map((ingredient) => (
+        <Ingredients
+          editing={editing}
+          id={ingredient.id}
+          amount={ingredient.amount || ""}
+          unit={ingredient.unit || ""}
+          name={ingredient.name || ""}
+        />
+      ))
     }
+    {editing ? <IngredientAdder recipeId={recipeId} /> : null}
   </div>
-  {
-    editing ? (
-      <IngredientAdder recipeId={recipeId} className="table-row-group w-fit" />
-    ) : null
-  }
 </div>

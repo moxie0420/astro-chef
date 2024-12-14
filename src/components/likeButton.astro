@@ -1,0 +1,73 @@
+---
+interface Props {
+  liked: boolean;
+  recipeId: number;
+}
+
+const { liked, recipeId } = Astro.props;
+---
+
+<button
+  data-liked={liked}
+  data-id={recipeId}
+  type="button"
+  is="like-button"
+  class="text-3xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold bg-rosePine-overlay px-3 py-1 pb-2 rounded-full"
+>
+  {liked ? "" : ""}
+</button>
+
+<script>
+  import { actions } from "astro:actions";
+
+  class LikeButton extends HTMLButtonElement {
+    last: string;
+    recipeId: number = parseInt(this.dataset.id as string);
+
+    onHoverEnter() {
+      const current = this.innerText;
+
+      if (current == "") {
+        this.last = this.innerText;
+        this.innerText = "";
+      } else {
+        this.last = this.innerText;
+        this.innerText = "";
+      }
+    }
+
+    onHoverExit() {
+      this.innerText = this.last;
+    }
+
+    async toggleStar() {
+      const liked = this.dataset.liked;
+      if (liked === "true") {
+        this.last = "";
+        this.innerText = "";
+        this.dataset.liked = "false";
+        await actions.recipe.setLiked({ liked: false, id: this.recipeId });
+      } else {
+        this.last = "";
+        this.innerText = "";
+        this.dataset.liked = "true";
+        await actions.recipe.setLiked({ liked: true, id: this.recipeId });
+      }
+    }
+
+    constructor() {
+      super();
+      if (this.dataset.liked && this.dataset.liked === "true") {
+        this.last = "";
+        this.innerText = "";
+      } else {
+        this.last = "";
+        this.innerText = "";
+      }
+      this.addEventListener("click", async () => this.toggleStar());
+      this.addEventListener("mouseenter", () => this.onHoverEnter());
+      this.addEventListener("mouseleave", () => this.onHoverExit());
+    }
+  }
+  customElements.define("like-button", LikeButton, { extends: "button" });
+</script>

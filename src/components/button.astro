@@ -1,23 +1,34 @@
 ---
 interface Props {
   destination?: string | URL | null;
-  type: "generic" | "submit" | "cancel";
+  style: "generic" | "submit" | "cancel";
   size: "small" | "medium" | "large";
   rounded?: boolean;
+  id?: string | undefined | null;
+  type?: "submit" | "reset" | "button";
+  extraClasses?: string;
 }
 
-const { destination, type, size, rounded = false } = Astro.props;
+const {
+  destination,
+  style,
+  size,
+  rounded = false,
+  id,
+  type,
+  extraClasses,
+  ...attrs
+} = Astro.props;
 
-let classes: string[] = ["text-rosePine-text my-auto"];
-
+let classes: string[] = ["text-rosePine-text mx-auto min-w-28", extraClasses!];
 classes = classes.concat(rounded ? "rounded-full" : "rounded-md");
 
-switch (type) {
+switch (style) {
   case "cancel":
     classes = classes.concat("bg-rosePine-love");
     break;
   case "submit":
-    classes = classes.concat("bg-rosePine-foam");
+    classes = classes.concat("bg-rosePine-pine");
     break;
   case "generic":
     classes = classes.concat("bg-rosePine-highlightHigh");
@@ -26,7 +37,7 @@ switch (type) {
 
 switch (size) {
   case "small":
-    classes = classes.concat("px-5 py-1 text-xl");
+    classes = classes.concat("px-4 py-1 text-xl");
     break;
   case "medium":
     classes = classes.concat("px-5 py-1 text-3xl");
@@ -38,6 +49,16 @@ switch (size) {
 }
 ---
 
-<a href={destination} class="size-fit my-auto">
-  <button class:list={classes}><slot /></button>
-</a>
+{
+  destination ? (
+    <a href={destination}>
+      <button id={id} class:list={classes} {...attrs}>
+        <slot />
+      </button>
+    </a>
+  ) : (
+    <button id={id} class:list={classes} type={type} {...attrs}>
+      <slot />
+    </button>
+  )
+}

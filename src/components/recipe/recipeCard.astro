@@ -1,5 +1,6 @@
 ---
 import CardImage from "@components/cardImage.astro";
+import LikeButton from "@components/likeButton.astro";
 
 interface Props {
   id: number;
@@ -16,6 +17,8 @@ interface Props {
 
   image: string | null;
   imageAlt: string | null;
+
+  liked: boolean | null;
 }
 
 const props = Astro.props;
@@ -25,43 +28,50 @@ if (props.title && props.title != "") link = "/recipes/by-title/" + props.title;
 else link = "/recipes/by-id/" + props.id;
 ---
 
-<a href={link} class="glide__slide p-1">
-  <div
-    class="max-w-sm overflow-hidden outline outline-rosePine-highlightMed shadow-2xl shadow-rosePine-base bg-rosePine-surface p-2 rounded-lg"
-  >
-    <CardImage src={props.image} />
-
-    <div class="mx-2">
-      <div class="font-bold text-xl text-rosePine-text mb-2">{props.title}</div>
-      <p class="text-rosePine-text">
-        {props.description || "No recipe Description yet"}
-      </p>
-    </div>
-
-    <div
-      class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
-    >
-      <span>
-        Time to Prep: {props.prepTime || "Not set yet"}
-      </span>
-      <span>
-        Time to Cook: {props.cookTime || "Not set yet"}
-      </span>
-    </div>
-
-    <div
-      class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
-    >
-      <span>
-        Created: {props.created?.toDateString()} at {
-          props.created?.toLocaleTimeString()
-        }
-      </span>
-      <span>
-        Edited: {props.edited?.toDateString()} at {
-          props.edited?.toLocaleTimeString()
-        }
-      </span>
-    </div>
+<div class="p-2 relative">
+  <div class="absolute top-4 right-4 size-fit z-10">
+    <LikeButton liked={props.liked || false} recipeId={props.id} />
   </div>
-</a>
+  <a href={link}>
+    <div
+      class="relative max-w-sm overflow-hidden outline outline-rosePine-highlightMed shadow-2xl shadow-rosePine-base bg-rosePine-surface p-2 rounded-lg"
+    >
+      <CardImage src={props.image || "/No_data.png"} />
+
+      <div class="mx-2">
+        <div class="font-bold text-xl text-rosePine-text mb-2">
+          {props.title}
+        </div>
+        <p class="text-rosePine-text">
+          {props.description || "No recipe Description yet"}
+        </p>
+      </div>
+
+      <div
+        class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
+      >
+        <span>
+          Time to Prep: {props.prepTime || "Not set yet"}
+        </span>
+        <span>
+          Time to Cook: {props.cookTime || "Not set yet"}
+        </span>
+      </div>
+
+      <div
+        class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
+      >
+        <span>
+          Created: {props.created?.toDateString()} at {
+            props.created?.toLocaleTimeString()
+          }
+        </span>
+        <span>
+          Edited: {props.edited?.toDateString()} at {
+            props.edited?.toLocaleTimeString()
+          }
+        </span>
+      </div>
+    </div>
+  </a>
+</div>

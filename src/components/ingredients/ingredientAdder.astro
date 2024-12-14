@@ -1,67 +1,96 @@
 ---
+import Button from "@components/button.astro";
 import { Units } from "@lib/types";
 
 interface Props {
   recipeId: number;
-  className: string;
 }
 
-const { recipeId, className, ...attrs } = Astro.props;
+const { recipeId } = Astro.props;
 ---
 
-<ingredient-adder data-recipeid={recipeId} class={className} {...attrs}>
-  <form class="table-row">
-    {/* amount */}
-    <div class="table-cell">
-      <label for="amount" hidden>Amount</label>
-      <input name="amount" type="text" class="bg-inherit text-inherit m-1" />
-    </div>
+<ingredient-adder data-recipeid={recipeId} class="table-row">
+  {/* amount */}
+  <div class="table-cell size-fit">
+    <label for="amnt" hidden>Amount</label>
+    <input
+      name="amnt"
+      type="text"
+      class="bg-inherit text-inherit w-full"
+      placeholder="Amount"
+    />
+  </div>
 
-    {/* unit */}
-    <div class="table-cell">
-      <label for="unit" hidden>Unit</label>
-      <select id="unit" name="unit" class="bg-inherit">
-        <option selected>--None--</option>
-        {Units.map((unit) => <option>{unit}</option>)}
-      </select>
-    </div>
+  {/* unit */}
+  <div class="table-cell size-fit">
+    <label for="unit" hidden>Unit</label>
+    <select name="unit" class="bg-inherit w-full">
+      <option selected> ----None---- </option>
+      {Units.map((unit) => <option value="unit">{unit}</option>)}
+    </select>
+  </div>
 
-    {/* name */}
-    <div class="table-cell">
-      <label for="name" hidden>Name</label>
-      <input name="name" type="text" class="bg-inherit text-inherit m-1" />
-    </div>
+  {/* name */}
+  <div class="table-cell">
+    <label for="name" hidden>Name</label>
+    <input
+      name="name"
+      type="text"
+      class="bg-inherit text-inherit"
+      placeholder="Name"
+    />
+  </div>
 
-    {/* add button */}
-    <button
-      id="addbtn"
-      class="table-cell bg-rosePine-foam text-rosePine-highlightMed px-5 py-1 m-1 rounded-full"
-      type="submit"
-    >
-      Add
-    </button>
-  </form>
+  {/* add button */}
+  <div class="table-cell px-1">
+    <Button id="addbtn" style="submit" size="small" rounded> Add </Button>
+  </div>
+  {/* clear button */}
+  <div class="table-cell px-1">
+    <Button id="clrbtn" style="cancel" size="small" rounded> Clear </Button>
+  </div>
 </ingredient-adder>
 
 <script>
   import { actions } from "astro:actions";
 
   class IngredientAdder extends HTMLElement {
+    reset() {
+      const inputs = ["#amount", "#unit", "#unit"].map(
+        (id) => this.querySelector(id) as HTMLInputElement
+      );
+      inputs.map((input) => (input.value = ""));
+    }
+
     connectedCallback() {
-      const recipeId = this.dataset.recipeid;
+      const addbtn = this.querySelector("#addbtn") as HTMLButtonElement;
+      addbtn?.addEventListener("click", async () => {
+        const recipeId = parseInt(this.dataset.recipeid as string);
 
-      const ingredientAdderForm = this.querySelector("form");
-      ingredientAdderForm?.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const formData = new FormData(ingredientAdderForm);
+        const amnt = this.querySelector(
+          "input[name='amnt']"
+        ) as HTMLInputElement;
+        const unit = this.querySelector(
+          "input[name='unit']"
+        ) as HTMLInputElement;
+        const name = this.querySelector(
+          "input[name='name']"
+        ) as HTMLInputElement;
 
-        formData.append("recipeId", recipeId as string);
+        const { error } = await actions.ingredient.addIngredient({
+          recipeId,
+          amount: amnt?.value,
+          unit: unit?.value,
+          name: name?.value,
+        });
 
-        const { error } = await actions.ingredient.addIngredient(formData);
-        if (error) console.log(error.message);
+        if (error) console.error(error.message);
 
         location.reload();
       });
+
+      const resetbtn = this.querySelector("#resetbtn") as HTMLButtonElement;
+      resetbtn?.addEventListener("click", this.reset);
     }
   }
 

@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
 import Header from "@components/header.astro";
 
@@ -13,6 +14,7 @@ const { title, description } = Astro.props;
 
 <html lang="en">
   <head>
+    <ClientRouter />
     <SEO
       charset="utf-8"
       title={title}
@@ -27,7 +29,7 @@ const { title, description } = Astro.props;
     />
   </head>
 
-  <body class="bg-rosePine-base gap-3 p-2 flex flex-col h-screen">
+  <body class="bg-rosePine-base gap-3 p-2 flex flex-col h-screen w-screen">
     <Header />
     <slot />
   </body>

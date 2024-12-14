@@ -1,6 +1,7 @@
 ---
 import { actions } from "astro:actions";
 
+import CardImage from "@components/cardImage.astro";
 import EditorLayout from "@layouts/editorLayout.astro";
 import Ingredients from "@components/ingredients/ingredientHolder.astro";
 import MarkdownEditor from "@components/mde.astro";
@@ -24,31 +25,37 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
 <EditorLayout title={data.title}>
   <Titlebar slot="titlebar">
-    <div class="flex">
-      <input
-        form="editor"
-        type="text"
-        name="title"
-        value={data.title}
-        class="bg-rosePine-overlay rounded-md"
-      />
-      <input
-        form="editor"
-        type="text"
-        name="id"
-        value={data.id}
-        readonly
-        class="hidden"
-      />
-    </div>
+    <input
+      form="editor"
+      type="text"
+      name="title"
+      value={data.title}
+      class="bg-rosePine-overlay rounded-md w-1/4 overflow-visible"
+    />
 
     <button form="editor" type="submit">Save</button>
   </Titlebar>
-
+  <div class="w-1/3 bg-rosePine-surface p-3 rounded-lg">
+    <span class="font-bold text-4xl pb-2 inline-block">Title Image</span>
+    <CardImage src={data.image} alt={data.imageAlt} />
+    <input
+      type="text"
+      class="bg-rosePine-surface"
+      placeholder="Image alt text"
+      value={data.imageAlt}
+    />
+    <input
+      type="text"
+      class="bg-rosePine-surface"
+      placeholder="Image Source"
+      value={data.image}
+    />
+  </div>
   <Ingredients recipeId={data.id} editing={true} />
 
   <form id="editor">
     <MarkdownEditor body={data.body || ""} />
+    <input type="text" name="id" value={data.id} readonly class="hidden" />
   </form>
 </EditorLayout>
 

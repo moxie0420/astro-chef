@@ -1,23 +1,28 @@
 ---
-import { actions } from "astro:actions";
 import MainLayout from "@layouts/mainLayout.astro";
-
 import Carousel from "@components/carousel.astro";
-
-const { error, data } = await Astro.callAction(actions.recipe.getRecipes, {
-  number: 20,
-});
-
-if (error || !data) return Astro.redirect("/404");
 
 const title = "Astro Chef";
 ---
 
 <MainLayout title={title}>
-  <h1 class="text-center">Welcome to astro Chef</h1>
+  <span class="text-center text-6xl text-rosePine-text font-bold pb-6">
+    Welcome to astro Chef
+  </span>
 
-  <div>
+  <div class="flex flex-col gap-5">
     <!-- TODO: add recipe cards here, ideally on a carousel -->
-    <Carousel slides={data} />
+    <span class="text-rosePine-text font-bold text-center text-5xl">
+      Random
+    </span>
+    <Carousel type="random" />
+    <span class="text-rosePine-text font-bold text-center text-5xl">
+      Popular
+    </span>
+    <Carousel type="popular" />
+    <span class="text-rosePine-text font-bold text-center text-5xl">
+      Liked
+    </span>
+    <Carousel type="random" filters={["liked"]} />
   </div>
 </MainLayout>

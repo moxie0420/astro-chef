@@ -1,13 +1,8 @@
-<form
-  action="/recipes/search"
-  method="get"
-  class="m-1 p-1 w-fit rounded-full flex bg-rosePine-surface border border-rosePine-highlightHigh mx-auto"
->
-  <input
-    name="search"
-    class="bg-transparent md:text-lg m-auto rounded-full ps-2"
-    placeholder="Search For a Recipe"
-    maxlength="150"
-  />
-  <input type="submit" hidden />
-</form>
+<input
+  form="search"
+  name="search"
+  class="bg-transparent md:text-lg m-auto rounded-full"
+  placeholder="Search For a Recipe"
+  maxlength="150"
+/>
+<input type="submit" form="search" hidden />

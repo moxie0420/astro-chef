@@ -1,21 +1,62 @@
 ---
 import MainLayout from "@layouts/mainLayout.astro";
 import RecipeCard from "@components/recipe/recipeCard.astro";
+import SearchOptions from "@components/searchOptions.astro";
 
-import { db, Recipe } from "astro:db";
+import { actions } from "astro:actions";
 
-const recipes = await db
-  .select()
-  .from(Recipe)
-  .orderBy(Recipe.edited || Recipe.created);
+async function getRecipes(search?: string | null, count?: number | null) {
+  const filter = Astro.url.searchParams.getAll("filter");
+  const sortparam = Astro.url.searchParams.get("sortBy");
+
+  let sortBy: "by-id" | "popular" | "random";
+
+  if (
+    !sortparam ||
+    (!sortparam.includes("by-id") &&
+      !sortparam.includes("popular") &&
+      !sortparam.includes("random"))
+  ) {
+    return Astro.callAction(actions.recipe.getRecipes, {
+      sort: "by-id",
+      query: search,
+    });
+  }
+  sortBy = sortparam as "by-id" | "popular" | "random";
+  return filter.length > 0
+    ? Astro.callAction(actions.recipe.getRecipes, {
+        sort: sortBy,
+        filter: filter,
+        query: search,
+        number: count,
+      })
+    : Astro.callAction(actions.recipe.getRecipes, {
+        sort: sortBy,
+        query: search,
+      });
+}
+
+const count = Astro.url.searchParams.get("count");
+const query = Astro.url.searchParams.get("search");
+
+const { error, data } = await getRecipes(query, count ? parseInt(count) : null);
+if (error) console.error(error.message);
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <div class="text-center text-4xl font-bold mb-4 text-rosePine-text">
-    All Recipes
-  </div>
-
-  <div class="md:columns-3">
-    {recipes.map((r) => <RecipeCard {...r} />)}
+  <span class="text-center text-5xl font-bold text-rosePine-text">
+    Recipes
+  </span>
+  <div class="flex">
+    <SearchOptions />
+    <div class="grid grid-cols-4 gap-2">
+      {
+        data?.map((r) => (
+          <div class="flex w-full mx-auto px-4">
+            <RecipeCard {...r} />
+          </div>
+        ))
+      }
+    </div>
   </div>
 </MainLayout>

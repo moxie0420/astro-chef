@@ -27,4 +27,4 @@ type unit =
   | "grams"
   | "miligram";
 
-export { Units };
+export { Units, type unit };

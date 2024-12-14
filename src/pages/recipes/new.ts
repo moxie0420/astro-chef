@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { db, Recipe } from "astro:db";
 
-export const GET: APIRoute = async ({ params, request, redirect }) => {
+export const GET: APIRoute = async ({ redirect }) => {
   const res = await db
     .insert(Recipe)
     .values({

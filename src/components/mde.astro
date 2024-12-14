@@ -24,10 +24,17 @@ const { body } = Astro.props;
 </div>
 
 <script>
-  import { marked } from "marked";
+  import { marked, type RendererObject } from "marked";
   import DOMPurify from "dompurify";
 
+  const renderer: RendererObject = {
+    image({ href, text }) {
+      return `<img src="/api/image?path=${href}" alt="${text}" />`;
+    },
+  };
+
   async function genCleanHtml(md: string) {
+    marked.use({ renderer });
     return DOMPurify.sanitize(await marked.parse(md));
   }
 

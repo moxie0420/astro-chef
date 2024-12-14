@@ -1,6 +1,6 @@
 ---
 import { actions } from "astro:actions";
-import { marked } from "marked";
+import { marked, type RendererObject } from "marked";
 
 import Button from "@components/button.astro";
 import IngredientHolder from "@components/ingredients/ingredientHolder.astro";
@@ -19,6 +19,12 @@ else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
 
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
+const renderer: RendererObject = {
+  image({ href, text }) {
+    return `<img src="/api/image?path=${href}" alt="${text}"  class="mx-auto w-1/3" />`;
+  },
+};
+marked.use({ renderer });
 const md = await marked.parse(data.body || "");
 ---
 
@@ -26,16 +32,18 @@ const md = await marked.parse(data.body || "");
   <Titlebar>
     <span class="my-auto h-fit">{data.title}</span>
 
-    <Button
-      type="generic"
-      size="medium"
-      destination={"/recipes/edit/" + data.id}
-    >
-      Edit
-    </Button>
+    <div class="my-auto">
+      <Button
+        style="generic"
+        size="medium"
+        destination={"/recipes/edit/" + data.id}
+      >
+        Edit
+      </Button>
+    </div>
   </Titlebar>
   <div
-    class="w-1/3 flex flex-col rounded-lg bg-rosePine-surface overflow-scroll overflow-y-auto"
+    class="w-2/3 flex flex-col rounded-lg bg-rosePine-surface overflow-scroll overflow-y-auto"
   >
     <div class="mx-auto p-3">
       <IngredientHolder recipeId={data.id} editing={false} />

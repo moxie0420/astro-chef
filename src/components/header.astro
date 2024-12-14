@@ -1,10 +1,13 @@
 ---
+import Menu from "./menu.astro";
 import Button from "./button.astro";
 import RecipeSearch from "@components/recipe/recipeSearch.astro";
+import ImageUploader from "./imageUploader.astro";
 ---
 
 <nav
-  class="flex gap-3 justify-between font-extrabold md:text-3xl bg-rosePine-surface rounded-md border-rosePine-highlightHigh text-rosePine-text shadow-lg"
+  transition:persist
+  class="sticky top-0 z-20 flex gap-3 justify-between font-extrabold md:text-3xl bg-rosePine-surface rounded-md border-rosePine-highlightHigh text-rosePine-text shadow-lg"
 >
   <div class="my-auto">
     <a href="/">
@@ -19,8 +22,33 @@ import RecipeSearch from "@components/recipe/recipeSearch.astro";
   </div>
   <div class="p-1 flex gap-2">
     <RecipeSearch />
-    <Button type="generic" size="small" destination={"/recipes/new"}
-      >New Recipe</Button
-    >
+    <div class="my-auto">
+      <Menu>
+        <ul>
+          <li>
+            <Button style="generic" size="small" destination={"/recipes/new"}
+              >New Recipe</Button
+            >
+          </li>
+          <li>
+            <Button
+              style="generic"
+              size="small"
+              id="upload-button"
+              data-modal-target="default-modal"
+              data-modal-toggle="default-modal">Upload Images</Button
+            >
+          </li>
+        </ul>
+      </Menu>
+    </div>
   </div>
 </nav>
+<div
+  id="default-modal"
+  tabindex="-1"
+  aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <ImageUploader />
+</div>

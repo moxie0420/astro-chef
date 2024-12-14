@@ -1,0 +1,19 @@
+---
+import Button from "./button.astro";
+---
+
+<div class="w-fit">
+  <Button
+    size="medium"
+    style="generic"
+    id="dropdownDefaultButton"
+    data-dropdown-toggle="dropdown">Menu</Button
+  >
+  <div
+    id="dropdown"
+    class="z-10 hidden bg-rosePine-overlay divide-y divide-rosePine-muted rounded-lg shadow"
+  >
+    <slot />
+  </div>
+</div>
+<script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>

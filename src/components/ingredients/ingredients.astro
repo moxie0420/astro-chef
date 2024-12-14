@@ -1,4 +1,6 @@
 ---
+import Button from '@components/button.astro';
+
 import { Units } from '@lib/types';
 
 interface Props {
@@ -15,21 +17,26 @@ const props = Astro.props;
   {
     props.editing ? (
       <div class="table-cell">
-        <input type="text" class="bg-inherit text-inherit" value={props.amount}>
+        <input id="amount" type="text" class="bg-inherit text-inherit w-full" value={props.amount}>
       </div>
       <div class="table-cell">
-        <select class="bg-inherit ">
+        <select id="unit" class="bg-inherit ">
           {Units.map((unit) => (
-            <option>
+            <option value={unit}>
               {unit}
             </option>
           ))}
         </select>
       </div>
       <div class="table-cell">
-        <input type="text" class="bg-inherit text-inherit m-1" value={props.name}>
-      </div> 
-      <button id="delete" class="table-cell bg-rosePine-love px-7 py-1 m-1 rounded-full" type="button">x</button>
+        <input id="name" type="text" class="bg-inherit text-inherit" value={props.name}>
+      </div>
+      <div class="table-cell px-1">
+        <Button id="update" size='small' style='submit' rounded>Update</Button>
+      </div>
+      <div class="table-cell px-1">
+        <Button id="delete" size="small" style="cancel" rounded> X </Button>
+      </div>
     ) : (
       <p class="table-cell text-left text-3xl px-2"> {props.amount} {props.unit} of {props.name}</p>
     )
@@ -40,6 +47,14 @@ const props = Astro.props;
   import { actions } from "astro:actions";
 
   class Ingredient extends HTMLElement {
+    getInputValues() {
+      const amount = this.querySelector("#amount") as HTMLInputElement;
+      const unit = this.querySelector("#unit") as HTMLInputElement;
+      const name = this.querySelector("#name") as HTMLInputElement;
+      
+      return { amount: amount.value, unit: unit.value, name: name.value}
+    }
+
     connectedCallback() {
       const id = this.dataset.id as string;
       const deletebutton = this.querySelector("#delete");
@@ -53,6 +68,15 @@ const props = Astro.props;
       });
 
       const updateButton = this.querySelector("#update");
+      updateButton?.addEventListener("click", async () => {
+        const { amount, unit, name} = this.getInputValues();
+        await actions.ingredient.updateIngredient({
+          ingredientId: parseInt(id),
+          amount,
+          unit,
+          name
+        })
+      })
     }
   }
 

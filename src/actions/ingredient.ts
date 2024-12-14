@@ -1,10 +1,7 @@
 import { ActionError, defineAction } from "astro:actions";
-import { experimental_AstroContainer } from "astro/container";
 import { z } from "astro:schema";
 
 import { db, eq, Ingredient } from "astro:db";
-
-import IngredientsContent from "@components/ingredients/ingredientsContent.astro";
 
 export const ingredient = {
   getIngredients: defineAction({
@@ -32,12 +29,11 @@ export const ingredient = {
     },
   }),
   addIngredient: defineAction({
-    accept: "form",
     input: z.object({
       recipeId: z.number(),
-      name: z.string(),
-      amount: z.string(),
-      unit: z.string(),
+      name: z.string().optional(),
+      amount: z.string().optional(),
+      unit: z.string().optional(),
     }),
     handler: async (input) => {
       return await db.insert(Ingredient).values(input).returning();
