@@ -1,9 +1,8 @@
 services:
   astro-chef:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: "astro-chef:latest"
     ports:
       - "4321:4321"
+      - "8080:8080"
     volumes:
-      - .:/srv/astro
+      - ./data:/data

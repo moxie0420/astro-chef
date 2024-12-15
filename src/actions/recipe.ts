@@ -125,6 +125,8 @@ export const recipe = {
       cookTime: z.string().time().optional(),
       description: z.string().optional(),
       body: z.string().optional(),
+      image: z.string().optional(),
+      imageAlt: z.string().optional(),
     }),
     handler: async (input) => {
       const updatedRecipe = await db

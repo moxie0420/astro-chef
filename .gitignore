@@ -24,12 +24,12 @@ pnpm-debug.log*
 .idea/
 
 
-
+result*
 result/
 .vite/
-*.png
-*.jpg
-*.webp
+data/
+Images/*
+!Images/No_data.png
 
 database.db
 

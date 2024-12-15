@@ -9,7 +9,7 @@ const signature = Math.floor(Math.random() * 100);
 
 interface Props {
   type: "random" | "popular";
-  filters?: string[];
+  filters?: "liked"[];
   number?: number;
 }
 const { type, filters, number } = Astro.props;

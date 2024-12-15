@@ -10,7 +10,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
+  outputs = inputs @ {
+    flake-parts,
+    self,
+    ...
+  }: let
+    created = builtins.substring 0 8 self.lastModifiedDate;
+  in
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.devenv.flakeModule
@@ -21,29 +27,26 @@
       perSystem = {pkgs, ...}: {
         packages = rec {
           astro-chef = pkgs.callPackage ./package.nix {};
-          container = pkgs.callPackage ./container.nix {};
-
+          container = pkgs.callPackage ./container.nix {inherit astro-chef created;};
           default = astro-chef;
         };
 
         devenv.shells.default = {
-          env = {
-            IMAGE_PATH = "./Assets";
-            CACHE_PATH = "./Assets/cache";
+          scripts = {
+            buildDist.exec = ''
+              nix build .#container
+              docker load < result
+            '';
           };
           processes = {
-            images.exec = ''
-              bun-image-delivery
-            '';
           };
           packages = with pkgs; [
             alejandra
-            yarn2nix
-            unzip
+            sqld
           ];
           languages.javascript = {
             enable = true;
-            package = pkgs.nodejs_latest;
+            package = pkgs.nodejs-slim_latest;
             pnpm = {
               enable = true;
               package = pkgs.pnpm;

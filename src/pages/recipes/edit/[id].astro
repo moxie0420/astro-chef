@@ -39,12 +39,16 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
     <span class="font-bold text-4xl pb-2 inline-block">Title Image</span>
     <CardImage src={data.image} alt={data.imageAlt} />
     <input
+      name="imageAlt"
+      form="editor"
       type="text"
       class="bg-rosePine-surface"
       placeholder="Image alt text"
       value={data.imageAlt}
     />
     <input
+      name="image"
+      form="editor"
       type="text"
       class="bg-rosePine-surface"
       placeholder="Image Source"
@@ -70,17 +74,6 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
     event.preventDefault();
     const formData = new FormData(editor);
     const { error, data } = await actions.recipe.updateRecipe(formData);
-    if (error)
-      Toastify({
-        text: error.code + ": " + error.message,
-        duration: 1500,
-      }).showToast();
-    else {
-      console.log(data[0].body);
-      Toastify({
-        text: "Saved recipe:\n" + data[0].id,
-        duration: 1500,
-      }).showToast();
-    }
+    location.reload();
   });
 </script>

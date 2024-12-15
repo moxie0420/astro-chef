@@ -18,7 +18,7 @@ export default defineConfig({
       IMAGE_DIRECTORY: envField.string({
         context: "server",
         access: "public",
-        default: `${process.env.PWD}/Images`,
+        default: `/data/Images`,
       }),
     },
   },

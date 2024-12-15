@@ -1,6 +1,4 @@
 import { db, Ingredient, Recipe, count } from "astro:db";
-import initFts from "./init-fts";
-
 import Fraction from "fraction.js";
 import { Units } from "@lib/types";
 
@@ -43,6 +41,4 @@ async function generateIngredients() {
 export default async function seed() {
   generateRecipes(30);
   generateIngredients();
-
-  await initFts();
 }
