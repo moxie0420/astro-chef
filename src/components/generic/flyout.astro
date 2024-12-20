@@ -1,0 +1,32 @@
+<flyout-menu>
+  <div class="max-w-sm w-fit">
+    <slot name="button" />
+    <div
+      id="flyoutmenu"
+      class="absolute z-10 hidden w-full md:w-fit right-0 bg-overlay p-1 rounded-md"
+    >
+      <div class="flex flex-col">
+        <slot />
+      </div>
+    </div>
+  </div>
+</flyout-menu>
+
+<script>
+  class flyoutmenu extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector("button");
+
+      const menu = this.querySelector("div[id=flyoutmenu]");
+      if (!menu || !button) {
+        console.log("menu is " + menu + "\nbtn is " + button);
+        return;
+      }
+
+      button?.addEventListener("click", function (event) {
+        menu?.classList.toggle("hidden");
+      });
+    }
+  }
+  customElements.define("flyout-menu", flyoutmenu);
+</script>

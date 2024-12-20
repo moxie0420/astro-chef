@@ -1,84 +1,55 @@
 ---
-import Button from '@components/button.astro';
+import { actions } from "astro:actions";
 
-import { Units } from '@lib/types';
+import Ingredient from "./ingredient.astro";
+import IngredientAdder from "./ingredientAdder.astro";
 
 interface Props {
-  id: number;
+  recipeId: number;
   editing: boolean;
-  amount: string;
-  unit: string;
-  name: string;
 }
-const props = Astro.props;
----
 
-<ingredient-box data-id={props.id} class="table-row text-2xl">
+const { recipeId, editing } = Astro.props;
+
+const { data } = await Astro.callAction(
+  actions.ingredient.getIngredients,
   {
-    props.editing ? (
-      <div class="table-cell">
-        <input id="amount" type="text" class="bg-inherit text-inherit w-full" value={props.amount}>
-      </div>
-      <div class="table-cell">
-        <select id="unit" class="bg-inherit ">
-          {Units.map((unit) => (
-            <option value={unit}>
-              {unit}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div class="table-cell">
-        <input id="name" type="text" class="bg-inherit text-inherit" value={props.name}>
-      </div>
-      <div class="table-cell px-1">
-        <Button id="update" size='small' style='submit' rounded>Update</Button>
-      </div>
-      <div class="table-cell px-1">
-        <Button id="delete" size="small" style="cancel" rounded> X </Button>
-      </div>
-    ) : (
-      <p class="table-cell text-left text-3xl px-2"> {props.amount} {props.unit} of {props.name}</p>
-    )
+    recipeId: recipeId,
+  },
+);
+---
+{/* TODO: unit selector */}
+
+<table
+  class=" bg-surface m-1 p-2 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto"
+>
+  <thead class="flex w-full items-center">
+    <tr class="flex w-full justify-between mx-1">
+      {
+        editing ? (
+          <th >Amount</th>
+          <th >Unit</th>
+          <th >Name</th>
+          <th>Actions</th>
+        ) : <th>Ingredients</th>
+      }
+    </tr>
+  </thead>
+  <tbody class="flex flex-col items-center justify-between overflow-x-scroll">
+  {
+    data?.map((ingredient) => (
+      <Ingredient
+        editing={editing}
+        {...ingredient}
+      /> 
+    ))
   }
-</ingredient-box>
+  
+  </tbody> 
+  <tfoot class="flex flex-col items-center justify-between">
+    { editing ? <IngredientAdder recipeId={recipeId} /> : null}
+  </tfoot>
+    
 
-<script>
-  import { actions } from "astro:actions";
-
-  class Ingredient extends HTMLElement {
-    getInputValues() {
-      const amount = this.querySelector("#amount") as HTMLInputElement;
-      const unit = this.querySelector("#unit") as HTMLInputElement;
-      const name = this.querySelector("#name") as HTMLInputElement;
-      
-      return { amount: amount.value, unit: unit.value, name: name.value}
-    }
-
-    connectedCallback() {
-      const id = this.dataset.id as string;
-      const deletebutton = this.querySelector("#delete");
-
-      deletebutton?.addEventListener("click", async () => {
-        const { error } = await actions.ingredient.removeIngredient({
-          ingredientId: parseInt(id),
-        });
-        if (error) console.log(error.message);
-        else this.remove();
-      });
-
-      const updateButton = this.querySelector("#update");
-      updateButton?.addEventListener("click", async () => {
-        const { amount, unit, name} = this.getInputValues();
-        await actions.ingredient.updateIngredient({
-          ingredientId: parseInt(id),
-          amount,
-          unit,
-          name
-        })
-      })
-    }
-  }
-
-  customElements.define("ingredient-box", Ingredient);
-</script>
+  
+</table>

@@ -1,54 +1,89 @@
 ---
-import Menu from "./menu.astro";
-import Button from "./button.astro";
+import Button from "@components/generic/button.astro";
 import RecipeSearch from "@components/recipe/recipeSearch.astro";
-import ImageUploader from "./imageUploader.astro";
+import ImageUploader from "./assets/imageUploader.astro";
+import Flyout from "./generic/flyout.astro";
+
+
+
+interface Props {
+  pages: {
+    name: string;
+    path: string;
+  }[];
+  editing?: boolean;
+  recipeId?: number;
+}
+const { pages, recipeId, editing } = Astro.props;
 ---
 
-<nav
-  transition:persist
-  class="sticky top-0 z-20 flex gap-3 justify-between font-extrabold md:text-3xl bg-rosePine-surface rounded-md border-rosePine-highlightHigh text-rosePine-text shadow-lg"
+<site-nav
+  class="sticky top-0 z-20 p-1 w-full font-extrabold rounded-md shadow-lg md:text-3xl bg-rosePine-surface border-rosePine-highlightHigh text-rosePine-text flex justify-between"
 >
-  <div class="my-auto">
-    <a href="/">
-      <button type="button">Home</button>
-    </a>
-    <a href="/recipes/">
-      <button type="button"> Recipes </button>
-    </a>
-    <a href="/recipes/random">
-      <button type="button">Random</button>
-    </a>
+  <div id="links" class="flex gap-1">
+    {
+      pages?.map((page) => (
+        <button
+          id="link-btn"
+          type="button"
+          value={page.path}
+          class="transition ease-in-out p-1 rounded-lg"
+        >
+          {page.name}
+        </button>
+      ))
+    }
   </div>
-  <div class="p-1 flex gap-2">
-    <RecipeSearch />
-    <div class="my-auto">
-      <Menu>
-        <ul>
-          <li>
-            <Button style="generic" size="small" destination={"/recipes/new"}
-              >New Recipe</Button
-            >
-          </li>
-          <li>
-            <Button
-              style="generic"
-              size="small"
-              id="upload-button"
-              data-modal-target="default-modal"
-              data-modal-toggle="default-modal">Upload Images</Button
-            >
-          </li>
-        </ul>
-      </Menu>
+
+  <div class="flex w-fit md:gap-2">
+    <div class="hidden md:flex w-full">
+      <RecipeSearch />
     </div>
+    <Flyout>
+      <Button slot="button" rounded>󰍜</Button>  
+      {
+        editing ?    
+          <Button rounded extraClasses="w-full">
+            Delete
+          </Button>
+          <Button rounded extraClasses="w-full">
+            Save & View
+          </Button>
+          <Button rounded extraClasses="w-full">
+            Exit & View
+          </Button>
+        :
+          <Button rounded extraClasses="w-full">Lists</Button>
+          <Button rounded extraClasses="w-full">Create</Button>
+          <Button rounded extraClasses="w-full" destination={`/recipes/edit?id=${recipeId}`}>Edit</Button>
+      }
+    </Flyout>
   </div>
-</nav>
-<div
-  id="default-modal"
-  tabindex="-1"
-  aria-hidden="true"
-  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
->
-  <ImageUploader />
-</div>
+</site-nav>
+
+<script>
+  import { isRecipePage } from "@lib/types";
+  import { navigate } from "astro:transitions/client";
+
+  class SiteNav extends HTMLElement {
+    connectedCallback() {
+      const links = this.querySelectorAll(
+        "button[id=link-btn]"
+      ) as NodeListOf<HTMLButtonElement>;
+
+        
+
+      links.forEach((link) => {
+        if (link.value === location.pathname) link.classList.add("bg-pine");
+
+        if (link.value === "/recipes" && isRecipePage.test(location.pathname)) link.classList.add("bg-pine");
+
+        link.onclick = () => {
+          link.classList.remove("bg-pine");
+          navigate(link.value);
+        };
+      });
+    }
+  }
+  customElements.define("site-nav", SiteNav);
+</script>

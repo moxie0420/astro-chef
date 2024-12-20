@@ -1,8 +1,8 @@
 ---
 interface Props {
   destination?: string | URL | null;
-  style: "generic" | "submit" | "cancel";
-  size: "small" | "medium" | "large";
+  style?: "generic" | "submit" | "cancel";
+  size?: "small" | "medium" | "large";
   rounded?: boolean;
   id?: string | undefined | null;
   type?: "submit" | "reset" | "button";
@@ -11,8 +11,8 @@ interface Props {
 
 const {
   destination,
-  style,
-  size,
+  style = "generic",
+  size = "medium",
   rounded = false,
   id,
   type,
@@ -20,27 +20,27 @@ const {
   ...attrs
 } = Astro.props;
 
-let classes: string[] = ["text-rosePine-text mx-auto min-w-28", extraClasses!];
+let classes: string[] = ["text-rosePine-text mx-auto", extraClasses!];
 classes = classes.concat(rounded ? "rounded-full" : "rounded-md");
 
 switch (style) {
   case "cancel":
-    classes = classes.concat("bg-rosePine-love");
+    classes = classes.concat("bg-love");
     break;
   case "submit":
-    classes = classes.concat("bg-rosePine-pine");
+    classes = classes.concat("bg-pine");
     break;
   case "generic":
-    classes = classes.concat("bg-rosePine-highlightHigh");
+    classes = classes.concat("bg-highlightHigh");
     break;
 }
 
 switch (size) {
   case "small":
-    classes = classes.concat("px-4 py-1 text-xl");
+    classes = classes.concat("m-1 px-2 text-md");
     break;
   case "medium":
-    classes = classes.concat("px-5 py-1 text-3xl");
+    classes = classes.concat("m-1 px-2 py-1 text-lg");
     break;
 
   case "large":

@@ -6,10 +6,12 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { IMAGE_DIRECTORY } from "astro:env/server";
 import fs from "fs/promises";
+import { list } from "./lists";
 
 export const server = {
   recipe,
   ingredient,
+  list,
   uploadImage: defineAction({
     accept: "form",
     input: z.object({

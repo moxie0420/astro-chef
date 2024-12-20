@@ -1,5 +1,5 @@
 ---
-import Button from "./button.astro";
+import Button from "@components/generic/button.astro";
 
 function getParams() {
   const filters = Astro.url.searchParams.getAll("filter");
@@ -18,51 +18,46 @@ function isInFilters(filter: string, filters: string[] | null) {
 }
 ---
 
-<div class="bg-rosePine-surface rounded-lg w-1/4 h-fit px-2 py-4">
+<div
+  class="px-2 py-4 m-1 rounded-lg bg-rosePine-surface h-fit max-w-lg min-w-fit"
+>
   <form
     method="get"
     action="/recipes"
     id="search"
-    class="text-rosePine-text flex-col flex gap-2"
+    class="flex flex-col gap-2 text-rosePine-text"
   >
-    <div class="grid grid-cols-3">
-      <div class="col-span-3">
-        <label for="sortBy" class="font-bold text-2xl">Sort By: </label>
-        <select
-          name="sortBy"
-          class="my-auto bg-rosePine-muted rounded-lg w-2/3"
-        >
-          <option value="random" selected={"random" === sortBy}>Random</option>
-          <option value="popular" selected={"popular" === sortBy}
-            >Popular</option
-          >
-          <option value="by-id" selected={"by-id" === sortBy}>By Id</option>
-        </select>
-      </div>
-      <span class="font-bold text-2xl">Filters: </span>
-
-      <div class="mx-auto col-span-2">
-        <input
-          type="checkbox"
-          name="filter"
-          value="liked"
-          class="bg-rosePine-muted rounded-full my-auto mb-1"
-          checked={isInFilters("liked", filters)}
-        />
-        <label for="liked" class="text-2xl my-auto text-left">Liked</label>
-      </div>
-    </div>
-
-    <div class="flex flex-col pt-5">
-      <Button style="submit" size="small" extraClasses="w-full">Search</Button>
-
-      <select name="perPage" class="bg-rosePine-muted rounded-lg mt-2 w-full">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
-        <option value="50">50</option>
+    <div class="col-span-3">
+      <label for="sortBy" class="text-lg font-bold">Sort By: </label>
+      <select name="sortBy" class="w-full my-auto rounded-lg bg-rosePine-muted">
+        <option value="random" selected={"random" === sortBy}>Random</option>
+        <option value="popular" selected={"popular" === sortBy}>Popular</option>
+        <option value="by-id" selected={"by-id" === sortBy}>By Id</option>
       </select>
     </div>
+    <span class="text-lg font-bold">Filters: </span>
+
+    <div class="pl-2">
+      <label for="liked" class="my-auto text-left lg">Liked</label>
+      <input
+        type="checkbox"
+        name="filter"
+        value="liked"
+        class="my-auto mb-1 rounded-full bg-rosePine-muted"
+        checked={isInFilters("liked", filters)}
+      />
+    </div>
   </form>
+
+  <div class="flex flex-col pt-5">
+    <Button style="submit" size="small" extraClasses="w-full">Search</Button>
+
+    <select name="perPage" class="w-full mt-2 rounded-lg bg-rosePine-muted">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </div>
 </div>

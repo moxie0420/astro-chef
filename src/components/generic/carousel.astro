@@ -2,8 +2,8 @@
 import { actions } from "astro:actions";
 import "glider-js/glider.min.css";
 
-import Button from "./button.astro";
-import RecipeCard from "./recipe/recipeCard.astro";
+import Button from "@components/generic/button.astro";
+import RecipeCard from "@components/recipe/recipeCard.astro";
 
 const signature = Math.floor(Math.random() * 100);
 
@@ -12,19 +12,19 @@ interface Props {
   filters?: "liked"[];
   number?: number;
 }
-const { type, filters, number } = Astro.props;
+const { type, filters, number = 20 } = Astro.props;
 
 const { data } = await Astro.callAction(actions.recipe.getRecipes, {
   sort: type,
   filter: filters,
-  number: number || 20,
+  number: number,
 });
 ---
 
 <glide-carousel data-signature={signature}>
   <div>
-    <div id="glider" class="glider bg-rosePine-surface p-2 rounded-lg">
-      {data?.map((recipe) => <RecipeCard {...recipe} />)}
+    <div id="glider" class="p-2 rounded-lg glider bg-rosePine-surface">
+      {data?.map((recipe) => <RecipeCard recipe={recipe} />)}
     </div>
     <div class="grid grid-cols-5">
       <div class="col-start-1">
@@ -38,7 +38,7 @@ const { data } = await Astro.callAction(actions.recipe.getRecipes, {
       <div
         role="tablist"
         id={"dots-" + signature}
-        class="dots w-full col-start-3"
+        class="w-full col-span-3 dots sm:hidden"
       >
       </div>
       <div class="col-start-5">
@@ -64,12 +64,13 @@ const { data } = await Astro.callAction(actions.recipe.getRecipes, {
       if (mainDiv)
         new Glider(mainDiv, {
           slidesToScroll: 5,
-          slidesToShow: 5.5,
+          slidesToShow: 5,
           dots: "#dots-" + parseInt(signature),
           arrows: {
             prev: "#glider-prev-" + parseInt(signature),
             next: "#glider-next-" + parseInt(signature),
           },
+          rewind: true,
         });
     }
   }

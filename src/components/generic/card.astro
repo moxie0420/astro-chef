@@ -1,0 +1,33 @@
+---
+interface Props {
+  vertical?: boolean;
+  href?: string;
+}
+
+const { vertical, href } = Astro.props;
+
+let style = "max-w-sm m-1 rounded-lg shadow-2xl outline flex";
+const color = "outline-highlightedMed shadow-rosePine-base bg-rosePine-surface";
+
+const layout = vertical ? "flex-col" : "flex-row";
+
+const final = [style, color, layout];
+---
+
+<div class:list={final} is="generic-card" data-href={href}>
+  <slot />
+</div>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  class Card extends HTMLElement {
+    connectedCallback() {
+      const href = this.dataset.href;
+      this.addEventListener("click", () => {
+        navigate(href!);
+      });
+    }
+  }
+  customElements.define("generic-card", Card);
+</script>

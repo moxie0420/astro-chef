@@ -1,0 +1,66 @@
+---
+import { genMd } from "@lib/markdown";
+
+interface Props {
+  body: string | null;
+  editing?: boolean;
+}
+
+const { body, editing = false } = Astro.props;
+---
+
+{
+  editing ? (
+    <div is="markdown-component" class="grid grid-cols-2">
+      <textarea
+        id="text"
+        name="body"
+        class="prose prose-rosePine bg-inherit border border-rosePine-highlightHigh"
+        rows="25"
+      >
+        {body}
+      </textarea>
+      <div
+        id="preview"
+        class="prose prose-rosePine border border-rosePine-highlightHigh"
+      />
+    </div>
+  ) : (
+    <article
+      set:html={genMd(body || "")}
+      class="p-2 pt-10 prose prose-sm md:prose-lg 2xl:prose-2xl text-center prose-rosePine mx-auto"
+    />
+  )
+}
+
+<script>
+  import { marked, type RendererObject } from "marked";
+  import DOMPurify from "dompurify";
+
+  class Markdown extends HTMLElement {
+    renderer: RendererObject = {
+      image({ href, text }) {
+        return `<img src="/api/image?path=${href}" alt="${text}" />`;
+      },
+    };
+
+    async genCleanHtml(md: string) {
+      marked.use({ renderer: this.renderer });
+      return DOMPurify.sanitize(await marked.parse(md));
+    }
+    async connectedCallback() {
+      const input = this.querySelector("#text") as HTMLTextAreaElement;
+      const preview = this.querySelector("#preview");
+
+      if (preview && input) {
+        preview.innerHTML = await this.genCleanHtml(input.value);
+
+        input.addEventListener("input", async () => {
+          preview.innerHTML = await this.genCleanHtml(input.value);
+        });
+      }
+    }
+  }
+
+  customElements.define("markdown-component", Markdown);
+</script>

@@ -1,0 +1,79 @@
+---
+import { SEO } from "astro-seo";
+import Header from "@components/header.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  OpenGraphImg?: string;
+  recipeId?: number;
+  editing?: boolean;
+}
+
+const { title, description, recipeId, editing } = Astro.props;
+
+const pages = [
+  {
+    name: "Home",
+    path: "/",
+  },
+  {
+    name: "Recipes",
+    path: "/recipes",
+  },
+  {
+    name: "lists",
+    path: "/lists",
+  },
+  {
+    name: "random",
+    path: "/recipes/random",
+  },
+];
+
+const id = () => {
+  const id = Astro.url.searchParams.get("id");
+  if (!id) return;
+  return parseInt(id);
+};
+---
+
+<html lang="en">
+  <head>
+    <SEO
+      charset="utf-8"
+      title={title}
+      description={description ?? "No description made yet"}
+      extend={{
+        link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+        meta: [
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0",
+          },
+          { name: "generator", content: Astro.generator },
+        ],
+      }}
+    />
+  </head>
+
+  <body>
+    <Header pages={pages} recipeId={id() || recipeId} editing={editing} />
+    <slot />
+  </body>
+</html>
+
+<style>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    * {
+      @apply text-text bg-base;
+    }
+    body {
+      @apply bg-base;
+    }
+  }
+</style>

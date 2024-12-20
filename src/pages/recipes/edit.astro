@@ -1,0 +1,78 @@
+---
+import { actions } from "astro:actions";
+
+import DefaultImage from "@components/assets/defaultImage.astro";
+import Layout from "@layouts/layout.astro";
+import Ingredients from "@components/ingredients/ingredients.astro";
+import Markdown from "@components/markdown.astro";
+
+const params = Astro.url.searchParams;
+
+const id = params.get("id");
+if (!id) return Astro.redirect("/404?message=Recipe came back undefined");
+
+const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+  method: "id",
+  identifier: id,
+});
+
+if (error?.code) return Astro.redirect("/404?message=" + error?.message);
+else if (error) return;
+
+if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
+---
+
+<Layout title={data.title} editing={true}>
+  <div slot="title">
+    <input
+      slot="title"
+      name="imageAlt"
+      form="editor"
+      type="text"
+      class="w-full bg-rosePine-surface"
+      placeholder="Recipe Title"
+      value={data.title}
+    />
+  </div>
+
+  <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-4xl">
+    <DefaultImage
+      src={data.image}
+      alt={data.imageAlt}
+      class:list={["col-span-2"]}
+    />
+    <input
+      name="imageAlt"
+      form="editor"
+      type="text"
+      class="bg-rosePine-surface"
+      placeholder="Image alt text"
+      value={data.imageAlt}
+    />
+    <input
+      name="image"
+      form="editor"
+      type="text"
+      class="bg-rosePine-surface"
+      placeholder="Image Source"
+      value={data.image}
+    />
+  </div>
+
+  <Ingredients recipeId={data.id} editing={true} />
+
+  <Markdown body={data.body} />
+</Layout>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const editor = document.getElementById("editor") as HTMLFormElement;
+  editor?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(editor);
+    // TODO: append recipe id
+    await actions.recipe.updateRecipe(formData);
+    location.reload();
+  });
+</script>

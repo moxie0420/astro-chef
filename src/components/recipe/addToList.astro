@@ -1,0 +1,17 @@
+---
+import { actions } from "astro:actions";
+
+interface Props {
+  recipeId: number;
+}
+
+const { recipeId } = Astro.props;
+
+const lists = Astro.callAction(actions.list.getLists, {});
+---
+
+<form>
+  <select>
+    {}
+  </select>
+</form>

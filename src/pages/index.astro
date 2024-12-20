@@ -1,15 +1,11 @@
 ---
-import MainLayout from "@layouts/mainLayout.astro";
-import Carousel from "@components/carousel.astro";
+import MainLayout from "@layouts/layout.astro";
+import Carousel from "@components/generic/carousel.astro";
 
 const title = "Astro Chef";
 ---
 
 <MainLayout title={title}>
-  <span class="text-center text-6xl text-rosePine-text font-bold pb-6">
-    Welcome to astro Chef
-  </span>
-
   <div class="flex flex-col gap-5">
     <!-- TODO: add recipe cards here, ideally on a carousel -->
     <span class="text-rosePine-text font-bold text-center text-5xl">

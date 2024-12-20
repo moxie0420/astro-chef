@@ -8,8 +8,8 @@ const Units = [
   "pint",
   "quart",
   "gallon",
-  "kilograms",
-  "grams",
+  "kilogram",
+  "gram",
   "miligram",
 ];
 
@@ -23,8 +23,12 @@ type unit =
   | "pint"
   | "quart"
   | "gallon"
-  | "kilograms"
-  | "grams"
+  | "kilogram"
+  | "gram"
   | "miligram";
+
+export const isMetric = /(gram|liter)/;
+
+export const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
 
 export { Units, type unit };

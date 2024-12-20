@@ -1,11 +1,10 @@
 ---
 import { actions } from "astro:actions";
-import { marked, type RendererObject } from "marked";
 
-import Button from "@components/button.astro";
-import IngredientHolder from "@components/ingredients/ingredientHolder.astro";
-import RecipeLayout from "@layouts/recipeLayout.astro";
-import Titlebar from "@components/titlebar.astro";
+import DefaultImage from "@components/assets/defaultImage.astro";
+import IngredientHolder from "@components/ingredients/ingredients.astro";
+import Layout from "@layouts/layout.astro";
+import Markdown from "@components/markdown.astro";
 
 const { method, identifier } = Astro.params;
 
@@ -18,40 +17,23 @@ if (error?.code) return Astro.redirect("/404?message=" + error?.message);
 else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
 
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
-
-const renderer: RendererObject = {
-  image({ href, text }) {
-    return `<img src="/api/image?path=${href}" alt="${text}"  class="mx-auto w-1/3" />`;
-  },
-};
-marked.use({ renderer });
-const md = await marked.parse(data.body || "");
 ---
 
-<RecipeLayout title={data.title}>
-  <Titlebar>
-    <span class="my-auto h-fit">{data.title}</span>
-
-    <div class="my-auto">
-      <Button
-        style="generic"
-        size="medium"
-        destination={"/recipes/edit/" + data.id}
-      >
-        Edit
-      </Button>
-    </div>
-  </Titlebar>
+<Layout title={data.title} recipeId={data.id}>
   <div
-    class="w-2/3 flex flex-col rounded-lg bg-rosePine-surface overflow-scroll overflow-y-auto"
+    class="flex flex-col gap-2 p-2 mx-auto rounded-lg bg-rosePine-surface w-full"
   >
-    <div class="mx-auto p-3">
+    <div class="pb-3 text-center font-bold text-xl md:text-4xl lg:text-5xl">
+      {data.title}
+    </div>
+    <div class="w-5/6 2xl:w-3/5 mx-auto">
+      <DefaultImage src={data.image} alt={data.imageAlt} />
+    </div>
+
+    <div class="mx-auto">
       <IngredientHolder recipeId={data.id} editing={false} />
     </div>
 
-    <article
-      set:html={md}
-      class="text-center p-2 2xl:prose-2xl prose-rosePine"
-    />
+    <Markdown body={data.body} />
   </div>
-</RecipeLayout>
+</Layout>

@@ -12,7 +12,9 @@ const { liked, recipeId } = Astro.props;
   data-id={recipeId}
   type="button"
   is="like-button"
-  class="text-3xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold bg-rosePine-overlay px-3 py-1 pb-2 rounded-full"
+  class:list={[
+    "text-3xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold",
+  ]}
 >
   {liked ? "" : ""}
 </button>

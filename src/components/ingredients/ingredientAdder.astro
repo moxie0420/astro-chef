@@ -1,5 +1,5 @@
 ---
-import Button from "@components/button.astro";
+import Button from "@components/generic/button.astro";
 import { Units } from "@lib/types";
 
 interface Props {
@@ -9,52 +9,50 @@ interface Props {
 const { recipeId } = Astro.props;
 ---
 
-<ingredient-adder data-recipeid={recipeId} class="table-row">
+<tr data-recipeid={recipeId} is="IngredientAdder" class="flex h-full">
   {/* amount */}
-  <div class="table-cell size-fit">
-    <label for="amnt" hidden>Amount</label>
+  <td>
     <input
       name="amnt"
       type="text"
-      class="bg-inherit text-inherit w-full"
+      class="bg-surface w-full"
       placeholder="Amount"
     />
-  </div>
+  </td>
 
   {/* unit */}
-  <div class="table-cell size-fit">
-    <label for="unit" hidden>Unit</label>
-    <select name="unit" class="bg-inherit w-full">
+  <td>
+    <select name="unit" class="bg-surface w-full">
       <option selected> ----None---- </option>
       {Units.map((unit) => <option value="unit">{unit}</option>)}
     </select>
-  </div>
+  </td>
 
   {/* name */}
-  <div class="table-cell">
-    <label for="name" hidden>Name</label>
+  <td>
     <input
       name="name"
       type="text"
-      class="bg-inherit text-inherit"
+      class="bg-surface text-surface w-full"
       placeholder="Name"
+      maxlength="25"
     />
-  </div>
+  </td>
 
-  {/* add button */}
-  <div class="table-cell px-1">
-    <Button id="addbtn" style="submit" size="small" rounded> Add </Button>
-  </div>
-  {/* clear button */}
-  <div class="table-cell px-1">
-    <Button id="clrbtn" style="cancel" size="small" rounded> Clear </Button>
-  </div>
-</ingredient-adder>
+  <td>
+    <div class="flex flex-col md:flex-row gap-1">
+      {/* add button */}
+      <Button id="addbtn" style="submit" size="small"></Button>
+      {/* clear button */}
+      <Button id="clrbtn" style="cancel" size="small">󰜺</Button>
+    </div>
+  </td>
+</tr>
 
 <script>
   import { actions } from "astro:actions";
 
-  class IngredientAdder extends HTMLElement {
+  class IngredientAdder extends HTMLTableRowElement {
     reset() {
       const inputs = ["#amount", "#unit", "#unit"].map(
         (id) => this.querySelector(id) as HTMLInputElement
@@ -94,5 +92,5 @@ const { recipeId } = Astro.props;
     }
   }
 
-  customElements.define("ingredient-adder", IngredientAdder);
+  customElements.define("ingredient-adder", IngredientAdder, { extends: "tr" });
 </script>

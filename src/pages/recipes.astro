@@ -1,5 +1,5 @@
 ---
-import MainLayout from "@layouts/mainLayout.astro";
+import MainLayout from "@layouts/layout.astro";
 import RecipeCard from "@components/recipe/recipeCard.astro";
 import SearchOptions from "@components/searchOptions.astro";
 
@@ -44,16 +44,13 @@ if (error) console.error(error.message);
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <span class="text-center text-5xl font-bold text-rosePine-text">
-    Recipes
-  </span>
-  <div class="flex">
+  <div class="xl:flex">
     <SearchOptions />
-    <div class="grid grid-cols-4 gap-2">
+    <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
       {
         data?.map((r) => (
-          <div class="flex w-full mx-auto px-4">
-            <RecipeCard {...r} />
+          <div class="flex w-full px-4 mx-auto">
+            <RecipeCard recipe={r} />
           </div>
         ))
       }

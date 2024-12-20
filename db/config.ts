@@ -4,9 +4,10 @@ const Ingredient = defineTable({
   columns: {
     id: column.number({ primaryKey: true }),
     recipeId: column.number(),
-    name: column.text({ optional: true }),
-    amount: column.text({ optional: true }),
-    unit: column.text({ optional: true }),
+    name: column.text(),
+    unit: column.text(),
+    whole: column.number(),
+    fraction: column.text(),
   },
 });
 
@@ -28,7 +29,19 @@ const Recipe = defineTable({
   },
 });
 
+const RecipeList = defineTable({
+  columns: {
+    id: column.number({ primaryKey: true }),
+    name: column.text(),
+    description: column.text({ optional: true }),
+    recipes: column.json({ optional: true, default: "[]" }),
+    image: column.text({ optional: true }),
+    imageAlt: column.text({ optional: true }),
+    totalViews: column.number({ optional: true, default: 0 }),
+  },
+});
+
 // https://astro.build/db/config
 export default defineDb({
-  tables: { Recipe, Ingredient },
+  tables: { Recipe, Ingredient, RecipeList },
 });

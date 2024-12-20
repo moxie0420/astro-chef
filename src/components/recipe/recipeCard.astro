@@ -1,77 +1,68 @@
 ---
-import CardImage from "@components/cardImage.astro";
+import Image from "@components/assets/defaultImage.astro";
 import LikeButton from "@components/likeButton.astro";
 
 interface Props {
-  id: number;
+  recipe: {
+    id: number;
 
-  created: Date;
-  edited: Date;
+    created: Date;
+    edited: Date;
 
-  prepTime: string | null;
-  cookTime: string | null;
+    prepTime?: string | null;
+    cookTime?: string | null;
 
-  title: string | null;
-  author: string | null;
-  description: string | null;
+    title: string | null;
+    author: string | null;
+    description?: string | null;
 
-  image: string | null;
-  imageAlt: string | null;
+    image: string | null;
+    imageAlt: string | null;
 
-  liked: boolean | null;
+    liked: boolean | null;
+  };
 }
 
-const props = Astro.props;
+const { recipe } = Astro.props;
 
 let link: string;
-if (props.title && props.title != "") link = "/recipes/by-title/" + props.title;
-else link = "/recipes/by-id/" + props.id;
+if (recipe.title && recipe.title != "")
+  link = "/recipes/by-title/" + recipe.title;
+else link = "/recipes/by-id/" + recipe.id;
 ---
 
-<div class="p-2 relative">
-  <div class="absolute top-4 right-4 size-fit z-10">
-    <LikeButton liked={props.liked || false} recipeId={props.id} />
-  </div>
-  <a href={link}>
-    <div
-      class="relative max-w-sm overflow-hidden outline outline-rosePine-highlightMed shadow-2xl shadow-rosePine-base bg-rosePine-surface p-2 rounded-lg"
-    >
-      <CardImage src={props.image || "/No_data.png"} />
-
-      <div class="mx-2">
-        <div class="font-bold text-xl text-rosePine-text mb-2">
-          {props.title}
-        </div>
-        <p class="text-rosePine-text">
-          {props.description || "No recipe Description yet"}
-        </p>
-      </div>
-
-      <div
-        class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
-      >
-        <span>
-          Time to Prep: {props.prepTime || "Not set yet"}
-        </span>
-        <span>
-          Time to Cook: {props.cookTime || "Not set yet"}
-        </span>
-      </div>
-
-      <div
-        class="bg-rosePine-highlightHigh rounded-md flex flex-col px-3 py-1 text-xs text-nowrap font-semibold text-rosePine-text m-2"
-      >
-        <span>
-          Created: {props.created?.toDateString()} at {
-            props.created?.toLocaleTimeString()
-          }
-        </span>
-        <span>
-          Edited: {props.edited?.toDateString()} at {
-            props.edited?.toLocaleTimeString()
-          }
-        </span>
-      </div>
+<a href={link}>
+  <div
+    class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-rosePine-highlightMed shadow-rosePine-base bg-rosePine-surface"
+  >
+    <div class="absolute bottom-2 z-10 right-2 size-fit">
+      <LikeButton liked={recipe.liked || false} recipeId={recipe.id} />
     </div>
-  </a>
-</div>
+
+    <Image src={recipe.image || "/No_data.png"} />
+
+    <div class="mx-2">
+      <div class="pb-1 text-xs font-bold md:text-xl text-rosePine-text">
+        {recipe.title}
+      </div>
+      <p class="py-1 text-xs text-rosePine-text">
+        {recipe.description || "No recipe Description yet"}
+      </p>
+    </div>
+
+    <div
+      class="px-1 py-1 mx-1 text-xs font-semibold rounded-md bg-rosePine-highlightHigh text-rosePine-text text-nowrap"
+    >
+      <p>Time to Prep: {recipe.prepTime || "Not set yet"}</p>
+
+      <p>Time to Cook: {recipe.cookTime || "Not set yet"}</p>
+    </div>
+
+    <div
+      class="px-1 py-1 m-1 text-xs font-semibold rounded-md bg-rosePine-highlightHigh text-rosePine-text"
+    >
+      <p>Created: {recipe.created?.toLocaleDateString()}</p>
+      <p>Edited: {recipe.edited?.toLocaleDateString()}</p>
+    </div>
+  </div>
+</a>

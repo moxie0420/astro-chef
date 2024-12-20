@@ -20,13 +20,13 @@ interface Props {
   };
 }
 
-const { src, alt, size } = Astro.props;
+const { src, alt, size, ...attrs } = Astro.props;
 
 const imageAlt = alt ? alt : "Not found";
 ---
 
 <Image
-  class="m-auto rounded-sm size-full"
+  class:list={["m-auto rounded-sm"]}
   src={src && isUrl(src) ? src : `/api/image?path=${src}`}
   alt={imageAlt}
   inferSize={true}
@@ -34,4 +34,5 @@ const imageAlt = alt ? alt : "Not found";
   height={size?.width || 1080}
   layout="responsive"
   fit="contain"
+  {...attrs}
 />

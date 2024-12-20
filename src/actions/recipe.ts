@@ -44,7 +44,21 @@ export const recipe = {
 
       if (filter && filter.filter((f) => f == "liked")) {
         return await db
-          .select()
+          .select({
+            id: Recipe.id,
+
+            created: Recipe.created,
+            edited: Recipe.edited,
+
+            title: Recipe.title,
+            author: Recipe.author,
+            decription: Recipe.description,
+
+            image: Recipe.image,
+            imageAlt: Recipe.imageAlt,
+
+            liked: Recipe.liked,
+          })
           .from(Recipe)
           .limit(number || 20)
           .orderBy(sortBy)
