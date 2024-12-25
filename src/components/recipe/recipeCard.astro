@@ -2,43 +2,27 @@
 import Image from "@components/assets/defaultImage.astro";
 import LikeButton from "@components/likeButton.astro";
 
+import type { selectRecipe } from "@db/schema";
+
 interface Props {
-  recipe: {
-    id: number;
-
-    created: Date;
-    edited: Date;
-
-    prepTime?: string | null;
-    cookTime?: string | null;
-
-    title: string | null;
-    author: string | null;
-    description?: string | null;
-
-    image: string | null;
-    imageAlt: string | null;
-
-    liked: boolean | null;
-  };
+  recipe: selectRecipe;
 }
 
 const { recipe } = Astro.props;
 
 let link: string;
-if (recipe.title && recipe.title != "")
-  link = "/recipes/by-title/" + recipe.title;
+if (recipe.title) link = "/recipes/by-title/" + recipe.title;
 else link = "/recipes/by-id/" + recipe.id;
 ---
 
-<a href={link}>
-  <div
-    class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-rosePine-highlightMed shadow-rosePine-base bg-rosePine-surface"
-  >
-    <div class="absolute bottom-2 z-10 right-2 size-fit">
-      <LikeButton liked={recipe.liked || false} recipeId={recipe.id} />
-    </div>
+<div
+  class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-rosePine-highlightMed shadow-rosePine-base bg-rosePine-surface"
+>
+  <div class="absolute bottom-2 z-10 right-2 size-fit">
+    <LikeButton liked={recipe.liked || false} recipeId={recipe.id} />
+  </div>
 
+  <a href={link}>
     <Image src={recipe.image || "/No_data.png"} />
 
     <div class="mx-2">
@@ -64,5 +48,5 @@ else link = "/recipes/by-id/" + recipe.id;
       <p>Created: {recipe.created?.toLocaleDateString()}</p>
       <p>Edited: {recipe.edited?.toLocaleDateString()}</p>
     </div>
-  </div>
-</a>
+  </a>
+</div>

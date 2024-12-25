@@ -8,9 +8,6 @@
   created ? "now",
   port ? "4321",
   hostIP ? "0.0.0.0",
-  ip ? "0.0.0.0",
-  dbPort ? "8080",
-  method ? "http://",
 }:
 dockerTools.buildLayeredImage {
   name = "Astro-Chef";
@@ -22,8 +19,6 @@ dockerTools.buildLayeredImage {
       "/bin/bash"
       "-c"
       ''
-        nohup sqld -d /data/astro-chef-recipies.db  --http-listen-addr=${ip + ":" + dbPort} &
-        sleep 5
         cd /
         cp -r /Images /data
         node /node_modules/astro/astro.js db push --remote
@@ -35,7 +30,6 @@ dockerTools.buildLayeredImage {
       "HOST=${hostIP}"
       "PORT=${port}"
       "ASTRO_TELEMETRY_DISABLED=1"
-      "ASTRO_DB_REMOTE_URL=${method + ip + ":" + dbPort}"
     ];
     ExposedPorts = {
       port = {};

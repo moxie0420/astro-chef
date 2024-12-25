@@ -1,7 +1,10 @@
-import { db, Ingredient, Recipe, RecipeList, count } from "astro:db";
+import { db } from "@db/index";
+import { recipe, ingredients, list } from "@db/schema";
+import { count } from "drizzle-orm";
 
 import Fraction from "fraction.js";
 import { Units } from "@lib/types";
+import { reset } from "drizzle-seed";
 
 async function generateRecipes(number: number) {
   function genEntries(number: number) {
@@ -10,15 +13,16 @@ async function generateRecipes(number: number) {
         "generated Test Recipe value " +
         (Math.floor(Math.random() * 60) as number),
       author: "Moxie",
-      body: "# this is a header\ni can put whatever",
-      cookTime: (Math.floor(Math.random() * 60) as number) + " Minutes",
-      likes: true,
+      description: "",
+      body: "# this is a header \ni can put whatever",
+      liked: false,
       image: "/cigarettes.png",
+      imageAlt: "500 cigarretes",
     }));
   }
 
   const generated = genEntries(number);
-  await db.insert(Recipe).values(generated);
+  await db.insert(recipe).values(generated);
 }
 
 async function generateIngredients() {
@@ -35,45 +39,53 @@ async function generateIngredients() {
     return generated;
   }
 
-  const counted = (await db.select({ count: count() }).from(Recipe))[0].count;
+  const counted = (await db.select({ count: count() }).from(recipe))[0].count;
 
-  const queries = [];
   for (let index = 1; index < counted; index++) {
-    queries.push(db.insert(Ingredient).values(genIngredients(index)));
+    await db.insert(ingredients).values(genIngredients(index));
   }
-  await db.batch(queries);
 }
 
 // https://astro.build/db/seed
 export default async function seed() {
-  await generateRecipes(30);
+  await reset(db, { recipe, ingredients, list });
+  await generateRecipes(5);
   await generateIngredients();
 
-  await db.insert(RecipeList).values([
+  /*
+  await db.insert(list).values([
     {
       name: "test list 1",
-      recipes: "[1, 2, 3]",
       description: "this is test list 1",
+      image: "/doge.png",
+      imageAlt: "my friends dog pepper",
+      recipes: 1,
     },
     {
       name: "test list 2",
-      recipes: "[1, 2, 3]",
-      description: "this is test list 2",
+
+      image: "/doge.png",
+      imageAlt: "my friends dog pepper",
     },
     {
       name: "test list 3",
-      recipes: "[1, 2, 3]",
       description: "this is test list 3",
+      image: "/doge.png",
+      imageAlt: "my friends dog pepper",
     },
     {
       name: "test list 4",
-      recipes: "[1, 2, 3]",
+
       description: "this is test list 4",
+      image: "/doge.png",
+      imageAlt: "my friends dog pepper",
     },
     {
       name: "test list 5",
-      recipes: "[1, 2, 3]",
+
       description: "this is test list 5",
+      image: "/doge.png",
+      imageAlt: "my friends dog pepper",
     },
-  ]);
+  ]); */
 }

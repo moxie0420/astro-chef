@@ -1,5 +1,6 @@
 ---
 import { actions } from "astro:actions";
+import Button from "@components/generic/button.astro";
 
 interface Props {
   recipeId: number;
@@ -7,11 +8,60 @@ interface Props {
 
 const { recipeId } = Astro.props;
 
-const lists = Astro.callAction(actions.list.getLists, {});
+const { data } = await Astro.callAction(actions.lists.getLists, {});
 ---
 
-<form>
-  <select>
-    {}
+<div class="flex p-1">
+  <select
+    id="lists"
+    name="lists"
+    class="bg-transparent border-none"
+    data-recipe={recipeId}
+  >
+    <option selected value="null"> Add to a list</option>
+    {
+      data
+        ? data.map((list) => <option value={list.id}>{list.title}</option>)
+        : null
+    }
   </select>
-</form>
+  <Button style="submit" id="listAdd">Add</Button>
+</div>
+
+<script>
+  import { actions } from "astro:actions";
+  import { toast } from "@pheralb/toast";
+
+  const listSelector = document.getElementById("lists") as HTMLSelectElement;
+  const listAdder = document.getElementById("listAdd") as HTMLButtonElement;
+
+  listAdder.addEventListener("click", async () => {
+    const value = listSelector.value;
+    const recipeId = listSelector.dataset.recipe;
+    console.log(`recipe id: ${recipeId}`);
+    console.log(`list id: ${value}`);
+
+    if (!value || value === "null") {
+      toast.error({ text: "Please select a list to add" });
+      return;
+    }
+
+    if (!recipeId) {
+      toast.error({ text: "couldent get recipe id, please reload the page" });
+      return;
+    }
+
+    const { error } = await actions.lists.addRecipeToList({
+      recipeId: parseInt(recipeId),
+      listId: parseInt(value),
+    });
+
+    if (error)
+      toast.error({
+        text: error.name,
+        description: error.message,
+      });
+
+    toast.success({ text: `Added to ` });
+  });
+</script>

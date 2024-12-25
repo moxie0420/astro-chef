@@ -14,7 +14,7 @@ interface Props {
 }
 const { type, filters, number = 20 } = Astro.props;
 
-const { data } = await Astro.callAction(actions.recipe.getRecipes, {
+const { data } = await Astro.callAction(actions.Recipe.getRecipes, {
   sort: type,
   filter: filters,
   number: number,

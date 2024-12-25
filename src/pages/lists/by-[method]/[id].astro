@@ -4,62 +4,90 @@ import { actions } from "astro:actions";
 import DefaultImage from "@components/assets/defaultImage.astro";
 import Layout from "@layouts/layout.astro";
 import Markdown from "@components/markdown.astro";
-import RecipeCard from "@components/recipe/recipeCard.astro";
+// import RecipeCard from "@components/recipe/recipeCard.astro";
 
 const { method, id } = Astro.params;
 
+const editing = Astro.url.searchParams.get("editing") === "true";
+
 if (!method || !id) return Astro.redirect("/404");
 
-const { data, error } = await Astro.callAction(actions.list.getList, {
+const list = await Astro.callAction(actions.lists.getList.orThrow, {
   method,
   id,
 });
-
-if (!data) return Astro.redirect("/404");
-
-const list = data[0];
-
-const ids: number[] = JSON.parse(list.recipes as string);
-
-console.log(ids);
-
-const res = await Astro.callAction(actions.list.getRecipes, {
-  ids,
-});
-const recipes = res.data;
 ---
 
-<Layout title={list.name}>
-  <div class="flex flex-col gap-2 p-2 mx-auto rounded-lg">
-    <div class="w-5/6 mx-auto bg-surface max-w-screen-2xl">
-      <div class="pb-3 text-xl font-bold text-center md:text-4xl lg:text-5xl">
-        {list.name}
+<Layout title={list?.title || ""}>
+  <div
+    class="flex flex-col h-screen gap-2 mx-auto overflow-auto bg-cover bg-surface max-w-screen-2xl"
+  >
+    <div class="pb-3 text-xl font-bold text-center md:text-4xl lg:text-5xl">
+      {list?.title}
+    </div>
+    <div class="grid justify-between w-11/12 grid-cols-2 mx-auto">
+      <div class="p-2 m-auto rounded-md w-fit bg-overlay">
+        <DefaultImage src={list?.image || null} alt={list?.imageAlt || null} />
+        <div class="flex mx-auto">
+          {
+            editing ? (
+              <form class="relative flex w-full" id="image-alt">
+                <input
+                  name="alt"
+                  class="w-full m-1 mx-auto border-2 rounded-md selection:outline selection:outline-pine border-muted bg-surface"
+                  type="text"
+                  placeholder="Image description"
+                  value={list?.imageAlt}
+                />
+                <button
+                  type="submit"
+                  class="absolute inset-y-0 right-3 hover:text-pine"
+                >
+                  
+                </button>
+                <input name="id" value={list?.id} hidden />
+              </form>
+            ) : (
+              <p>{list?.imageAlt}</p>
+            )
+          }
+        </div>
       </div>
-      <div class="grid grid-cols-2">
-        <DefaultImage src={list.image} alt={list.imageAlt} />
-        <Markdown body={list.description} />
-      </div>
-      <div
-        class="grid grid-cols-2 gap-1 p-2 px-2 mx-auto rounded-lg md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 bg-overlay"
-      >
-        {
-          recipes?.map((r) => (
-            <recipe-holder
-              class="relative"
-              data-list-id={id}
-              data-recipe-id={r.id}
-            >
-              <div id="delete" class="absolute z-10 top-1 right-3 text-overlay">
-                
-              </div>
-              <RecipeCard recipe={r} />
-            </recipe-holder>
-          ))
-        }
-      </div>
+      <Markdown body={list?.description || ""} editing={editing} />
+    </div>
+    <div
+      class="grid grid-cols-2 gap-1 p-2 px-2 mx-auto overflow-y-scroll rounded-lg md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 bg-overlay scroll-smooth"
+    >
+      {
+        list?.recipes.map((r) => (
+          <recipe-holder
+            class="relative"
+            data-list-id={id}
+            data-recipe-id={r.recipeId}
+          >
+            <div id="delete" class="absolute z-10 top-1 right-3 text-overlay">
+              
+            </div>
+            {/* <RecipeCard recipe={r} /> */}
+          </recipe-holder>
+        ))
+      }
     </div>
   </div>
 </Layout>
+
+<script>
+  import { actions } from "astro:actions";
+  import { navigate } from "astro:transitions/client";
+
+  const form = document.querySelector("#image-alt") as HTMLFormElement;
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formdata = new FormData(form);
+    await actions.lists.setImageAlt(formdata);
+    navigate(location.pathname + "?editing=true");
+  });
+</script>
 
 <script>
   import { actions } from "astro:actions";
@@ -72,7 +100,7 @@ const recipes = res.data;
       this.querySelector("div[id=delete]")?.addEventListener(
         "click",
         async () => {
-          await actions.list.removeRecipe({
+          await actions.lists.removeRecipe({
             listId: parseInt(listId),
             recipeId: parseInt(recipeId),
           });

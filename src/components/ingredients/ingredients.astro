@@ -1,5 +1,5 @@
 ---
-import { actions } from "astro:actions";
+import type {selectIngredient} from "@db/schema"
 
 import Ingredient from "./ingredient.astro";
 import IngredientAdder from "./ingredientAdder.astro";
@@ -7,16 +7,10 @@ import IngredientAdder from "./ingredientAdder.astro";
 interface Props {
   recipeId: number;
   editing: boolean;
+  ingredients: selectIngredient[];
 }
 
-const { recipeId, editing } = Astro.props;
-
-const { data } = await Astro.callAction(
-  actions.ingredient.getIngredients,
-  {
-    recipeId: recipeId,
-  },
-);
+const { recipeId, editing, ingredients } = Astro.props;
 ---
 {/* TODO: unit selector */}
 
@@ -35,9 +29,9 @@ const { data } = await Astro.callAction(
       }
     </tr>
   </thead>
-  <tbody class="flex flex-col items-center justify-between overflow-x-scroll">
+  <tbody class="flex flex-col items-center justify-between max-h-screen overflow-scroll">
   {
-    data?.map((ingredient) => (
+    ingredients?.map((ingredient) => (
       <Ingredient
         editing={editing}
         {...ingredient}

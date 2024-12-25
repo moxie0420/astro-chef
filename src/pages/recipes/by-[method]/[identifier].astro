@@ -5,10 +5,12 @@ import DefaultImage from "@components/assets/defaultImage.astro";
 import IngredientHolder from "@components/ingredients/ingredients.astro";
 import Layout from "@layouts/layout.astro";
 import Markdown from "@components/markdown.astro";
+// import { recipe } from "@db/schema";
+// import AddToList from "@components/recipe/addToList.astro";
 
 const { method, identifier } = Astro.params;
 
-const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
   method,
   identifier,
 });
@@ -19,21 +21,26 @@ else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
-<Layout title={data.title} recipeId={data.id}>
-  <div
-    class="flex flex-col gap-2 p-2 mx-auto rounded-lg bg-rosePine-surface w-full"
-  >
+<Layout title={data.title || ""} recipeId={data.id}>
+  <div class="mx-auto bg-surface w-full max-w-screen-2xl overflow-scroll">
     <div class="pb-3 text-center font-bold text-xl md:text-4xl lg:text-5xl">
       {data.title}
     </div>
-    <div class="w-5/6 2xl:w-3/5 mx-auto">
+    <div class="w-5/6 2xl:w-3/5 mx-auto relative">
       <DefaultImage src={data.image} alt={data.imageAlt} />
+      <div class="absolute bottom-1 left-1 bg-overlay">
+        {/*<AddToList recipeId={data.id} />*/}
+      </div>
     </div>
 
     <div class="mx-auto">
-      <IngredientHolder recipeId={data.id} editing={false} />
+      <IngredientHolder
+        recipeId={data.id}
+        editing={false}
+        ingredients={data.ingredients}
+      />
     </div>
 
-    <Markdown body={data.body} />
+    <Markdown body={data.body} editing={false} />
   </div>
 </Layout>

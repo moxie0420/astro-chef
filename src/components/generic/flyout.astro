@@ -5,7 +5,7 @@
       id="flyoutmenu"
       class="absolute z-10 hidden w-full md:w-fit right-0 bg-overlay p-1 rounded-md"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col z-10">
         <slot />
       </div>
     </div>
@@ -23,7 +23,7 @@
         return;
       }
 
-      button?.addEventListener("click", function (event) {
+      button?.addEventListener("click", function () {
         menu?.classList.toggle("hidden");
       });
     }

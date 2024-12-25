@@ -4,56 +4,69 @@ import RecipeCard from "@components/recipe/recipeCard.astro";
 import SearchOptions from "@components/searchOptions.astro";
 
 import { actions } from "astro:actions";
+import Button from "@components/generic/button.astro";
 
-async function getRecipes(search?: string | null, count?: number | null) {
-  const filter = Astro.url.searchParams.getAll("filter");
-  const sortparam = Astro.url.searchParams.get("sortBy");
+const filter = Astro.url.searchParams.getAll("filter");
 
-  let sortBy: "by-id" | "popular" | "random";
+const sortparam = Astro.url.searchParams.get("sortBy") as
+  | "by-id"
+  | "popular"
+  | "random"
+  | null;
+const count = Astro.url.searchParams.get("perPage");
+const search = Astro.url.searchParams.get("search");
+const page = Astro.url.searchParams.get("page");
 
-  if (
-    !sortparam ||
-    (!sortparam.includes("by-id") &&
-      !sortparam.includes("popular") &&
-      !sortparam.includes("random"))
-  ) {
-    return Astro.callAction(actions.recipe.getRecipes, {
-      sort: "by-id",
-      query: search,
-    });
-  }
-  sortBy = sortparam as "by-id" | "popular" | "random";
-  return filter.length > 0
-    ? Astro.callAction(actions.recipe.getRecipes, {
-        sort: sortBy,
-        filter: filter,
-        query: search,
-        number: count,
-      })
-    : Astro.callAction(actions.recipe.getRecipes, {
-        sort: sortBy,
-        query: search,
-      });
-}
+const { error, data } = await Astro.callAction(actions.Recipe.getRecipes, {
+  sort: sortparam !== null ? sortparam : "by-id",
+  filter: filter,
+  query: search,
+  number: parseInt(count || "20"),
+  page: parseInt(page!) || 1,
+});
 
-const count = Astro.url.searchParams.get("count");
-const query = Astro.url.searchParams.get("search");
-
-const { error, data } = await getRecipes(query, count ? parseInt(count) : null);
 if (error) console.error(error.message);
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <div class="xl:flex">
+  <div class="flex flex-col xl:flex-row w-full">
     <SearchOptions />
-    <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
-      {
-        data?.map((r) => (
-          <div class="flex w-full px-4 mx-auto">
-            <RecipeCard recipe={r} />
-          </div>
-        ))
-      }
+    <div>
+      <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
+        {
+          data?.map((r) => (
+            <div class="flex w-full px-4 mx-auto">
+              <RecipeCard recipe={r} />
+            </div>
+          ))
+        }
+      </div>
+      <div class="flex justify-between mx-auto w-full">
+        <Button id="prevPage">Prev</Button>
+        <Button id="nextPage">Next</Button>
+      </div>
     </div>
   </div>
 </MainLayout>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  const prevPage = document.getElementById("prevPage") as HTMLButtonElement;
+  const nextPage = document.getElementById("nextPage") as HTMLButtonElement;
+
+  const search = new URLSearchParams(window.location.search);
+  const page = parseInt(search.get("page")!) || 1;
+
+  if (prevPage)
+    prevPage.onclick = () => {
+      search.set("page", `${page - 1}`);
+      navigate(`/recipes${search.toString()}`);
+    };
+
+  if (nextPage)
+    nextPage.onclick = () => {
+      search.set("page", `${page + 1}`);
+      navigate(`/recipes${search.toString()}`);
+    };
+</script>

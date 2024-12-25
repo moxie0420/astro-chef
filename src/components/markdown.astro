@@ -2,33 +2,35 @@
 import { genMd } from "@lib/markdown";
 
 interface Props {
+  name?: string;
   body: string | null;
   editing?: boolean;
 }
 
-const { body, editing = false } = Astro.props;
+const { body, editing = false, name = "body" } = Astro.props;
 ---
 
 {
   editing ? (
-    <div is="markdown-component" class="grid grid-cols-2">
+    <div
+      is="markdown-component"
+      class="grid grid-cols-2 gap-1 p-1 border rounded-md bg-overlay selection:outline selection:outline-pine max-w-screen-xl mx-auto overflow-scroll h-screen"
+    >
       <textarea
         id="text"
-        name="body"
-        class="prose prose-rosePine bg-inherit border border-rosePine-highlightHigh"
-        rows="25"
-      >
-        {body}
-      </textarea>
+        name={name}
+        class="prose border-none resize prose-rosePine bg-inherit border-rosePine-highlightHigh bg-overlay w-full"
+        set:text={body}
+      ></textarea>
       <div
         id="preview"
-        class="prose prose-rosePine border border-rosePine-highlightHigh"
+        class="prose border-none resize prose-rosePine border-rosePine-highlightHigh bg-overlay"
       />
     </div>
   ) : (
     <article
-      set:html={genMd(body || "")}
-      class="p-2 pt-10 prose prose-sm md:prose-lg 2xl:prose-2xl text-center prose-rosePine mx-auto"
+      set:html={await genMd(body || "")}
+      class="p-2 pt-10 mx-auto prose-sm prose text-center md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2"
     />
   )
 }
@@ -45,17 +47,18 @@ const { body, editing = false } = Astro.props;
     };
 
     async genCleanHtml(md: string) {
-      marked.use({ renderer: this.renderer });
       return DOMPurify.sanitize(await marked.parse(md));
     }
     async connectedCallback() {
       const input = this.querySelector("#text") as HTMLTextAreaElement;
       const preview = this.querySelector("#preview");
 
+      marked.use({ renderer: this.renderer, async: true, gfm: true });
+
       if (preview && input) {
         preview.innerHTML = await this.genCleanHtml(input.value);
 
-        input.addEventListener("input", async () => {
+        input.addEventListener("change", async () => {
           preview.innerHTML = await this.genCleanHtml(input.value);
         });
       }

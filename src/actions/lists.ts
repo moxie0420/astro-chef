@@ -1,23 +1,14 @@
-import { ActionError, defineAction } from "astro:actions";
+import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
-import {
-  db,
-  desc,
-  eq,
-  RecipeList,
-  sql,
-  and,
-  like,
-  or,
-  Recipe,
-  inArray,
-} from "astro:db";
+import { db } from "@db/index";
+import { recipe, list } from "@db/schema";
+import { eq, inArray } from "drizzle-orm";
 
-export const list = {
+export const lists = {
   getLists: defineAction({
     handler: async () => {
-      return await db.select().from(RecipeList);
+      return await db.select().from(list);
     },
   }),
   getList: defineAction({
@@ -27,12 +18,19 @@ export const list = {
     }),
     handler: async ({ method, id }) => {
       if (method === "id")
-        return await db
-          .select()
-          .from(RecipeList)
-          .where(eq(RecipeList.id, parseInt(id)));
+        return await db.query.list.findFirst({
+          where: eq(list.id, parseInt(id)),
+          with: {
+            recipes: true,
+          },
+        });
 
-      return await db.select().from(RecipeList).where(eq(RecipeList.name, id));
+      return await db.query.list.findFirst({
+        where: eq(list.title, id),
+        with: {
+          recipes: true,
+        },
+      });
     },
   }),
   getRecipes: defineAction({
@@ -40,7 +38,7 @@ export const list = {
       ids: z.number().array(),
     }),
     handler: async ({ ids }) => {
-      return await db.select().from(Recipe).where(inArray(Recipe.id, ids));
+      return await db.select().from(recipe).where(inArray(recipe.id, ids));
     },
   }),
   removeRecipe: defineAction({
@@ -48,21 +46,35 @@ export const list = {
       listId: z.number(),
       recipeId: z.number(),
     }),
-    handler: async ({ listId, recipeId }) => {
+    handler: async ({ listId }) => {
       const res = (
-        await db
-          .select({ current: RecipeList.recipes })
-          .from(RecipeList)
-          .where(eq(RecipeList.id, listId))
+        await db.select({ current: list }).from(list).where(eq(list.id, listId))
       )[0];
-
-      const current = JSON.parse(res.current as string) as number[];
-      const updated = current.filter((id) => id !== recipeId);
-
-      await db
-        .update(RecipeList)
-        .set({ recipes: JSON.stringify(updated) })
-        .where(eq(RecipeList.id, listId));
     },
+  }),
+  setImageAlt: defineAction({
+    accept: "form",
+    input: z.object({
+      alt: z.string(),
+      id: z.number(),
+    }),
+    handler: async (input) => {
+      await db
+        .update(list)
+        .set({
+          imageAlt: input.alt,
+        })
+        .where(eq(list.id, input.id));
+    },
+  }),
+  setImage: defineAction({
+    handler: () => {},
+  }),
+  addRecipeToList: defineAction({
+    input: z.object({
+      recipeId: z.number(),
+      listId: z.number(),
+    }),
+    handler: async () => {},
   }),
 };

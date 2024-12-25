@@ -5,18 +5,19 @@ import Card from "@components/generic/card.astro";
 import { actions } from "astro:actions";
 import DefaultImage from "@components/assets/defaultImage.astro";
 
-const { data } = await Astro.callAction(actions.list.getLists, null);
+const { data } = await Astro.callAction(actions.lists.getLists, null);
+if (!data) return Astro.redirect("/500");
 ---
 
 <Layout title={"Browse Recipes"}>
   <div class="xl:flex">
     <div class="grid grid-cols-2 gap-2 xl:grid-cols-4 mx-auto">
       {
-        data?.map((r) => (
+        data.map((r) => (
           <div class="flex w-full px-4 mx-auto">
             <Card vertical href={`/lists/by-id/${r.id}`}>
               <DefaultImage src={r.image} alt={r.imageAlt} />
-              <span>{r.name}</span>
+              <span>{r.title}</span>
               {r.description}
             </Card>
           </div>

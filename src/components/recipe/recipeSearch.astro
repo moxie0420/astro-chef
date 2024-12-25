@@ -1,10 +1,14 @@
+---
+const search = Astro.url.searchParams.get("search");
+---
+
 <>
   <input
     form="search"
     name="search"
     class="bg-transparent text-sm rounded-full size-full"
     placeholder="Search For a Recipe"
-    maxlength="50"
+    value={search}
   />
   <input type="submit" form="search" hidden />
 </>

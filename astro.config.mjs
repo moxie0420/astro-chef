@@ -2,11 +2,9 @@ import { defineConfig, envField, sharpImageService } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 
 import tailwind from "@astrojs/tailwind";
-import db from "@astrojs/db";
-
 import node from "@astrojs/node";
-
 import devtoolBreakpoints from "astro-devtool-breakpoints";
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,7 +23,7 @@ export default defineConfig({
   image: {
     service: sharpImageService(),
   },
-  integrations: [db(), tailwind(), devtoolBreakpoints()],
+  integrations: [tailwind(), devtoolBreakpoints(), react()],
   output: "server",
   adapter: node({
     mode: "standalone",

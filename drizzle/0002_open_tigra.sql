@@ -1,0 +1,1 @@
+ALTER TABLE "Recipe" ALTER COLUMN "liked" SET NOT NULL;

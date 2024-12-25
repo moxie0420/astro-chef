@@ -15,11 +15,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   pnpmDeps = pnpm.fetchDeps {
     inherit (finalAttrs) pname version src;
-    hash = "sha256-6ZS1WDJnMaqniA+IM1NfXmM/keoy4dma2VOWr5hllh4=";
+    hash = "sha256-ActMbOnoMOSVfgjK1N4ABzouJFFgRzfbi3qRD9DJy0Y=";
   };
 
   ASTRO_TELEMETRY_DISABLED = 1;
-  ASTRO_DB_REMOTE_URL = "http://127.0.0.1:8080";
 
   buildPhase = ''
     runHook preBuild

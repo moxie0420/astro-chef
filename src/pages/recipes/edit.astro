@@ -11,7 +11,7 @@ const params = Astro.url.searchParams;
 const id = params.get("id");
 if (!id) return Astro.redirect("/404?message=Recipe came back undefined");
 
-const { data, error } = await Astro.callAction(actions.recipe.getRecipe, {
+const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
   method: "id",
   identifier: id,
 });
@@ -23,56 +23,89 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
 <Layout title={data.title} editing={true}>
-  <div slot="title">
-    <input
-      slot="title"
-      name="imageAlt"
-      form="editor"
-      type="text"
-      class="w-full bg-rosePine-surface"
-      placeholder="Recipe Title"
-      value={data.title}
-    />
-  </div>
+  <editor-element
+    data-recipe={id}
+    class="overflow-scroll w-full md:w-5/6 bg-surface mx-auto h-screen"
+  >
+    <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-4xl">
+      <input
+        slot="title"
+        name="imageAlt"
+        form="editor"
+        type="text"
+        class="w-full bg-rosePine-surface col-span-2"
+        placeholder="Recipe Title"
+        value={data.title}
+      />
+      <DefaultImage
+        src={data.image}
+        alt={data.imageAlt}
+        class:list={["col-span-2"]}
+      />
+      <input
+        name="imageAlt"
+        form="editor"
+        type="text"
+        class="bg-rosePine-surface"
+        placeholder="Image alt text"
+        value={data.imageAlt}
+      />
+      <input
+        name="image"
+        form="editor"
+        type="text"
+        class="bg-rosePine-surface"
+        placeholder="Image Source"
+        value={data.image}
+      />
+    </div>
 
-  <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-4xl">
-    <DefaultImage
-      src={data.image}
-      alt={data.imageAlt}
-      class:list={["col-span-2"]}
-    />
-    <input
-      name="imageAlt"
-      form="editor"
-      type="text"
-      class="bg-rosePine-surface"
-      placeholder="Image alt text"
-      value={data.imageAlt}
-    />
-    <input
-      name="image"
-      form="editor"
-      type="text"
-      class="bg-rosePine-surface"
-      placeholder="Image Source"
-      value={data.image}
-    />
-  </div>
+    <div class="w-fit mx-auto">
+      <Ingredients
+        recipeId={data.id}
+        ingredients={data.ingredients}
+        editing={true}
+      />
+    </div>
 
-  <Ingredients recipeId={data.id} editing={true} />
-
-  <Markdown body={data.body} />
+    <Markdown body={data.body} editing={true} />
+  </editor-element>
 </Layout>
 
 <script>
   import { actions } from "astro:actions";
+  import { toast } from "@pheralb/toast";
 
-  const editor = document.getElementById("editor") as HTMLFormElement;
-  editor?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const formData = new FormData(editor);
-    // TODO: append recipe id
-    await actions.recipe.updateRecipe(formData);
-    location.reload();
-  });
+  class Editor extends HTMLElement {
+    connectedCallback() {
+      const editor = this.querySelector("textarea");
+      const id = this.dataset.recipe;
+      if (!id) return;
+
+      const recipe = parseInt(id);
+
+      window.onbeforeunload = async () => {
+        console.log("saving");
+        await actions.Recipe.updateRecipe({
+          id: recipe,
+          body: editor?.value,
+        });
+        return null;
+      };
+
+      setInterval(async () => {
+        console.log("saving");
+        const { error, data } = await actions.Recipe.updateRecipe({
+          id: recipe,
+          body: editor?.value,
+        });
+
+        if (error)
+          toast.error({ text: error.name, description: error.message });
+
+        if (data) toast.success({ text: "Saved!!!" });
+      }, 45000);
+    }
+  }
+  customElements.define("editor-element", Editor);
 </script>

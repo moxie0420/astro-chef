@@ -1,10 +1,13 @@
 ---
+import { actions } from 'astro:actions';
+
 import Button from "@components/generic/button.astro";
-import RecipeSearch from "@components/recipe/recipeSearch.astro";
 import ImageUploader from "./assets/imageUploader.astro";
 import Flyout from "./generic/flyout.astro";
+import Modal from "./generic/modal.astro";
+import Input from './generic/input.astro';
 
-
+const regex = /^\/recipes*/;
 
 interface Props {
   pages: {
@@ -15,10 +18,16 @@ interface Props {
   recipeId?: number;
 }
 const { pages, recipeId, editing } = Astro.props;
+
+const result = Astro.getActionResult(actions.create);
+if (result && !result.error) {
+  return Astro.redirect(`/${result.data.type}s/by-id/${result.data.res.id}`);
+}
 ---
 
 <site-nav
-  class="sticky top-0 z-20 p-1 w-full font-extrabold rounded-md shadow-lg md:text-3xl bg-rosePine-surface border-rosePine-highlightHigh text-rosePine-text flex justify-between"
+  data-editing={editing}
+  class="sticky top-0 z-20 flex justify-between w-full p-1 font-extrabold rounded-md shadow-lg md:text-3xl bg-rosePine-surface border-rosePine-highlightHigh text-rosePine-text"
 >
   <div id="links" class="flex gap-1">
     {
@@ -27,7 +36,7 @@ const { pages, recipeId, editing } = Astro.props;
           id="link-btn"
           type="button"
           value={page.path}
-          class="transition ease-in-out p-1 rounded-lg"
+          class="p-1 transition ease-in-out rounded-lg"
         >
           {page.name}
         </button>
@@ -36,30 +45,60 @@ const { pages, recipeId, editing } = Astro.props;
   </div>
 
   <div class="flex w-fit md:gap-2">
-    <div class="hidden md:flex w-full">
-      <RecipeSearch />
-    </div>
     <Flyout>
       <Button slot="button" rounded>󰍜</Button>  
+      <Modal>
+        <Button rounded extraClasses="w-full" id="creatBtn" slot="button">Upload</Button>
+        <div class="flex m-auto relative">
+          <ImageUploader />
+          <button id="closeBtn" class="absolute top-0 right-2 font-thin">x</button>
+        </div>
+      </Modal>
       {
         editing ?    
           <Button rounded extraClasses="w-full">
             Delete
           </Button>
-          <Button rounded extraClasses="w-full">
+          <Button rounded extraClasses="w-full" destination={`/recipes/by-id/${recipeId}`} id="saveBtn">
             Save & View
           </Button>
-          <Button rounded extraClasses="w-full">
-            Exit & View
-          </Button>
         :
-          <Button rounded extraClasses="w-full">Lists</Button>
-          <Button rounded extraClasses="w-full">Create</Button>
-          <Button rounded extraClasses="w-full" destination={`/recipes/edit?id=${recipeId}`}>Edit</Button>
+          <Modal>
+            <Button rounded extraClasses="w-full" id="creatBtn" slot="button">Create</Button>
+            <div class="flex m-auto bg-overlay p-3 rounded-lg w-full max-w-screen-2xl h-fit relative">
+              <button id="closeBtn" class="absolute top-0 right-2 font-thin">x</button>
+              <form id="createForm" class="mx-auto">
+                <span>Create a Recipe</span>
+                <div>
+                  <Input label="Title" name='title'/>
+                  <Input label="Description" textarea name='description'/>
+                  <Button style='submit' extraClasses='w-full' type='submit'>create</Button>
+                </div>
+              </form>
+            </div>
+          </Modal>
+      }
+      {
+        regex.test(Astro.url.pathname) && !editing ? <Button rounded extraClasses="w-full" destination={`/recipes/edit?id=${recipeId}`}>Edit</Button>: null
       }
     </Flyout>
   </div>
 </site-nav>
+
+<script>
+  import { actions } from "astro:actions";
+  import { navigate } from "astro:transitions/client";
+
+  const createForm = document.getElementById("createForm") as HTMLFormElement;
+  createForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(createForm)
+    const {error, data} = await actions.create(formData);
+    
+    if (!error) 
+      navigate(`/${data.type}s/by-id/${data.res}`);
+  })
+</script>
 
 <script>
   import { isRecipePage } from "@lib/types";
@@ -67,6 +106,7 @@ const { pages, recipeId, editing } = Astro.props;
 
   class SiteNav extends HTMLElement {
     connectedCallback() {
+      const editing = this.dataset.editing === "true"
       const links = this.querySelectorAll(
         "button[id=link-btn]"
       ) as NodeListOf<HTMLButtonElement>;
@@ -76,10 +116,15 @@ const { pages, recipeId, editing } = Astro.props;
       links.forEach((link) => {
         if (link.value === location.pathname) link.classList.add("bg-pine");
 
-        if (link.value === "/recipes" && isRecipePage.test(location.pathname)) link.classList.add("bg-pine");
+        if (link.value === "/recipes"){
+          if (isRecipePage.test(location.pathname))link.classList.add("bg-pine");
+          else if (editing) link.classList.add("bg-love")
+        } 
+        
 
         link.onclick = () => {
           link.classList.remove("bg-pine");
+          link.classList.remove("bg-love");
           navigate(link.value);
         };
       });

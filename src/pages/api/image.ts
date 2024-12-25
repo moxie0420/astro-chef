@@ -30,16 +30,20 @@ export const GET: APIRoute = async ({ request }) => {
 
   if (!isImage.test(path)) return await notfound();
 
-  const file = await fs.open(`${IMAGE_DIRECTORY}${path}`);
-  const image = await file.readFile();
-  file.close();
-  const mimetype = mime.getType(`${IMAGE_DIRECTORY}${path}`);
-  const body: BodyInit = new Uint8Array(image.buffer);
+  try {
+    const file = await fs.open(`${IMAGE_DIRECTORY}${path}`);
+    const image = await file.readFile();
+    file.close();
+    const mimetype = mime.getType(`${IMAGE_DIRECTORY}${path}`);
+    const body: BodyInit = new Uint8Array(image.buffer);
 
-  return new Response(body, {
-    status: 200,
-    headers: {
-      "Content-Type": `${mimetype}`,
-    },
-  });
+    return new Response(body, {
+      status: 200,
+      headers: {
+        "Content-Type": `${mimetype}`,
+      },
+    });
+  } catch {
+    return await notfound();
+  }
 };

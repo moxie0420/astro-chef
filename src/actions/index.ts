@@ -1,4 +1,4 @@
-import { recipe } from "./recipe";
+import { Recipe } from "./recipe";
 import { ingredient } from "./ingredient";
 
 import { defineAction } from "astro:actions";
@@ -6,12 +6,15 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { IMAGE_DIRECTORY } from "astro:env/server";
 import fs from "fs/promises";
-import { list } from "./lists";
+import { lists } from "./lists";
+
+import { db } from "@db/index";
+import { recipe, list } from "@db/schema";
 
 export const server = {
-  recipe,
+  Recipe,
   ingredient,
-  list,
+  lists,
   uploadImage: defineAction({
     accept: "form",
     input: z.object({
@@ -23,6 +26,51 @@ export const server = {
           `${IMAGE_DIRECTORY}/${image[x].name}`,
           image[x].stream()
         );
+      }
+    },
+  }),
+  create: defineAction({
+    accept: "form",
+    input: z.object({
+      type: z.enum(["recipe", "list"]),
+      title: z.string(),
+      description: z.string(),
+    }),
+    handler: async ({ type, title, description }) => {
+      switch (type) {
+        case "list":
+          return {
+            res: (
+              await db
+                .insert(list)
+                .values({
+                  description,
+                  title,
+                  image: "/defaultImage.png",
+                  imageAlt: "default image",
+                })
+                .returning()
+            )[0].id,
+            type: "list",
+          };
+
+        case "recipe":
+          return {
+            res: (
+              await db
+                .insert(recipe)
+                .values({
+                  title,
+                  description,
+                  author: "No Author yet",
+                  body: "",
+                  image: "/default.png",
+                  imageAlt: "Default Image",
+                })
+                .returning()
+            )[0].id,
+            type: "recipe",
+          };
       }
     },
   }),

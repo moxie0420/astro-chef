@@ -1,11 +1,8 @@
 ---
-import Button from '@components/generic/button.astro';
-import Flyout from '@components/generic/flyout.astro';
-import Fraction from 'fraction.js';
+import Button from "@components/generic/button.astro";
 
-import { Units, isMetric } from '@lib/types';
-import {truncate } from "@lib/math";
-
+import { Units, isMetric } from "@lib/types";
+import { truncate } from "@lib/math";
 
 interface Props {
   editing: boolean;
@@ -17,45 +14,50 @@ interface Props {
   fraction: string;
 }
 const props = Astro.props;
-const {name } = props;
+const { name } = props;
 const amount = {
   whole: props.whole,
-  fraction: props.fraction
-}
+  fraction: props.fraction,
+};
 ---
 
-<tr data-id={props.id} is="Ingredient" class="w-full">
+<tr data-id={props.id} is="ingredient-element" class="w-full">
   {
     props.editing ? (
-      <td>
-        <input id="amount" type="text" class="w-full bg-surface" value={props.whole}>
-      </td>
-      <td>
-        <select id="unit" class="w-full bg-surface">
-          {Units.map((unit) => (
-            <option value={unit}>
-              {unit}
-            </option>
-          ))}
-        </select>
-      </td>
-      <td>
-        <input id="name" type="text" class="w-full bg-surface" value={name}>
-      </td>
-      <td>
-        <div class="collapse md:visible w-full flex gap-1">
-          <Button id="update" style="submit" size="small"></Button>
-          <Button id="remove" style="cancel" size="small">󰆴</Button>
-        </div>
-        <div class="md:hidden">
-          <Flyout >
-            <Button id="menu" size='small' style='submit' rounded slot="button"> 󰹯 </Button>
-          </Flyout>
-        </div>
-        
-      </td>
+      <>
+        <td>
+          <input
+            id="amount"
+            type="text"
+            class="w-full bg-surface"
+            value={props.whole}
+          />
+        </td>
+        <td>
+          <select id="unit" class="w-full bg-surface">
+            {Units.map((unit) => (
+              <option value={unit} selected={props.unit === unit}>
+                {unit}
+              </option>
+            ))}
+          </select>
+        </td>
+        <td>
+          <input id="name" type="text" class="w-full bg-surface" value={name} />
+        </td>
+        <td>
+          <div class="flex-col w-full flex gap-1">
+            <Button id="update" style="submit" size="small">
+              
+            </Button>
+            <Button id="remove" style="cancel" size="small">
+              󰆴
+            </Button>
+          </div>
+        </td>
+      </>
     ) : (
-      <td class="table-cell px-2 text-left">{` ${isMetric.test(props.unit) ? truncate(amount.whole, 3) : amount.fraction} ${props.unit}${(amount.whole > 1) ? "s": ""} of ${props.name}`}</td>
+      <td class="table-cell px-2 text-left">{` ${isMetric.test(props.unit) ? truncate(amount.whole, 3) : amount.fraction} ${props.unit}${amount.whole > 1 ? "s" : ""} of ${props.name}`}</td>
     )
   }
 </tr>
@@ -68,8 +70,8 @@ const amount = {
       const amount = this.querySelector("#amount") as HTMLInputElement;
       const unit = this.querySelector("#unit") as HTMLInputElement;
       const name = this.querySelector("#name") as HTMLInputElement;
-      
-      return { amount: amount.value, unit: unit.value, name: name.value}
+
+      return { amount: amount.value, unit: unit.value, name: name.value };
     }
 
     connectedCallback() {
@@ -86,15 +88,16 @@ const amount = {
 
       const updateButton = this.querySelector("#update");
       updateButton?.addEventListener("click", async () => {
-        const { amount, unit, name} = this.getInputValues();
+        const { amount, unit, name } = this.getInputValues();
         await actions.ingredient.updateIngredient({
           ingredientId: parseInt(id),
           amount,
           unit,
-          name
-        })
-      })
+          name,
+        });
+      });
     }
   }
 
+  customElements.define("ingredient-element", Ingredient, { extends: "tr" });
 </script>

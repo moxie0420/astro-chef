@@ -42,7 +42,6 @@
           };
           packages = with pkgs; [
             alejandra
-            sqld
           ];
           languages.javascript = {
             enable = true;

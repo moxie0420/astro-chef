@@ -1,6 +1,7 @@
 ---
 import { SEO } from "astro-seo";
 import Header from "@components/header.astro";
+import { Toaster } from "@pheralb/toast";
 
 interface Props {
   title: string;
@@ -21,10 +22,10 @@ const pages = [
     name: "Recipes",
     path: "/recipes",
   },
-  {
+  /* {
     name: "lists",
     path: "/lists",
-  },
+  }, */
   {
     name: "random",
     path: "/recipes/random",
@@ -57,9 +58,10 @@ const id = () => {
     />
   </head>
 
-  <body>
+  <body class="flex flex-col h-screen">
     <Header pages={pages} recipeId={id() || recipeId} editing={editing} />
     <slot />
+    <Toaster client:load />
   </body>
 </html>
 

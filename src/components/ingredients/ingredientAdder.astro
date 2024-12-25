@@ -9,10 +9,11 @@ interface Props {
 const { recipeId } = Astro.props;
 ---
 
-<tr data-recipeid={recipeId} is="IngredientAdder" class="flex h-full">
+<tr data-recipeid={recipeId} is="ingredient-adder" class="flex h-full">
   {/* amount */}
   <td>
     <input
+      id="amnt"
       name="amnt"
       type="text"
       class="bg-surface w-full"
@@ -22,7 +23,7 @@ const { recipeId } = Astro.props;
 
   {/* unit */}
   <td>
-    <select name="unit" class="bg-surface w-full">
+    <select name="unit" id="unit" class="bg-surface w-full">
       <option selected> ----None---- </option>
       {Units.map((unit) => <option value="unit">{unit}</option>)}
     </select>
@@ -31,9 +32,10 @@ const { recipeId } = Astro.props;
   {/* name */}
   <td>
     <input
+      id="name"
       name="name"
       type="text"
-      class="bg-surface text-surface w-full"
+      class="bg-surface text-text w-full"
       placeholder="Name"
       maxlength="25"
     />
@@ -51,44 +53,51 @@ const { recipeId } = Astro.props;
 
 <script>
   import { actions } from "astro:actions";
+  import Fraction from "fraction.js";
 
   class IngredientAdder extends HTMLTableRowElement {
-    reset() {
-      const inputs = ["#amount", "#unit", "#unit"].map(
-        (id) => this.querySelector(id) as HTMLInputElement
-      );
-      inputs.map((input) => (input.value = ""));
-    }
-
     connectedCallback() {
       const addbtn = this.querySelector("#addbtn") as HTMLButtonElement;
       addbtn?.addEventListener("click", async () => {
         const recipeId = parseInt(this.dataset.recipeid as string);
 
-        const amnt = this.querySelector(
-          "input[name='amnt']"
-        ) as HTMLInputElement;
-        const unit = this.querySelector(
-          "input[name='unit']"
-        ) as HTMLInputElement;
-        const name = this.querySelector(
-          "input[name='name']"
-        ) as HTMLInputElement;
+        const amnt = this.querySelector("#amnt") as HTMLInputElement;
+        const unit = this.querySelector("#unit") as HTMLSelectElement;
+        const name = this.querySelector("#name") as HTMLInputElement;
+
+        console.log(`adding ${name.value}`);
+
+        if (!amnt || amnt == null) return;
+
+        const val = new Fraction(amnt.value);
 
         const { error } = await actions.ingredient.addIngredient({
           recipeId,
-          amount: amnt?.value,
+          fraction: val.toFraction(true),
+          whole: val.valueOf(),
           unit: unit?.value,
           name: name?.value,
         });
 
         if (error) console.error(error.message);
 
+        amnt.value = amnt.defaultValue;
+        unit.selectedIndex = 0;
+        name.value = name.defaultValue;
+
         location.reload();
       });
 
-      const resetbtn = this.querySelector("#resetbtn") as HTMLButtonElement;
-      resetbtn?.addEventListener("click", this.reset);
+      const resetbtn = this.querySelector("#clrbtn") as HTMLButtonElement;
+      resetbtn?.addEventListener("click", () => {
+        const amnt = this.querySelector("#amnt") as HTMLInputElement;
+        const unit = this.querySelector("#unit") as HTMLSelectElement;
+        const name = this.querySelector("#name") as HTMLInputElement;
+
+        amnt.value = amnt.defaultValue;
+        unit.selectedIndex = 0;
+        name.value = name.defaultValue;
+      });
     }
   }
 

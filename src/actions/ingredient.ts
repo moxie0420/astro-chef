@@ -1,7 +1,9 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
-import { db, eq, Ingredient } from "astro:db";
+import { db } from "@db/index";
+import { ingredients } from "@db/schema";
+import { eq } from "drizzle-orm";
 
 export const ingredient = {
   getIngredients: defineAction({
@@ -9,17 +11,17 @@ export const ingredient = {
       recipeId: z.number(),
     }),
     handler: async (input) => {
-      const ingredients = await db
+      const ingredient = await db
         .select()
-        .from(Ingredient)
-        .where(eq(Ingredient.recipeId, input.recipeId));
-      if (!ingredients)
+        .from(ingredients)
+        .where(eq(ingredients.recipeId, input.recipeId));
+      if (!ingredient)
         throw new ActionError({
           code: "NOT_FOUND",
           message: "No ingredients found for recipe " + input.recipeId,
         });
 
-      if (ingredients.length === 0)
+      if (ingredient.length === 0)
         throw new ActionError({
           code: "NOT_FOUND",
           message: "No ingredients found for recipe " + input.recipeId,
@@ -31,12 +33,14 @@ export const ingredient = {
   addIngredient: defineAction({
     input: z.object({
       recipeId: z.number(),
-      name: z.string().optional(),
-      amount: z.string().optional(),
-      unit: z.string().optional(),
+      name: z.string(),
+      unit: z.string(),
+      whole: z.number(),
+      fraction: z.string(),
     }),
     handler: async (input) => {
-      return await db.insert(Ingredient).values(input).returning();
+      console.log(`adding ${input.name}`);
+      return await db.insert(ingredients).values(input).returning();
     },
   }),
   removeIngredient: defineAction({
@@ -45,7 +49,9 @@ export const ingredient = {
     }),
     handler: async (input) => {
       console.log("removing ingredient: " + input.ingredientId);
-      await db.delete(Ingredient).where(eq(Ingredient.id, input.ingredientId));
+      await db
+        .delete(ingredients)
+        .where(eq(ingredients.id, input.ingredientId));
     },
   }),
   updateIngredient: defineAction({
@@ -57,9 +63,9 @@ export const ingredient = {
     }),
     handler: async (input) => {
       const updatedIngredient = await db
-        .update(Ingredient)
+        .update(ingredients)
         .set(input)
-        .where(eq(Ingredient.id, input.ingredientId))
+        .where(eq(ingredients.id, input.ingredientId))
         .returning();
       return updatedIngredient;
     },

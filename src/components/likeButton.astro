@@ -13,7 +13,7 @@ const { liked, recipeId } = Astro.props;
   type="button"
   is="like-button"
   class:list={[
-    "text-3xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold",
+    "isolate text-xl lg:text-2xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold",
   ]}
 >
   {liked ? "" : ""}
@@ -48,12 +48,12 @@ const { liked, recipeId } = Astro.props;
         this.last = "";
         this.innerText = "";
         this.dataset.liked = "false";
-        await actions.recipe.setLiked({ liked: false, id: this.recipeId });
+        await actions.Recipe.setLiked({ liked: false, id: this.recipeId });
       } else {
         this.last = "";
         this.innerText = "";
         this.dataset.liked = "true";
-        await actions.recipe.setLiked({ liked: true, id: this.recipeId });
+        await actions.Recipe.setLiked({ liked: true, id: this.recipeId });
       }
     }
 
