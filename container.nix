@@ -21,7 +21,6 @@ dockerTools.buildLayeredImage {
       ''
         cd /
         cp -r /Images /data
-        node /node_modules/astro/astro.js db push --remote
         node /dist/server/entry.mjs
       ''
     ];

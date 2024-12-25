@@ -71,7 +71,7 @@ if (result && !result.error) {
                 <span>Create a Recipe</span>
                 <div>
                   <Input label="Title" name='title'/>
-                  <Input label="Description" textarea name='description'/>
+                  <Input label="Description" name='description'/>
                   <Button style='submit' extraClasses='w-full' type='submit'>create</Button>
                 </div>
               </form>
@@ -95,8 +95,9 @@ if (result && !result.error) {
     const formData = new FormData(createForm)
     const {error, data} = await actions.create(formData);
     
-    if (!error) 
-      navigate(`/${data.type}s/by-id/${data.res}`);
+    if (error) console.error(error.message)
+    if (data)
+      navigate(`/recipes/by-id/${data}`);
   })
 </script>
 

@@ -32,46 +32,23 @@ export const server = {
   create: defineAction({
     accept: "form",
     input: z.object({
-      type: z.enum(["recipe", "list"]),
       title: z.string(),
       description: z.string(),
     }),
-    handler: async ({ type, title, description }) => {
-      switch (type) {
-        case "list":
-          return {
-            res: (
-              await db
-                .insert(list)
-                .values({
-                  description,
-                  title,
-                  image: "/defaultImage.png",
-                  imageAlt: "default image",
-                })
-                .returning()
-            )[0].id,
-            type: "list",
-          };
+    handler: async ({ title, description }) => {
+      const res = await db
+        .insert(recipe)
+        .values({
+          title,
+          description,
+          author: "No Author yet",
+          body: "",
+          image: "/default.png",
+          imageAlt: "Default Image",
+        })
+        .returning();
 
-        case "recipe":
-          return {
-            res: (
-              await db
-                .insert(recipe)
-                .values({
-                  title,
-                  description,
-                  author: "No Author yet",
-                  body: "",
-                  image: "/default.png",
-                  imageAlt: "Default Image",
-                })
-                .returning()
-            )[0].id,
-            type: "recipe",
-          };
-      }
+      return res[0].id;
     },
   }),
 };

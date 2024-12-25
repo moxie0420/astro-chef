@@ -3,13 +3,15 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, sql } from "drizzle-orm";
 import * as schema from "./schema";
 
-import seed from "./seed";
+// import seed from "./seed";
 
 import type { PgSelect } from "drizzle-orm/pg-core";
 
 export const db = drizzle(process.env.DATABASE_URL!, { schema });
 
-seed();
+const 
+
+// seed();
 
 export function withPagination<T extends PgSelect>(
   qb: T,

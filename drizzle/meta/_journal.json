@@ -22,6 +22,20 @@
       "when": 1735013855901,
       "tag": "0002_open_tigra",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1735116054119,
+      "tag": "0003_faithful_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1735119522096,
+      "tag": "0004_careless_shape",
+      "breakpoints": true
     }
   ]
 }

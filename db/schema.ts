@@ -46,7 +46,7 @@ export const recipe = pgTable(
     image: varchar({ length: 255 }).default("/default.png"),
     imageAlt: varchar({ length: 255 }).default("default image"),
     liked: boolean().default(false),
-    totalViews: integer().default(0).notNull(),
+    totalViews: integer().default(0),
   },
   (table) => [
     index("recipe_title_index").using(
