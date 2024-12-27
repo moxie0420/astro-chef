@@ -6,7 +6,7 @@ services:
     ports:
       - 80:4321
     volumes:
-      - localData:/data
+      - astroChef:/data
     depends_on:
       - db
     networks:
@@ -25,20 +25,8 @@ services:
     networks:
       - db
 
-  ftp:
-    image: "drakkan/sftpgo"
-    restart: always
-    env_file:
-      - .env.prod
-    ports:
-      - 8080:8080
-      - 2022:2022
-    volumes:
-      - localData:/srv/sftpgo
-      - localData:/var/lib/sftpgo
-
 volumes:
-  localData:
+  astroChef:
   astroChefDB:
     driver: local
 

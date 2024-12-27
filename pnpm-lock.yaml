@@ -62,6 +62,9 @@ importers:
       express:
         specifier: ^4.21.2
         version: 4.21.2
+      fastq:
+        specifier: ^1.18.0
+        version: 1.18.0
       flowbite:
         specifier: ^2.5.2
         version: 2.5.2(rollup@4.29.1)

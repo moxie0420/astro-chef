@@ -9,7 +9,7 @@ import fs from "fs/promises";
 import { lists } from "./lists";
 
 import { db } from "@db/index";
-import { recipe, list } from "@db/schema";
+import { recipe } from "@db/schema";
 
 export const server = {
   Recipe,

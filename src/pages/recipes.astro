@@ -17,15 +17,25 @@ const count = Astro.url.searchParams.get("perPage");
 const search = Astro.url.searchParams.get("search");
 const page = Astro.url.searchParams.get("page");
 
-const { error, data } = await Astro.callAction(actions.Recipe.getRecipes, {
-  sort: sortparam !== null ? sortparam : "by-id",
-  filter: filter,
-  query: search,
-  number: parseInt(count || "20"),
-  page: parseInt(page!) || 1,
-});
+let res;
+if (search) {
+  res = await Astro.callAction(actions.Recipe.getRecipes, {
+    sort: sortparam !== null ? sortparam : "by-id",
+    filter: filter,
+    query: search,
+    number: parseInt(count || "20"),
+    page: parseInt(page!) || 1,
+  });
+} else
+  res = await Astro.callAction(actions.Recipe.getRecipes, {
+    sort: sortparam !== null ? sortparam : "by-id",
+    filter: filter,
+    number: parseInt(count || "20"),
+    page: parseInt(page!) || 1,
+  });
 
-if (error) console.error(error.message);
+if (res.error) console.error(res.error.message);
+if (!res.data) return Astro.redirect("/404");
 ---
 
 <MainLayout title={"Browse Recipes"}>
@@ -34,7 +44,7 @@ if (error) console.error(error.message);
     <div>
       <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
         {
-          data?.map((r) => (
+          res.data.map((r) => (
             <div class="flex w-full px-4 mx-auto">
               <RecipeCard recipe={r} />
             </div>
@@ -58,9 +68,11 @@ if (error) console.error(error.message);
   const search = new URLSearchParams(window.location.search);
   const page = parseInt(search.get("page")!) || 1;
 
+  const prev = page - 1 >= 1 ? page - 1 : 1;
+
   if (prevPage)
     prevPage.onclick = () => {
-      search.set("page", `${page - 1}`);
+      search.set("page", `${prev}`);
       navigate(`/recipes${search.toString()}`);
     };
 

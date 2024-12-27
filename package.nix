@@ -5,7 +5,7 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "astro-chef";
-  version = "development-latest";
+  version = "development-latest-rc";
   src = ./.;
 
   nativeBuildInputs = [
@@ -15,7 +15,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   pnpmDeps = pnpm.fetchDeps {
     inherit (finalAttrs) pname version src;
-    hash = "sha256-ActMbOnoMOSVfgjK1N4ABzouJFFgRzfbi3qRD9DJy0Y=";
+    hash = "sha256-sVvl0OW7vjnH0Hc0MiASX9XS6EF+936bigkEvb9ado4=";
   };
 
   ASTRO_TELEMETRY_DISABLED = 1;

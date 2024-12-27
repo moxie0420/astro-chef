@@ -47,7 +47,7 @@ export const lists = {
       recipeId: z.number(),
     }),
     handler: async ({ listId }) => {
-      const res = (
+      (
         await db.select({ current: list }).from(list).where(eq(list.id, listId))
       )[0];
     },
