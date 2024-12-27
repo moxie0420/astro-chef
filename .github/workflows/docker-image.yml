@@ -16,14 +16,8 @@ jobs:
     - uses: cachix/install-nix-action@v27
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: 'Login to GitHub Container Registry'
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{github.actor}}
-        password: ${{secrets.GITHUB_TOKEN}}
 
     - run: nix build
     - run: nix build .#container
-    - run: nix run nixpkgs#skopeo -- copy "docker-archive://./result" "docker://ghcr.io/moxie0420/astro-chef"
-    - run: docker push ghcr.io/${{github.actor}}/
+    - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
+    - run: nix run nixpkgs#skopeo -- copy ./result "docker://ghcr.io/moxie0420/astro-chef"
