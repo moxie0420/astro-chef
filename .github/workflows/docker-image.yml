@@ -11,9 +11,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: './Store'
     steps:
     - uses: actions/checkout@v4
     - uses: cachix/install-nix-action@v27
