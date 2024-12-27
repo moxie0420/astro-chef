@@ -20,4 +20,4 @@ jobs:
     - run: nix build
     - run: nix build .#container
     - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
-    - run: nix run nixpkgs#skopeo -- copy Astro-Chef:latest "docker://ghcr.io/moxie0420/astro-chef"
+    - run: nix run nixpkgs#skopeo -- copy docker-archive:./result "docker://ghcr.io/moxie0420/astro-chef"
