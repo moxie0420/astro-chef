@@ -3,7 +3,7 @@ import Button from "@components/generic/button.astro";
 ---
 
 <div class="bg-rosePine-overlay rounded-lg flex flex-col py-4 px-2 max-w-2xl">
-  <form id="imageUploadForm" class="flex flex-col gap-2">
+  <form method="post" id="imageUploadForm" class="flex flex-col gap-2">
     <div>
       <label for="image" class="block mb-2 font-medium text-rosePine-text"
         >Upload Images</label
@@ -32,24 +32,27 @@ import Button from "@components/generic/button.astro";
 <script>
   import { actions } from "astro:actions";
 
-  document
-    .getElementById("imageUploadForm")
-    ?.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const imageFile = document.getElementById(
-        "imageInput"
-      ) as HTMLInputElement;
-      if (!imageFile.files) {
-        alert("Please choose a file!");
-        return;
-      }
-      const files = imageFile?.files;
+  const ModalClose = new CustomEvent("modal-close", { bubbles: true });
 
-      const formData = new FormData();
-      for (let x = 0; x < files.length; x++) {
-        formData.append(`image`, files[x]);
-      }
-      const { error } = await actions.uploadImage(formData);
-      if (error) console.error(error.message);
-    });
+  const form = document.getElementById("imageUploadForm");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const imageFile = document.getElementById("imageInput") as HTMLInputElement;
+    if (!imageFile.files) {
+      alert("Please choose a file!");
+      return;
+    }
+    const files = imageFile?.files;
+
+    const formData = new FormData();
+    for (let x = 0; x < files.length; x++) {
+      formData.append(`image`, files[x]);
+    }
+    const { error } = await actions.uploadImage(formData);
+    if (error) console.error(error.message);
+    else {
+      form.dispatchEvent(ModalClose);
+      location.reload();
+    }
+  });
 </script>

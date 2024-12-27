@@ -5,6 +5,7 @@ import DefaultImage from "@components/assets/defaultImage.astro";
 import Layout from "@layouts/layout.astro";
 import Ingredients from "@components/ingredients/ingredients.astro";
 import Markdown from "@components/markdown.astro";
+import AvailibleImages from "@components/assets/availibleImages.astro";
 
 const params = Astro.url.searchParams;
 
@@ -25,12 +26,13 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 <Layout title={data.title} editing={true}>
   <editor-element
     data-recipe={id}
-    class="overflow-scroll w-full md:w-5/6 bg-surface mx-auto h-screen"
+    class="w-full md:w-5/6 bg-surface mx-auto h-screen"
   >
     <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-4xl">
       <input
+        id="recipeTitle"
         slot="title"
-        name="imageAlt"
+        name="title"
         form="editor"
         type="text"
         class="w-full bg-rosePine-surface col-span-2"
@@ -43,6 +45,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
         class:list={["col-span-2"]}
       />
       <input
+        id="imageAlt"
         name="imageAlt"
         form="editor"
         type="text"
@@ -51,6 +54,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
         value={data.imageAlt}
       />
       <input
+        id="imagePath"
         name="image"
         form="editor"
         type="text"
@@ -68,7 +72,12 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
       />
     </div>
 
-    <Markdown body={data.body} editing={true} />
+    <div class="flex flex-col xl:flex-row gap-2 h-fit">
+      <AvailibleImages />
+      <div class="w-full">
+        <Markdown body={data.body} editing={true} />
+      </div>
+    </div>
   </editor-element>
 </Layout>
 
@@ -76,35 +85,44 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
   import { actions } from "astro:actions";
   import { toast } from "@pheralb/toast";
 
+  const event = new Event("save-data", {
+    bubbles: false,
+    cancelable: false,
+    composed: false,
+  });
+
   class Editor extends HTMLElement {
     connectedCallback() {
       const editor = this.querySelector("textarea");
+      const imageAlt = this.querySelector("#imageAlt") as HTMLInputElement;
+      const image = this.querySelector("#imagePath") as HTMLInputElement;
+      const title = this.querySelector("#recipeTitle") as HTMLInputElement;
+
+      const ingredients = this.querySelector("tbody");
+
       const id = this.dataset.recipe;
       if (!id) return;
 
       const recipe = parseInt(id);
-
-      window.onbeforeunload = async () => {
-        console.log("saving");
-        await actions.Recipe.updateRecipe({
-          id: recipe,
-          body: editor?.value,
-        });
-        return null;
-      };
-
       setInterval(async () => {
-        console.log("saving");
+        if (ingredients) {
+          ingredients.childNodes.forEach((child) => {
+            child.dispatchEvent(event);
+          });
+        }
+
         const { error, data } = await actions.Recipe.updateRecipe({
           id: recipe,
           body: editor?.value,
+          image: image?.value,
+          imageAlt: imageAlt?.value,
+          title: title?.value,
         });
 
         if (error)
           toast.error({ text: error.name, description: error.message });
-
-        if (data) toast.success({ text: "Saved!!!" });
-      }, 45000);
+        if (data) console.log("saved");
+      }, 15000);
     }
   }
   customElements.define("editor-element", Editor);

@@ -9,8 +9,6 @@ import type { PgSelect } from "drizzle-orm/pg-core";
 
 export const db = drizzle(process.env.DATABASE_URL!, { schema });
 
-const 
-
 // seed();
 
 export function withPagination<T extends PgSelect>(

@@ -102,11 +102,12 @@ if (result && !result.error) {
 </script>
 
 <script>
-  import { isRecipePage } from "@lib/types";
   import { navigate } from "astro:transitions/client";
 
   class SiteNav extends HTMLElement {
     connectedCallback() {
+      const regex = /^\/recipes*/;
+
       const editing = this.dataset.editing === "true"
       const links = this.querySelectorAll(
         "button[id=link-btn]"
@@ -118,8 +119,8 @@ if (result && !result.error) {
         if (link.value === location.pathname) link.classList.add("bg-pine");
 
         if (link.value === "/recipes"){
-          if (isRecipePage.test(location.pathname))link.classList.add("bg-pine");
-          else if (editing) link.classList.add("bg-love")
+          if (regex.test(location.pathname) && !editing)link.classList.add("bg-pine");
+          else if (regex.test(location.pathname) && editing) link.classList.add("bg-love")
         } 
         
 

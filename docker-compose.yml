@@ -2,11 +2,11 @@ services:
   astro-chef:
     image: "astro-chef:latest"
     env_file:
-      - .env
+      - .env.prod
     ports:
-      - 4321:4321
+      - 80:4321
     volumes:
-      - astroChef:/data
+      - localData:/data
     depends_on:
       - db
     networks:
@@ -17,7 +17,7 @@ services:
     restart: always
     shm_size: 128mb
     env_file:
-      - .env
+      - .env.prod
     ports:
       - 5432:5432
     volumes:
@@ -25,9 +25,20 @@ services:
     networks:
       - db
 
+  ftp:
+    image: "drakkan/sftpgo"
+    restart: always
+    env_file:
+      - .env.prod
+    ports:
+      - 8080:8080
+      - 2022:2022
+    volumes:
+      - localData:/srv/sftpgo
+      - localData:/var/lib/sftpgo
+
 volumes:
-  astroChef:
-    driver: local
+  localData:
   astroChefDB:
     driver: local
 

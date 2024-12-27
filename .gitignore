@@ -36,4 +36,5 @@ database.db
 # nix system specific stuff
 .direnv
 .devenv
-.env
+.env*
+!.envrc

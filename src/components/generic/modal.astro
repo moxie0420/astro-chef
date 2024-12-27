@@ -41,6 +41,14 @@ const { ...attrs } = Astro.props;
           content.classList.add("hidden");
           content.ariaModal = "false";
         };
+
+      this.addEventListener("modal-close", () => {
+        if (!content) return;
+
+        content.classList.remove("flex", "flex-col");
+        content.classList.add("hidden");
+        content.ariaModal = "false";
+      });
     }
   }
 

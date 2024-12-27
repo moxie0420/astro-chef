@@ -25,7 +25,7 @@ const { recipeId } = Astro.props;
   <td>
     <select name="unit" id="unit" class="bg-surface w-full">
       <option selected> ----None---- </option>
-      {Units.map((unit) => <option value="unit">{unit}</option>)}
+      {Units.map((unit) => <option value={unit}>{unit}</option>)}
     </select>
   </td>
 

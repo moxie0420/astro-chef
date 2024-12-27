@@ -1,20 +1,22 @@
 ---
 import type {selectIngredient} from "@db/schema"
+import type { HTMLAttributes } from "astro/types";
 
 import Ingredient from "./ingredient.astro";
 import IngredientAdder from "./ingredientAdder.astro";
 
-interface Props {
+interface Props extends HTMLAttributes<'table'>{
   recipeId: number;
   editing: boolean;
   ingredients: selectIngredient[];
 }
 
-const { recipeId, editing, ingredients } = Astro.props;
+const { recipeId, editing, ingredients, ...attrs } = Astro.props;
 ---
 {/* TODO: unit selector */}
 
 <table
+  {...attrs}
   class=" bg-surface m-1 p-2 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto"
 >
   <thead class="flex w-full items-center">
@@ -34,7 +36,11 @@ const { recipeId, editing, ingredients } = Astro.props;
     ingredients?.map((ingredient) => (
       <Ingredient
         editing={editing}
-        {...ingredient}
+        id={ingredient.id.toString()}
+        name={ingredient.name}
+        unit={ingredient.unit}
+        whole={ingredient.whole}
+        fraction={ingredient.fraction}
       /> 
     ))
   }
@@ -43,7 +49,4 @@ const { recipeId, editing, ingredients } = Astro.props;
   <tfoot class="flex flex-col items-center justify-between">
     { editing ? <IngredientAdder recipeId={recipeId} /> : null}
   </tfoot>
-    
-
-  
 </table>
