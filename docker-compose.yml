@@ -1,6 +1,6 @@
 services:
   astro-chef:
-    image: "astro-chef:latest"
+    image: "ghcr.io/moxie0420/astro-chef:latest"
     env_file:
       - .env.prod
     ports:

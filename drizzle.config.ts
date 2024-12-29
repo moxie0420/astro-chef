@@ -6,6 +6,6 @@ export default defineConfig({
   schema: "./db/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: "postgres://astro:devpasword123@localhost:5432",
+    url: "postgres://astro:devpasword123@db:5432",
   },
 });

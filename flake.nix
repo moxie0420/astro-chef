@@ -42,6 +42,7 @@
           };
           packages = with pkgs; [
             alejandra
+            compose2nix
           ];
           languages.javascript = {
             enable = true;

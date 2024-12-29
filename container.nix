@@ -1,7 +1,7 @@
 {
   dockerTools,
   astro-chef,
-  nodejs-slim_latest,
+  nodejs_latest,
   busybox,
   bash,
   sqld,
@@ -13,7 +13,7 @@ dockerTools.buildLayeredImage {
   name = "Astro-Chef";
   tag = "latest";
 
-  contents = [astro-chef nodejs-slim_latest busybox bash sqld];
+  contents = [astro-chef nodejs_latest busybox bash sqld];
   config = {
     Cmd = [
       "/bin/bash"
@@ -21,6 +21,7 @@ dockerTools.buildLayeredImage {
       ''
         cd /
         cp -r /Images /data
+        npx drizzle-kit migrate
         node /dist/server/entry.mjs
       ''
     ];
