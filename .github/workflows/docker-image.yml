@@ -2,12 +2,11 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
     permissions:
       contents: read
@@ -17,12 +16,11 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: cachix/install-nix-action@v27
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
 
-    - run: nix build
-    - run: nix build .#container
-    - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
-    - run: nix run nixpkgs#skopeo -- copy docker-archive:./result "docker://ghcr.io/moxie0420/astro-chef"
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - run: nix build .#container
+      - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
+      - run: nix run nixpkgs#skopeo -- copy docker-archive:./result "docker://ghcr.io/moxie0420/astro-chef"

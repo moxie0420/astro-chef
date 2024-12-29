@@ -34,5 +34,6 @@ stdenv.mkDerivation (finalAttrs: {
     cp -r ./db $out
     cp -r ./node_modules $out
     cp -r ./dist $out
+    cp -r ./drizzle $out
   '';
 })
