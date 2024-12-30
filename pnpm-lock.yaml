@@ -92,12 +92,6 @@ importers:
       mime:
         specifier: ^4.0.6
         version: 4.0.6
-      nf-droid-sans-mono:
-        specifier: ^2.1.1
-        version: 2.1.1
-      nf-icons:
-        specifier: ^0.1.0
-        version: 0.1.0
       pg:
         specifier: ^8.13.1
         version: 8.13.1
@@ -3189,12 +3183,6 @@ packages:
   neotraverse@0.6.18:
     resolution: {integrity: sha512-Z4SmBUweYa09+o6pG+eASabEpP6QkQ70yHj351pQoEXIs8uHbaU2DWVmzBANKgflPa47A50PtB2+NgRpQvr7vA==}
     engines: {node: '>= 10'}
-
-  nf-droid-sans-mono@2.1.1:
-    resolution: {integrity: sha512-4uOAnYGnGGVqHAYaSh49TA81OzDtuZXv9Vc8kWSTl3VK+6PwQCNqRT0tt/eb2hetRqfYp2T+4x0LMzX49n3fdg==}
-
-  nf-icons@0.1.0:
-    resolution: {integrity: sha512-yVpZlYXEsLouCGGucfd7x4Dt1Di5nV4Fjs3TtsaT0o280Y/pjHGvVB+4Z9ldKEJGsJKqXK7B6DfmmJPDM1e33g==}
 
   nlcst-to-string@4.0.0:
     resolution: {integrity: sha512-YKLBCcUYKAg0FNlOBT6aI91qFmSiFKiluk655WzPF+DDMA02qIyy8uiRqI8QXtcFpEvll12LpL5MXqEmAZ+dcA==}
@@ -7613,10 +7601,6 @@ snapshots:
   negotiator@0.6.3: {}
 
   neotraverse@0.6.18: {}
-
-  nf-droid-sans-mono@2.1.1: {}
-
-  nf-icons@0.1.0: {}
 
   nlcst-to-string@4.0.0:
     dependencies:
