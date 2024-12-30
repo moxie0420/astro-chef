@@ -58,7 +58,7 @@ const id = () => {
     />
   </head>
 
-  <body class="flex flex-col h-screen">
+  <body class="flex flex-col h-scree bg-base">
     <Header pages={pages} recipeId={id() || recipeId} editing={editing} />
     <slot />
     <Toaster client:load />
@@ -72,10 +72,7 @@ const id = () => {
 
   @layer base {
     * {
-      @apply text-text bg-base;
-    }
-    body {
-      @apply bg-base;
+      @apply text-text;
     }
   }
 </style>

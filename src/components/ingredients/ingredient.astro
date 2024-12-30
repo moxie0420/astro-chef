@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import Button from "@components/generic/button.astro";
+import { Icon } from "astro-icon/components";
 
 import { Units, isMetric } from "@lib/types";
 import { truncate } from "@lib/math";
@@ -49,16 +50,21 @@ const amount = {
         <td>
           <div class="flex-col md:flex-row w-full flex gap-1">
             <Button id="update" style="submit" size="small">
-              
+              <Icon name="material-symbols:add-2-rounded" class="text-lg" />
             </Button>
             <Button id="remove" style="cancel" size="small">
-              󰆴
+              <Icon
+                name="material-symbols:cancel-outline-rounded"
+                class="text-lg"
+              />
             </Button>
           </div>
         </td>
       </>
     ) : (
-      <td class="table-cell px-2 text-left">{` ${isMetric.test(props.unit) ? truncate(amount.whole, 3) : amount.fraction} ${props.unit}${amount.whole > 1 || isMetric.test(props.unit) ? "s" : ""} of ${props.name}`}</td>
+      <td class="table-cell px-2 text-left">
+        {`${isMetric.test(props.unit) ? truncate(amount.whole, 3) : amount.fraction} ${props.unit}${amount.whole > 1 || isMetric.test(props.unit) ? "s" : ""} of ${props.name}`}
+      </td>
     )
   }
 </tr>

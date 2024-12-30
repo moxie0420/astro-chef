@@ -1,6 +1,7 @@
 ---
 import Button from "@components/generic/button.astro";
 import { Units } from "@lib/types";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   recipeId: number;
@@ -44,9 +45,16 @@ const { recipeId } = Astro.props;
   <td>
     <div class="flex flex-col md:flex-row gap-1">
       {/* add button */}
-      <Button id="addbtn" style="submit" size="small"></Button>
+      <Button id="addbtn" style="submit" size="small"
+        ><Icon name="material-symbols:add-2-rounded" class="text-lg" /></Button
+      >
       {/* clear button */}
-      <Button id="clrbtn" style="cancel" size="small">󰜺</Button>
+      <Button id="clrbtn" style="cancel" size="small"
+        ><Icon
+          name="material-symbols:cancel-outline-rounded"
+          class="text-lg"
+        /></Button
+      >
     </div>
   </td>
 </tr>

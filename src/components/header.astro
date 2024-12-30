@@ -1,5 +1,6 @@
 ---
 import { actions } from 'astro:actions';
+import { Icon } from 'astro-icon/components'
 
 import Button from "@components/generic/button.astro";
 import ImageUploader from "./assets/imageUploader.astro";
@@ -46,7 +47,7 @@ if (result && !result.error) {
 
   <div class="flex w-fit md:gap-2">
     <Flyout>
-      <Button slot="button" rounded>󰍜</Button>  
+      <Button slot="button" size='medium' rounded><Icon name="material-symbols:menu" class="text-2xl"/></Button>  
       <Modal>
         <Button rounded extraClasses="w-full" id="creatBtn" slot="button">Upload</Button>
         <div class="flex m-auto relative">
@@ -65,7 +66,7 @@ if (result && !result.error) {
         :
           <Modal>
             <Button rounded extraClasses="w-full" id="creatBtn" slot="button">Create</Button>
-            <div class="flex m-auto bg-overlay p-3 rounded-lg w-full max-w-screen-2xl h-fit relative">
+            <div class="flex m-auto bg-overlay p-3 rounded-lg w-full max-w-md h-fit relative">
               <button id="closeBtn" class="absolute top-0 right-2 font-thin">x</button>
               <form id="createForm" class="mx-auto">
                 <span>Create a Recipe</span>

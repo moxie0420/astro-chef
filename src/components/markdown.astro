@@ -14,14 +14,14 @@ const { body, editing = false, name = "body" } = Astro.props;
   editing ? (
     <div
       is="markdown-component"
-      class="grid grid-cols-2 gap-1 p-1 border rounded-md bg-overlay selection:outline selection:outline-pine max-w-screen-xl mx-auto overflow-scroll h-screen"
+      class="grid grid-row md:grid-cols-2  gap-1 p-1 border rounded-md bg-overlay selection:outline selection:outline-pine max-w-screen-xl mx-auto overflow-scroll h-screen"
     >
       <textarea
         id="text"
         name={name}
-        class="prose border-none resize prose-rosePine bg-inherit border-rosePine-highlightHigh bg-overlay w-full"
+        class="prose resize prose-rosePine bg-inherit border-rosePine-highlightHigh bg-overlay w-full"
         set:text={body}
-      ></textarea>
+      />
       <div
         id="preview"
         class="prose border-none resize prose-rosePine border-rosePine-highlightHigh bg-overlay"

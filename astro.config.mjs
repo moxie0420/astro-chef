@@ -6,8 +6,11 @@ import node from "@astrojs/node";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
 import react from "@astrojs/react";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
+  site: "http://cookbook.local",
   experimental: {
     responsiveImages: true,
   },
@@ -23,7 +26,7 @@ export default defineConfig({
   image: {
     service: sharpImageService(),
   },
-  integrations: [tailwind(), devtoolBreakpoints(), react()],
+  integrations: [tailwind(), devtoolBreakpoints(), react(), icon()],
   output: "server",
   adapter: node({
     mode: "standalone",
