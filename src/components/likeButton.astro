@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface Props {
   liked: boolean;
   recipeId: number;
@@ -16,7 +18,7 @@ const { liked, recipeId } = Astro.props;
     "isolate text-xl lg:text-2xl data-[liked=false]:text-rosePine-base data-[liked=true]:hover:text-rosePine-base data-[liked=true]:text-rosePine-gold data-[liked=false]:hover:text-rosePine-gold",
   ]}
 >
-  {liked ? "" : ""}
+  <Icon name="material-symbols:kid-star-sharp" />
 </button>
 
 <script>
