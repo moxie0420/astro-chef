@@ -20,7 +20,6 @@ dockerTools.buildLayeredImage {
       "-c"
       ''
         cd /
-        cp -r /Images /data
         npx drizzle-kit migrate
         node /dist/server/entry.mjs
       ''

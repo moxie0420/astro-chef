@@ -30,7 +30,6 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out
 
     cp ./drizzle.config.ts $out
-    cp -r ./Images $out
     cp -r ./db $out
     cp -r ./node_modules $out
     cp -r ./dist $out

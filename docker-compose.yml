@@ -1,6 +1,7 @@
 services:
   astro-chef:
     image: "ghcr.io/moxie0420/astro-chef:latest"
+    restart: always
     env_file:
       - .env.prod
     ports:
