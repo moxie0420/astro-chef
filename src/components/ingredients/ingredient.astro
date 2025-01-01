@@ -1,10 +1,11 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import Button from "@components/generic/button.astro";
-import { Icon } from "astro-icon/components";
-
 import { Units, isMetric } from "@lib/types";
 import { truncate } from "@lib/math";
+
+import Button from "@components/generic/button.astro";
+import Add from "src/icons/add.svg";
+import Cancel from "src/icons/cancel.svg";
 
 interface Props extends HTMLAttributes<"tr"> {
   editing: boolean;
@@ -48,15 +49,12 @@ const amount = {
           <input id="name" type="text" class="w-full bg-surface" value={name} />
         </td>
         <td>
-          <div class="flex-col md:flex-row w-full flex gap-1">
+          <div class="flex-col md:flex-row size-full flex gap-1 p-1">
             <Button id="update" style="submit" size="small">
-              <Icon name="material-symbols:add-2-rounded" class="text-lg" />
+              <Add size={24} />
             </Button>
             <Button id="remove" style="cancel" size="small">
-              <Icon
-                name="material-symbols:cancel-outline-rounded"
-                class="text-lg"
-              />
+              <Cancel size={24} />
             </Button>
           </div>
         </td>

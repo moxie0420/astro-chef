@@ -17,7 +17,7 @@ const { recipeId, editing, ingredients, ...attrs } = Astro.props;
 
 <table
   {...attrs}
-  class=" bg-surface m-1 p-2 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto"
+  class=" bg-surface m-1 p-2 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto text-text"
 >
   <thead class="flex w-full items-center">
     <tr class="flex w-full justify-between mx-1">
@@ -31,7 +31,7 @@ const { recipeId, editing, ingredients, ...attrs } = Astro.props;
       }
     </tr>
   </thead>
-  <tbody class="flex flex-col items-center justify-between max-h-screen overflow-scroll">
+  <tbody class="flex flex-col items-center justify-between max-h-screen scroll-auto">
   {
     ingredients?.map((ingredient) => (
       <Ingredient

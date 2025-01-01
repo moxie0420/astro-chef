@@ -34,8 +34,8 @@ export const Recipe = {
   getRecipes: defineAction({
     input: z.object({
       number: z.coerce.number().optional().nullable(),
-      sort: z.enum(["random", "popular", "by-id", "title"]),
-      filter: z.array(z.string()).optional(),
+      sort: z.enum(["random", "popular", "by-id", "title", "views"]),
+      filter: z.array(z.enum(["liked"]).or(z.string())).optional(),
       query: z.string().optional().nullable(),
       page: z.number().optional().default(1),
     }),
@@ -120,5 +120,10 @@ export const Recipe = {
         .where(eq(recipe.id, input.id))
         .returning();
     },
+  }),
+  delete: defineAction({
+    input: z.number(),
+    handler: async (input) =>
+      await db.delete(recipe).where(eq(recipe.id, input)),
   }),
 };

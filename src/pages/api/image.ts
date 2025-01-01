@@ -2,23 +2,21 @@ import type { APIRoute } from "astro";
 import { IMAGE_DIRECTORY } from "astro:env/server";
 import fs from "fs/promises";
 import mime from "mime";
-import sharp from "sharp";
 
-const notfound = async () => {
-  const file = await fs.open(`${IMAGE_DIRECTORY}/No_data.png`);
-  const notFound = await file.readFile();
+import No_Data from "src/icons/no_data.svg?raw";
 
-  file.close();
-
-  const body: BodyInit = await sharp(notFound).unflatten().toBuffer();
-
-  return new Response(body, {
+const notfound = async () =>
+  new Response(No_Data.toString(), {
     status: 200,
     headers: {
-      "Content-Type": "image/webp",
+      "Content-Type": "image/svg+xml",
     },
   });
-};
+
+const handleURL = (url: string) =>
+  fetch(url)
+    .then((res) => res)
+    .catch(() => notfound());
 
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
@@ -31,6 +29,12 @@ export const GET: APIRoute = async ({ request }) => {
   if (!isImage.test(path)) return await notfound();
 
   try {
+    try {
+      new URL(path);
+      return await handleURL(path);
+    } catch {}
+
+    console.log(`opening ${path}`);
     const file = await fs.open(`${IMAGE_DIRECTORY}${path}`);
     const image = await file.readFile();
     file.close();

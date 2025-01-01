@@ -1,16 +1,6 @@
 ---
 import { Image } from "astro:assets";
 
-function isUrl(input: string): boolean {
-  let url;
-  try {
-    url = new URL(input);
-  } catch (_) {
-    return false;
-  }
-  return url.protocol === "http:" || url.protocol === "https:";
-}
-
 interface Props {
   src: string | null;
   alt?: string | null;
@@ -27,7 +17,7 @@ const imageAlt = alt ? alt : "Not found";
 
 <Image
   class:list={["m-auto rounded-sm"]}
-  src={src && isUrl(src) ? src : `/api/image?path=${src}`}
+  src={`/api/image?path=${src}`}
   alt={imageAlt}
   inferSize={true}
   width={size?.width || 1920}

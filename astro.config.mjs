@@ -1,18 +1,17 @@
 import { defineConfig, envField, sharpImageService } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
+
 import node from "@astrojs/node";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
-import react from "@astrojs/react";
-
-import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
   site: "http://cookbook.local",
   experimental: {
     responsiveImages: true,
+    svg: true,
   },
   env: {
     schema: {
@@ -26,7 +25,7 @@ export default defineConfig({
   image: {
     service: sharpImageService(),
   },
-  integrations: [tailwind(), devtoolBreakpoints(), react(), icon()],
+  integrations: [devtoolBreakpoints()],
   output: "server",
   adapter: node({
     mode: "standalone",
@@ -34,9 +33,10 @@ export default defineConfig({
   vite: {
     plugins: [
       visualizer({
-        emitFile: true,
+        emitFile: process.env.ANALYZE === "true",
         filename: "stats.html",
       }),
+      tailwindcss(),
     ],
   },
 });

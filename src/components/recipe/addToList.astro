@@ -30,7 +30,6 @@ const { data } = await Astro.callAction(actions.lists.getLists, {});
 
 <script>
   import { actions } from "astro:actions";
-  import { toast } from "@pheralb/toast";
 
   const listSelector = document.getElementById("lists") as HTMLSelectElement;
   const listAdder = document.getElementById("listAdd") as HTMLButtonElement;
@@ -42,12 +41,12 @@ const { data } = await Astro.callAction(actions.lists.getLists, {});
     console.log(`list id: ${value}`);
 
     if (!value || value === "null") {
-      toast.error({ text: "Please select a list to add" });
+      console.error("Please select a list to add");
       return;
     }
 
     if (!recipeId) {
-      toast.error({ text: "couldent get recipe id, please reload the page" });
+      console.error("couldnt get recipe id, please reload the page");
       return;
     }
 
@@ -55,13 +54,5 @@ const { data } = await Astro.callAction(actions.lists.getLists, {});
       recipeId: parseInt(recipeId),
       listId: parseInt(value),
     });
-
-    if (error)
-      toast.error({
-        text: error.name,
-        description: error.message,
-      });
-
-    toast.success({ text: `Added to ` });
   });
 </script>

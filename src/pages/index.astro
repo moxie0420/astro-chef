@@ -8,21 +8,17 @@ const title = "Astro Chef";
 <MainLayout title={title}>
   <div class="flex flex-col gap-5">
     <!-- TODO: add recipe cards here, ideally on a carousel -->
-    <span class="text-rosePine-text font-bold text-center text-5xl">
-      Random
-    </span>
+    <span class="text-text font-bold text-center text-5xl"> Random </span>
     <Carousel type="random" />
     {
       /*
-      <span class="text-rosePine-text font-bold text-center text-5xl">
+      <span class="text-text font-bold text-center text-5xl">
         Popular
       </span>
       <Carousel type="popular" />
       */
     }
-    <span class="text-rosePine-text font-bold text-center text-5xl">
-      Liked
-    </span>
+    <span class="text-text font-bold text-center text-5xl"> Liked </span>
     <Carousel type="random" filters={["liked"]} />
   </div>
 </MainLayout>

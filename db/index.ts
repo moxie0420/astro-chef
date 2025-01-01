@@ -21,7 +21,7 @@ export function withPagination<T extends PgSelect>(
 
 export function sortBy<T extends PgSelect>(
   qb: T,
-  by: "random" | "popular" | "by-id" | "title",
+  by: "random" | "popular" | "by-id" | "title" | "views",
   type: typeof schema.recipe
 ) {
   switch (by) {
@@ -33,6 +33,8 @@ export function sortBy<T extends PgSelect>(
       return qb.orderBy(sql`random()`);
     case "title":
       return qb.orderBy(type.title);
+    case "views":
+      return qb.orderBy(type.totalViews);
   }
 }
 

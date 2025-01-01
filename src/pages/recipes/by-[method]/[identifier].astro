@@ -19,11 +19,20 @@ if (error?.code) return Astro.redirect("/404?message=" + error?.message);
 else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
 
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
+
+const views = data.totalViews || 0;
+
+Astro.callAction(actions.Recipe.updateRecipe, {
+  id: data.id,
+  totalViews: views + 1,
+});
 ---
 
 <Layout title={data.title || ""} recipeId={data.id}>
   <div class="mx-auto bg-surface w-full max-w-screen-2xl overflow-scroll">
-    <div class="pb-3 text-center font-bold text-xl md:text-4xl lg:text-5xl">
+    <div
+      class="pb-3 text-center font-bold text-xl md:text-4xl lg:text-5xl text-text"
+    >
       {data.title}
     </div>
     <div class="w-5/6 2xl:w-3/5 mx-auto relative">

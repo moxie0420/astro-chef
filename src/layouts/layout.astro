@@ -1,7 +1,8 @@
 ---
+import "@styles/base.css";
+
 import { SEO } from "astro-seo";
 import Header from "@components/header.astro";
-import { Toaster } from "@pheralb/toast";
 
 interface Props {
   title: string;
@@ -61,18 +62,5 @@ const id = () => {
   <body class="flex flex-col h-scree bg-base">
     <Header pages={pages} recipeId={id() || recipeId} editing={editing} />
     <slot />
-    <Toaster client:load />
   </body>
 </html>
-
-<style>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  @layer base {
-    * {
-      @apply text-text;
-    }
-  }
-</style>

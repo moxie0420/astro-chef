@@ -12,6 +12,7 @@ const sortparam = Astro.url.searchParams.get("sortBy") as
   | "by-id"
   | "popular"
   | "random"
+  | "title"
   | null;
 const count = Astro.url.searchParams.get("perPage");
 const search = Astro.url.searchParams.get("search");
@@ -42,14 +43,10 @@ if (!res.data) return Astro.redirect("/404");
   <div class="flex flex-col xl:flex-row w-full">
     <SearchOptions />
     <div>
-      <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
-        {
-          res.data.map((r) => (
-            <div class="flex w-full px-4 mx-auto">
-              <RecipeCard recipe={r} />
-            </div>
-          ))
-        }
+      <div
+        class="grid grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto p-2"
+      >
+        {res.data.map((r) => <RecipeCard recipe={r} />)}
       </div>
       <div class="flex justify-between mx-auto w-full">
         <Button id="prevPage">Prev</Button>

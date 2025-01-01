@@ -16,9 +16,9 @@ else link = "/recipes/by-id/" + recipe.id;
 ---
 
 <div
-  class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-rosePine-highlightMed shadow-rosePine-base bg-rosePine-surface"
+  class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-highlightMed shadow-base bg-surface"
 >
-  <div class="absolute bottom-2 z-10 right-2 size-fit">
+  <div class="absolute bottom-1 z-10 right-1 size-fit">
     <LikeButton liked={recipe.liked || false} recipeId={recipe.id} />
   </div>
 
@@ -26,24 +26,24 @@ else link = "/recipes/by-id/" + recipe.id;
     <Image src={recipe.image || "/No_data.png"} />
 
     <div class="mx-2">
-      <div class="pb-1 text-xs font-bold md:text-xl text-rosePine-text">
+      <div class="pb-1 text-xs font-bold md:text-xl text-text">
         {recipe.title}
       </div>
-      <p class="py-1 text-xs text-rosePine-text">
+      <p class="py-1 text-xs text-text">
         {recipe.description || "No recipe Description yet"}
       </p>
     </div>
 
     <div
-      class="px-1 py-1 mx-1 text-xs font-semibold rounded-md bg-rosePine-highlightHigh text-rosePine-text text-nowrap"
+      class="px-1 py-1 mx-1 text-xs font-semibold rounded-md bg-highlightHigh text-text text-nowrap"
     >
-      <p>Time to Prep: {recipe.prepTime || "Not set yet"}</p>
+      <p>Prep time: {recipe.prepTime || "Not set yet"}</p>
 
-      <p>Time to Cook: {recipe.cookTime || "Not set yet"}</p>
+      <p>Cook time: {recipe.cookTime || "Not set yet"}</p>
     </div>
 
     <div
-      class="px-1 py-1 m-1 text-xs font-semibold rounded-md bg-rosePine-highlightHigh text-rosePine-text"
+      class="px-1 py-1 m-1 text-xs font-semibold rounded-md bg-highlightHigh text-text"
     >
       <p>Created: {recipe.created?.toLocaleDateString()}</p>
       <p>Edited: {recipe.edited?.toLocaleDateString()}</p>

@@ -1,14 +1,14 @@
 ---
 import { actions } from 'astro:actions';
-import { Icon } from 'astro-icon/components'
 
 import Button from "@components/generic/button.astro";
 import ImageUploader from "./assets/imageUploader.astro";
 import Flyout from "./generic/flyout.astro";
 import Modal from "./generic/modal.astro";
+import Menu from "src/icons/menu.svg"
 import Input from './generic/input.astro';
 
-const regex = /^\/recipes*/;
+const regex = /^\/recipes\//;
 
 interface Props {
   pages: {
@@ -27,8 +27,9 @@ if (result && !result.error) {
 ---
 
 <site-nav
+  data-recipe={recipeId}
   data-editing={editing}
-  class="sticky top-0 z-20 flex justify-between w-full p-1 font-extrabold rounded-md shadow-lg md:text-3xl bg-rosePine-surface border-rosePine-highlightHigh text-rosePine-text"
+  class="sticky top-0 z-20 flex justify-between w-full p-1 font-extrabold rounded-md shadow-lg md:text-3xl bg-surface border-highlightHigh text-text"
 >
   <div id="links" class="flex gap-1">
     {
@@ -47,7 +48,7 @@ if (result && !result.error) {
 
   <div class="flex w-fit md:gap-2">
     <Flyout>
-      <Button slot="button" size='medium' rounded><Icon name="material-symbols:menu" class="text-2xl"/></Button>  
+      <Button slot="button" size='medium' rounded><Menu/></Button>  
       <Modal>
         <Button rounded extraClasses="w-full" id="creatBtn" slot="button">Upload</Button>
         <div class="flex m-auto relative">
@@ -57,7 +58,7 @@ if (result && !result.error) {
       </Modal>
       {
         editing ?    
-          <Button rounded extraClasses="w-full">
+          <Button rounded extraClasses="w-full" id="deletebtn">
             Delete
           </Button>
           <Button rounded extraClasses="w-full" destination={`/recipes/by-id/${recipeId}`} id="saveBtn">
@@ -103,13 +104,16 @@ if (result && !result.error) {
 </script>
 
 <script>
+  import { actions } from "astro:actions";
   import { navigate } from "astro:transitions/client";
 
   class SiteNav extends HTMLElement {
     connectedCallback() {
       const regex = /^\/recipes*/;
 
+      const recipeId = parseInt(this.dataset.recipe!);
       const editing = this.dataset.editing === "true"
+
       const links = this.querySelectorAll(
         "button[id=link-btn]"
       ) as NodeListOf<HTMLButtonElement>;
@@ -131,6 +135,10 @@ if (result && !result.error) {
           navigate(link.value);
         };
       });
+
+      document.getElementById("deletebtn")!.onclick = () => {
+        actions.Recipe.delete(recipeId)
+      }
     }
   }
   customElements.define("site-nav", SiteNav);

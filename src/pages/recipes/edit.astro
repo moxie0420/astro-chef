@@ -26,16 +26,16 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 <Layout title={data.title} editing={true}>
   <editor-element
     data-recipe={id}
-    class="w-full md:w-5/6 bg-surface mx-auto h-screen"
+    class="w-full md:w-5/6 bg-surface mx-auto text-text"
   >
-    <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-4xl">
+    <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-2xl">
       <input
         id="recipeTitle"
         slot="title"
         name="title"
         form="editor"
         type="text"
-        class="w-full bg-rosePine-surface col-span-2"
+        class="w-full bg-surface col-span-2 md:text-3xl font-bold"
         placeholder="Recipe Title"
         value={data.title}
       />
@@ -49,7 +49,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
         name="imageAlt"
         form="editor"
         type="text"
-        class="bg-rosePine-surface"
+        class="bg-surface"
         placeholder="Image alt text"
         value={data.imageAlt}
       />
@@ -58,7 +58,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
         name="image"
         form="editor"
         type="text"
-        class="bg-rosePine-surface"
+        class="bg-surface"
         placeholder="Image Source"
         value={data.image}
       />
@@ -73,7 +73,10 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
     </div>
 
     <div class="flex flex-col xl:flex-row gap-2 h-fit">
-      <AvailibleImages />
+      <div class="max-w-sm p-2 mx-auto">
+        <AvailibleImages />
+      </div>
+
       <div class="w-full">
         <Markdown body={data.body} editing={true} />
       </div>
@@ -83,7 +86,6 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
 <script>
   import { actions } from "astro:actions";
-  import { toast } from "@pheralb/toast";
 
   const event = new Event("save-data", {
     bubbles: false,
@@ -92,37 +94,44 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
   });
 
   class Editor extends HTMLElement {
-    connectedCallback() {
-      const editor = this.querySelector("textarea");
-      const imageAlt = this.querySelector("#imageAlt") as HTMLInputElement;
-      const image = this.querySelector("#imagePath") as HTMLInputElement;
-      const title = this.querySelector("#recipeTitle") as HTMLInputElement;
+    recipe = parseInt(this.dataset.recipe!);
+    editor = this.querySelector("textarea");
+    imageAlt = this.querySelector("#imageAlt") as HTMLInputElement;
+    image = this.querySelector("#imagePath") as HTMLInputElement;
+    recipeTitle = this.querySelector("#recipeTitle") as HTMLInputElement;
+    ingredients = this.querySelector("tbody");
 
-      const ingredients = this.querySelector("tbody");
-
-      const id = this.dataset.recipe;
-      if (!id) return;
-
-      const recipe = parseInt(id);
-      setInterval(async () => {
-        if (ingredients) {
-          ingredients.childNodes.forEach((child) => {
-            child.dispatchEvent(event);
-          });
-        }
-
-        const { error, data } = await actions.Recipe.updateRecipe({
-          id: recipe,
-          body: editor?.value,
-          image: image?.value,
-          imageAlt: imageAlt?.value,
-          title: title?.value,
+    save() {
+      if (this.ingredients) {
+        this.ingredients.childNodes.forEach((child) => {
+          child.dispatchEvent(event);
         });
+      }
 
-        if (error)
-          toast.error({ text: error.name, description: error.message });
+      actions.Recipe.updateRecipe({
+        id: this.recipe,
+        body: this.editor?.value,
+        image: this.image?.value,
+        imageAlt: this.imageAlt?.value,
+        title: this.recipeTitle?.value,
+      }).then(({ error, data }) => {
+        if (error) console.error(error.message);
         if (data) console.log("saved");
-      }, 15000);
+      });
+    }
+
+    constructor() {
+      super();
+
+      setInterval(async () => this.save(), 15000);
+
+      document.onkeyup = (e) => {
+        e.preventDefault();
+        if (e.ctrlKey && e.key == "s") {
+          this.save();
+          location.reload();
+        }
+      };
     }
   }
   customElements.define("editor-element", Editor);

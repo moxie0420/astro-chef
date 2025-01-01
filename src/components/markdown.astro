@@ -19,49 +19,52 @@ const { body, editing = false, name = "body" } = Astro.props;
       <textarea
         id="text"
         name={name}
-        class="prose resize prose-rosePine bg-inherit border-rosePine-highlightHigh bg-overlay w-full"
+        class="prose resize prose-rosePine border-highlightHigh bg-overlay w-full"
         set:text={body}
       />
       <div
         id="preview"
-        class="prose border-none resize prose-rosePine border-rosePine-highlightHigh bg-overlay"
+        class="prose border-none resize prose-rosePine border-highlightHigh bg-overlay"
       />
     </div>
   ) : (
     <article
       set:html={await genMd(body || "")}
-      class="p-2 pt-10 mx-auto prose-sm prose text-center md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2"
+      class="p-2 pt-10 mx-auto prose-sm prose text-center md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2 text-text"
     />
   )
 }
 
 <script>
-  import { marked, type RendererObject } from "marked";
-  import DOMPurify from "dompurify";
+  import { Marked, type RendererObject } from "marked";
 
   class Markdown extends HTMLElement {
+    input = this.querySelector("textarea") as HTMLTextAreaElement;
+    preview = this.querySelector("#preview") as HTMLElement;
+
     renderer: RendererObject = {
       image({ href, text }) {
         return `<img src="/api/image?path=${href}" alt="${text}" />`;
       },
     };
 
-    async genCleanHtml(md: string) {
-      return DOMPurify.sanitize(await marked.parse(md));
-    }
-    async connectedCallback() {
-      const input = this.querySelector("#text") as HTMLTextAreaElement;
-      const preview = this.querySelector("#preview");
+    genCleanHtml = async (md: string) => await this.marked.parse(md);
 
-      marked.use({ renderer: this.renderer, async: true, gfm: true });
+    marked: Marked;
 
-      if (preview && input) {
-        preview.innerHTML = await this.genCleanHtml(input.value);
+    constructor() {
+      super();
+      this.marked = new Marked({ renderer: this.renderer, async: true });
 
-        input.addEventListener("change", async () => {
-          preview.innerHTML = await this.genCleanHtml(input.value);
-        });
-      }
+      if (!this.preview || !this.input) return;
+      this.genCleanHtml(this.input.value).then(
+        (res) => (this.preview.innerHTML = res)
+      );
+
+      this.input.addEventListener("change", async () => {
+        if (this.preview && this.input)
+          this.preview.innerHTML = await this.genCleanHtml(this.input.value);
+      });
     }
   }
 
