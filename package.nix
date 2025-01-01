@@ -15,7 +15,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   pnpmDeps = pnpm.fetchDeps {
     inherit (finalAttrs) pname version src;
-    hash = "sha256-atb487T1rJMcuyF/QAubRMoceogQSkwV5F/Fn/eu1U4=";
+    hash = "";
   };
 
   ASTRO_TELEMETRY_DISABLED = 1;
