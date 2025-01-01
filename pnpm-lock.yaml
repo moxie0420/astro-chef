@@ -59,6 +59,9 @@ importers:
       isomorphic-dompurify:
         specifier: ^2.19.0
         version: 2.19.0
+      lightningcss:
+        specifier: ^1.28.2
+        version: 1.28.2
       marked:
         specifier: ^15.0.4
         version: 15.0.4
