@@ -61,7 +61,7 @@ const amount = {
         </td>
       </>
     ) : (
-      <td class="table-cell px-2 text-left">
+      <td class="px-2">
         {`${isMetric.test(props.unit) ? truncate(amount.whole, 3) : amount.fraction} ${props.unit}${props.unit !== "" ? (amount.whole > 1 || isMetric.test(props.unit) ? "s" : "") : ""} ${props.unit !== "" ? "of" : ""} ${props.name}`}
       </td>
     )

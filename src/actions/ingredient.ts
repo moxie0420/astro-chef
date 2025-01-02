@@ -14,7 +14,8 @@ export const ingredient = {
       const ingredient = await db
         .select()
         .from(ingredients)
-        .where(eq(ingredients.recipeId, input.recipeId));
+        .where(eq(ingredients.recipeId, input.recipeId))
+        .orderBy(ingredients.name);
       if (!ingredient)
         throw new ActionError({
           code: "NOT_FOUND",
