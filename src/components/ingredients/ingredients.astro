@@ -17,7 +17,7 @@ const { recipeId, editing, ingredients, ...attrs } = Astro.props;
 
 <table
   {...attrs}
-  class=" bg-surface m-1 p-2 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto text-text"
+  class=" bg-overlay m-1 p-4 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto text-text rounded-lg"
 >
   <thead class="flex w-full items-center">
     <tr class="flex w-full justify-between mx-1">
@@ -27,7 +27,7 @@ const { recipeId, editing, ingredients, ...attrs } = Astro.props;
           <th >Unit</th>
           <th >Name</th>
           <th>Actions</th>
-        ) : <th>Ingredients</th>
+        ) : <th class="mx-auto underline">Ingredients</th>
       }
     </tr>
   </thead>

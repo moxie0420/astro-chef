@@ -30,7 +30,7 @@ const { body, editing = false, name = "body" } = Astro.props;
   ) : (
     <article
       set:html={await genMd(body || "")}
-      class="p-2 pt-10 mx-auto prose-sm prose text-center md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2 text-text"
+      class="p-2 pt-10 mx-auto prose-sm prose text-justify flex flex-col md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2 text-text text-pretty"
     />
   )
 }
@@ -61,7 +61,7 @@ const { body, editing = false, name = "body" } = Astro.props;
         (res) => (this.preview.innerHTML = res)
       );
 
-      this.input.addEventListener("change", async () => {
+      this.input.addEventListener("input", async () => {
         if (this.preview && this.input)
           this.preview.innerHTML = await this.genCleanHtml(this.input.value);
       });
