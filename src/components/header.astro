@@ -8,6 +8,8 @@ import Modal from "./generic/modal.astro";
 import Menu from "src/icons/menu.svg"
 import Input from './generic/input.astro';
 
+import HeaderLinks from "./headerLinks";
+
 const regex = /^\/recipes\//;
 
 interface Props {
@@ -31,20 +33,7 @@ if (result && !result.error) {
   data-editing={editing}
   class="sticky top-0 z-20 flex justify-between w-full p-1 font-extrabold rounded-md shadow-lg md:text-3xl bg-surface border-highlightHigh text-text"
 >
-  <div id="links" class="flex gap-1">
-    {
-      pages?.map((page) => (
-        <button
-          id="link-btn"
-          type="button"
-          value={page.path}
-          class="p-1 transition ease-in-out rounded-lg"
-        >
-          {page.name}
-        </button>
-      ))
-    }
-  </div>
+  <HeaderLinks pages={pages} editing={editing || false} client:only transition:persist />
 
   <div class="flex w-fit md:gap-2">
     <Flyout>
@@ -105,40 +94,15 @@ if (result && !result.error) {
 
 <script>
   import { actions } from "astro:actions";
-  import { navigate } from "astro:transitions/client";
 
   class SiteNav extends HTMLElement {
     connectedCallback() {
-      const regex = /^\/recipes*/;
-
       const recipeId = parseInt(this.dataset.recipe!);
-      const editing = this.dataset.editing === "true"
 
-      const links = this.querySelectorAll(
-        "button[id=link-btn]"
-      ) as NodeListOf<HTMLButtonElement>;
-
-        
-
-      links.forEach((link) => {
-        if (link.value === location.pathname) link.classList.add("bg-pine");
-
-        if (link.value === "/recipes"){
-          if (regex.test(location.pathname) && !editing)link.classList.add("bg-pine");
-          else if (regex.test(location.pathname) && editing) link.classList.add("bg-love")
-        } 
-        
-
-        link.onclick = () => {
-          link.classList.remove("bg-pine");
-          link.classList.remove("bg-love");
-          navigate(link.value);
-        };
-      });
-
-      document.getElementById("deletebtn")!.onclick = () => {
+      const deletebtn = document.getElementById("deletebtn")
+      deletebtn?.addEventListener("click",() => {
         actions.Recipe.delete(recipeId)
-      }
+      })
     }
   }
   customElements.define("site-nav", SiteNav);

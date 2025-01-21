@@ -2,16 +2,30 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@db/*": ["db/*"],
-      "@public/*": ["public/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@components/*": ["src/components/*"],
-      "@lib/*": ["src/lib/*"],
-      "@assets/*": ["src/assets/*"],
-      "@styles/*": ["src/css/*"]
+      "@db/*": [
+        "db/*"
+      ],
+      "@public/*": [
+        "public/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@styles/*": [
+        "src/css/*"
+      ]
     },
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   },
   "extends": "astro/tsconfigs/strict"
 }

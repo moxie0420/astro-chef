@@ -1,10 +1,13 @@
-import { defineConfig, envField, sharpImageService } from "astro/config";
+import { defineConfig, envField } from "astro/config";
+import { VitePWA } from "vite-plugin-pwa";
 import { visualizer } from "rollup-plugin-visualizer";
 
 import tailwindcss from "@tailwindcss/vite";
 
 import node from "@astrojs/node";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
+
+import solidJs from "@astrojs/solid-js";
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,10 +25,7 @@ export default defineConfig({
       }),
     },
   },
-  image: {
-    service: sharpImageService(),
-  },
-  integrations: [devtoolBreakpoints()],
+  integrations: [devtoolBreakpoints(), solidJs({ devtools: true })],
   output: "server",
   adapter: node({
     mode: "standalone",
@@ -37,6 +37,7 @@ export default defineConfig({
         filename: "stats.html",
       }),
       tailwindcss(),
+      VitePWA({ registerType: "autoUpdate" }),
     ],
   },
 });

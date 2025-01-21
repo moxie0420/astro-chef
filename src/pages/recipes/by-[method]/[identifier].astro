@@ -2,9 +2,9 @@
 import { actions } from "astro:actions";
 
 import DefaultImage from "@components/assets/defaultImage.astro";
-import IngredientHolder from "@components/ingredients/ingredients.astro";
+import IngredientHolder from "@components/ingredients/ingredients";
 import Layout from "@layouts/layout.astro";
-import Markdown from "@components/markdown.astro";
+import Markdown from "@components/markdown";
 // import { recipe } from "@db/schema";
 // import AddToList from "@components/recipe/addToList.astro";
 
@@ -43,13 +43,9 @@ Astro.callAction(actions.Recipe.updateRecipe, {
     </div>
 
     <div class="mx-auto">
-      <IngredientHolder
-        recipeId={data.id}
-        editing={false}
-        ingredients={data.ingredients}
-      />
+      <IngredientHolder recipeId={data.id} editing={false} client:only />
     </div>
 
-    <Markdown body={data.body} editing={false} />
+    <Markdown body={data.body || ""} editing={false} recipeId={data.id} />
   </div>
 </Layout>

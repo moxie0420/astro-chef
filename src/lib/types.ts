@@ -14,6 +14,7 @@ const Units = [
 ];
 
 type unit =
+  | ""
   | "teaspoon"
   | "tablespoon"
   | "cup"

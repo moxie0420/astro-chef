@@ -2,7 +2,7 @@ import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 import { db } from "@db/index";
-import { ingredients } from "@db/schema";
+import { ingredients, recipe } from "@db/schema";
 import { eq } from "drizzle-orm";
 
 export const ingredient = {
@@ -11,24 +11,23 @@ export const ingredient = {
       recipeId: z.number(),
     }),
     handler: async (input) => {
-      const ingredient = await db
-        .select()
-        .from(ingredients)
-        .where(eq(ingredients.recipeId, input.recipeId))
-        .orderBy(ingredients.name);
-      if (!ingredient)
+      const ingredientList = await db.query.ingredients.findMany({
+        where: eq(ingredients.recipeId, input.recipeId),
+        orderBy: ingredients.name,
+      });
+      if (!ingredientList)
         throw new ActionError({
           code: "NOT_FOUND",
           message: "No ingredients found for recipe " + input.recipeId,
         });
 
-      if (ingredient.length === 0)
+      if (ingredientList.length === 0)
         throw new ActionError({
           code: "NOT_FOUND",
           message: "No ingredients found for recipe " + input.recipeId,
         });
 
-      return ingredients;
+      return ingredientList;
     },
   }),
   addIngredient: defineAction({

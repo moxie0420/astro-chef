@@ -3,8 +3,8 @@ import { actions } from "astro:actions";
 
 import DefaultImage from "@components/assets/defaultImage.astro";
 import Layout from "@layouts/layout.astro";
-import Ingredients from "@components/ingredients/ingredients.astro";
-import Markdown from "@components/markdown.astro";
+import Ingredients from "@components/ingredients/ingredients";
+import Markdown from "@components/markdown";
 import AvailibleImages from "@components/assets/availibleImages.astro";
 
 const params = Astro.url.searchParams;
@@ -65,11 +65,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
     </div>
 
     <div class="w-fit mx-auto">
-      <Ingredients
-        recipeId={data.id}
-        ingredients={data.ingredients}
-        editing={true}
-      />
+      <Ingredients recipeId={data.id} editing={true} client:only />
     </div>
 
     <div class="flex flex-col xl:flex-row gap-2 h-fit">
@@ -78,7 +74,12 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
       </div>
 
       <div class="w-full">
-        <Markdown body={data.body} editing={true} />
+        <Markdown
+          body={data.body || ""}
+          editing={true}
+          recipeId={data.id}
+          client:load
+        />
       </div>
     </div>
   </editor-element>
@@ -122,16 +123,6 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
     constructor() {
       super();
-
-      setInterval(async () => this.save(), 15000);
-
-      document.onkeyup = (e) => {
-        e.preventDefault();
-        if (e.ctrlKey && e.key == "s") {
-          this.save();
-          location.reload();
-        }
-      };
     }
   }
   customElements.define("editor-element", Editor);

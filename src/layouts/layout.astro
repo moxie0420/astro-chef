@@ -1,6 +1,7 @@
 ---
 import "@styles/base.css";
 
+import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
 import Header from "@components/header.astro";
 
@@ -28,7 +29,7 @@ const pages = [
     path: "/lists",
   }, */
   {
-    name: "random",
+    name: "Random",
     path: "/recipes/random",
   },
 ];
@@ -57,6 +58,7 @@ const id = () => {
         ],
       }}
     />
+    <ClientRouter />
   </head>
 
   <body class="flex flex-col h-screen bg-base">
