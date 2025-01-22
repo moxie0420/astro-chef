@@ -2,30 +2,17 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@db/*": [
-        "db/*"
-      ],
-      "@public/*": [
-        "public/*"
-      ],
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@lib/*": [
-        "src/lib/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@styles/*": [
-        "src/css/*"
-      ]
+      "@db/*": ["db/*"],
+      "@public/*": ["public/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@components/*": ["src/components/*"],
+      "@lib/*": ["src/lib/*"],
+      "@assets/*": ["src/assets/*"],
+      "@styles/*": ["src/css/*"]
     },
     "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "jsxImportSource": "solid-js",
+    "types": ["vite-plugin-solid-svg/types"]
   },
   "extends": "astro/tsconfigs/strict"
 }

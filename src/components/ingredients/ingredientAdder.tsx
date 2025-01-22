@@ -3,17 +3,17 @@ import Fraction from "fraction.js";
 import { createSignal, type Component, type JSX, type Setter } from "solid-js";
 import { type unit, Units } from "@lib/types";
 
-import Add from "src/icons/add.svg?inline";
-import Cancel from "src/icons/cancel.svg?inline";
+import Add from "src/icons/add.svg?component-solid";
 import { actions } from "astro:actions";
 
-const IngredientAdder = (props: any) => {
+const IngredientAdder: Component<{
+  recipeId: number;
+}> = (props: any) => {
   const recipeId = () => props.recipeId;
-  const editing = () => props.editing;
 
   const [name, setName] = createSignal("");
   const [amount, setAmount] = createSignal("");
-  const [unit, setUnit] = createSignal<unit>("");
+  const [unit, setUnit] = createSignal<unit>("none");
 
   const addIngredient = async () => {
     const val = new Fraction(amount());
@@ -37,10 +37,10 @@ const IngredientAdder = (props: any) => {
     setUnit(event.currentTarget.value as unit);
 
   return (
-    <tfoot class="flex flex-col items-center justify-between">
+    <tfoot>
       <tr class="flex h-full">
         {/* amount */}
-        <td>
+        <td class="basis-1/3">
           <input
             type="text"
             class="bg-surface w-full"
@@ -50,7 +50,7 @@ const IngredientAdder = (props: any) => {
         </td>
 
         {/* unit */}
-        <td>
+        <td class="basis-1/3">
           <select
             name="unit"
             id="unit"
@@ -67,7 +67,7 @@ const IngredientAdder = (props: any) => {
         </td>
 
         {/* name */}
-        <td>
+        <td class="basis-1/3">
           <input
             type="text"
             class="bg-surface text-text w-full"
@@ -78,16 +78,13 @@ const IngredientAdder = (props: any) => {
         </td>
 
         <td>
-          <div class="flex flex-col gap-1 h-full m-1 my-auto">
-            {/* add button */}
-            <button id="addbtn" style="submit">
-              <img src={Add} width={20} />
-            </button>
-            {/* clear button */}
-            <button id="clrbtn" style="cancel">
-              <img src={Cancel} width={20} />
-            </button>
-          </div>
+          <button style="submit">
+            <Add
+              width={20}
+              class="text-pine m-1 rounded-full bg-highlightMed"
+              onClick={addIngredient}
+            />
+          </button>
         </td>
       </tr>
     </tfoot>

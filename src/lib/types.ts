@@ -1,4 +1,4 @@
-const Units = [
+const Units: unit[] = [
   "teaspoon",
   "tablespoon",
   "cup",
@@ -14,7 +14,7 @@ const Units = [
 ];
 
 type unit =
-  | ""
+  | "none"
   | "teaspoon"
   | "tablespoon"
   | "cup"

@@ -8,6 +8,7 @@ import node from "@astrojs/node";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
 
 import solidJs from "@astrojs/solid-js";
+import solidSvg from "vite-plugin-solid-svg";
 
 // https://astro.build/config
 export default defineConfig({
@@ -38,6 +39,7 @@ export default defineConfig({
       }),
       tailwindcss(),
       VitePWA({ registerType: "autoUpdate" }),
+      solidSvg({ defaultAsComponent: false }),
     ],
   },
 });

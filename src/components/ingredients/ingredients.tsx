@@ -1,11 +1,10 @@
-import { createResource, type Component, Show, For, onMount } from "solid-js";
+import { createResource, type Component, Show, For, onCleanup } from "solid-js";
 import { isServer } from "solid-js/web";
-import { actions, getActionPath } from "astro:actions";
-import { Units, isMetric, type unit } from "@lib/types";
+import { actions } from "astro:actions";
+import { isMetric } from "@lib/types";
 import { truncate } from "@lib/math";
 
-import Cancel from "src/icons/cancel.svg?inline";
-
+import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
 
 const fetchIngredients = async (id: number) => {
@@ -17,35 +16,32 @@ const fetchIngredients = async (id: number) => {
   }
 };
 
-const Ingredients = (props: any) => {
-  const editing = () => props.editing as boolean;
-  const recipeId = () => props.recipeId as number;
+const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
+  props: any
+) => {
+  const editing = () => props.editing;
+  const recipeId = () => props.recipeId;
 
   const [ingredients, { refetch }] = createResource(recipeId, fetchIngredients);
-
-  const removeIngredient = async (id: number) => {
-    await actions.ingredient.removeIngredient({ ingredientId: id });
-    refetch();
-  };
 
   return (
     <table class="bg-overlay m-1 p-4 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto text-text rounded-lg">
       <thead class="flex w-full">
-        <tr class="justify-around text-left flex w-full mx-1">
+        <tr class=" flex w-full mx-1 text-left">
           <Show
             when={editing()}
             fallback={<th class="mx-auto underline">Ingredients</th>}
           >
-            <th>Amount</th>
-            <th>Unit</th>
-            <th>Name</th>
+            <th class="basis-1/3">Amount</th>
+            <th class="basis-1/3">Unit</th>
+            <th class="basis-1/3">Name</th>
           </Show>
         </tr>
       </thead>
-      <tbody class="flex flex-col items-center justify-between max-h-screen scroll-auto">
+      <tbody class="max-h-screen scroll-auto">
         <For each={ingredients()}>
           {(ingredient) => (
-            <tr class="w-full">
+            <tr class="w-full flex flex-row">
               <Show
                 when={editing()}
                 fallback={
@@ -54,54 +50,14 @@ const Ingredients = (props: any) => {
                   </td>
                 }
               >
-                <>
-                  <td>
-                    <input
-                      id="amount"
-                      type="text"
-                      class="w-full bg-surface"
-                      value={ingredient.whole}
-                    />
-                  </td>
-                  <td>
-                    <select id="unit" class="w-full bg-surface">
-                      <For each={Units}>
-                        {(unit) => (
-                          <option
-                            value={unit}
-                            selected={ingredient.unit === unit}
-                          >
-                            {unit}
-                          </option>
-                        )}
-                      </For>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      id="name"
-                      type="text"
-                      class="w-full bg-surface"
-                      value={ingredient.name}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      style="cancel"
-                      onClick={[removeIngredient, ingredient.id]}
-                      class="m-1"
-                    >
-                      <img src={Cancel} width={20} />
-                    </button>
-                  </td>
-                </>
+                <Ingredient ingredient={ingredient} />
               </Show>
             </tr>
           )}
         </For>
       </tbody>
       <Show when={editing()}>
-        <IngredientAdder editing={true} recipeId={recipeId()} />
+        <IngredientAdder recipeId={recipeId()} />
       </Show>
     </table>
   );
