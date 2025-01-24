@@ -50,7 +50,7 @@ const { data } = await Astro.callAction(actions.lists.getLists, {});
       return;
     }
 
-    const { error } = await actions.lists.addRecipeToList({
+    await actions.lists.addRecipeToList({
       recipeId: parseInt(recipeId),
       listId: parseInt(value),
     });

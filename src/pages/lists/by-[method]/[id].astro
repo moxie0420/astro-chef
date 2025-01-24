@@ -3,7 +3,7 @@ import { actions } from "astro:actions";
 
 import DefaultImage from "@components/assets/defaultImage.astro";
 import Layout from "@layouts/layout.astro";
-import Markdown from "@components/markdown.astro";
+// import Markdown from "@components/markdown";
 // import RecipeCard from "@components/recipe/recipeCard.astro";
 
 const { method, id } = Astro.params;
@@ -53,7 +53,6 @@ const list = await Astro.callAction(actions.lists.getList.orThrow, {
           }
         </div>
       </div>
-      <Markdown body={list?.description || ""} editing={editing} />
     </div>
     <div
       class="bg-overlay mx-auto grid grid-cols-2 gap-1 overflow-y-scroll scroll-smooth rounded-lg p-2 px-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5"

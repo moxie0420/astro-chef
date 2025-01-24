@@ -22,7 +22,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
 
-  const [ingredients, { refetch }] = createResource(recipeId, fetchIngredients);
+  const [ingredients] = createResource(recipeId, fetchIngredients);
 
   return (
     <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">

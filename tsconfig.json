@@ -15,11 +15,11 @@
     "types": [
       "vite-plugin-solid-svg/types",
       "vite-plugin-pwa/client",
-      "vite-plugin-pwa/info"
+      "vite-plugin-pwa/info",
+      "vite-plugin-pwa/pwa-assets"
     ]
   },
-  "watchOptions": {
-    "excludeDirectories": ["/node_modules"]
-  },
-  "extends": "astro/tsconfigs/strict"
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules"]
 }

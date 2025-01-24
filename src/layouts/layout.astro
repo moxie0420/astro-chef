@@ -5,6 +5,7 @@ import { ClientRouter } from "astro:transitions";
 import { pwaInfo } from "virtual:pwa-info";
 import { SEO } from "astro-seo";
 import Header from "@components/header.astro";
+import { pwaAssetsHead } from "virtual:pwa-assets/head";
 
 interface Props {
   title: string;
@@ -49,7 +50,6 @@ const id = () => {
       title={title}
       description={description ?? "No description made yet"}
       extend={{
-        link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
         meta: [
           {
             name: "viewport",
@@ -61,6 +61,12 @@ const id = () => {
     />
     <ClientRouter />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+    {
+      pwaAssetsHead.themeColor && (
+        <meta name="theme-color" content={pwaAssetsHead.themeColor.content} />
+      )
+    }
+    {pwaAssetsHead.links.map((link) => <link {...link} />)}
   </head>
 
   <body class="bg-base flex h-screen flex-col">

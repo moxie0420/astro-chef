@@ -43,10 +43,7 @@ export default defineConfig({
   }),
   vite: {
     plugins: [
-      visualizer({
-        emitFile: process.env.ANALYZE === "true",
-        filename: "stats.html",
-      }),
+      visualizer(),
       tailwindcss(),
       solidSvg({ defaultAsComponent: false }),
     ],
