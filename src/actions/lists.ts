@@ -2,7 +2,7 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 import { db } from "@db/index";
-import { recipe, list } from "@db/schema";
+import { list, recipe } from "@db/schema";
 import { eq, inArray } from "drizzle-orm";
 
 export const lists = {

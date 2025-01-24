@@ -14,13 +14,13 @@ matches.forEach((path) => {
 ---
 
 <availible-images
-  class="grid grid-rows-2 grid-flow-col xl:grid-flow-row max-h-screen bg-base p-2 gap-1 h-full overflow-scroll w-full max-w-screen-sm m-auto rounded-lg"
+  class="bg-base m-auto grid h-full max-h-screen w-full max-w-screen-sm grid-flow-col grid-rows-2 gap-1 overflow-scroll rounded-lg p-2 xl:grid-flow-row"
 >
   {
     matches.map((path) => (
-      <div class="w-full max-w-sm bg-overlay rounded-lg p-2 flex flex-col gap-2">
+      <div class="bg-overlay flex w-full max-w-sm flex-col gap-2 rounded-lg p-2">
         <DefaultImage src={`/${path}`} />
-        <p class="mx-auto bg-subtle text-foam rounded-lg px-2">{`/${path}`}</p>
+        <p class="bg-subtle text-foam mx-auto rounded-lg px-2">{`/${path}`}</p>
       </div>
     ))
   }

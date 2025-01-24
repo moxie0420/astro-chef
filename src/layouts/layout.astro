@@ -63,7 +63,7 @@ const id = () => {
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
   </head>
 
-  <body class="flex flex-col h-screen bg-base">
+  <body class="bg-base flex h-screen flex-col">
     <Header
       pages={pages}
       recipeId={id() || recipeId}

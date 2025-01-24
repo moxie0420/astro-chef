@@ -46,7 +46,7 @@
           ];
           languages.javascript = {
             enable = true;
-            package = pkgs.nodejs-slim_latest;
+            package = pkgs.nodejs_latest;
             pnpm = {
               enable = true;
               package = pkgs.pnpm;

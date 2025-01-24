@@ -44,6 +44,7 @@
     "@vite-pwa/astro": "^0.5.0",
     "prettier": "3.4.1",
     "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rollup-plugin-visualizer": "^5.14.0",
     "solid-devtools": "^0.33.0",

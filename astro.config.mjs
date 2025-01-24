@@ -1,5 +1,5 @@
-import { defineConfig, envField } from "astro/config";
 import AstroPWA from "@vite-pwa/astro";
+import { defineConfig, envField } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 
 import tailwindcss from "@tailwindcss/vite";

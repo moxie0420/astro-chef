@@ -1,10 +1,10 @@
-import { type Component, createSignal, Show, type JSX } from "solid-js";
+import { createSignal, Show, type Component, type JSX } from "solid-js";
 import { isServer } from "solid-js/web";
 
-import { marked, type RendererObject } from "marked";
-import DOMPurify from "isomorphic-dompurify";
-import Purify from "dompurify";
 import { actions } from "astro:actions";
+import Purify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
+import { marked, type RendererObject } from "marked";
 
 const renderer: RendererObject = {
   image({ href, text }) {

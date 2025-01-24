@@ -16,9 +16,9 @@ else link = "/recipes/by-id/" + recipe.id;
 ---
 
 <div
-  class="relative max-w-sm m-1 overflow-hidden rounded-lg shadow-2xl outline outline-highlightMed shadow-base bg-surface"
+  class="outline-highlightMed shadow-base bg-surface relative m-1 max-w-sm overflow-hidden rounded-lg shadow-2xl outline"
 >
-  <div class="absolute bottom-1 z-10 right-1 size-fit">
+  <div class="absolute right-1 bottom-1 z-10 size-fit">
     <LikeButton liked={recipe.liked || false} recipeId={recipe.id} />
   </div>
 
@@ -26,16 +26,16 @@ else link = "/recipes/by-id/" + recipe.id;
     <Image src={recipe.image || "/No_data.png"} />
 
     <div class="mx-2">
-      <div class="pb-1 text-xs font-bold md:text-xl text-text">
+      <div class="text-text pb-1 text-xs font-bold md:text-xl">
         {recipe.title}
       </div>
-      <p class="py-1 text-xs text-text">
+      <p class="text-text py-1 text-xs">
         {recipe.description || "No recipe Description yet"}
       </p>
     </div>
 
     <div
-      class="px-1 py-1 mx-1 text-xs font-semibold rounded-md bg-highlightHigh text-text text-nowrap"
+      class="bg-highlightHigh text-text mx-1 rounded-md px-1 py-1 text-xs font-semibold text-nowrap"
     >
       <p>Prep time: {recipe.prepTime || "Not set yet"}</p>
 
@@ -43,7 +43,7 @@ else link = "/recipes/by-id/" + recipe.id;
     </div>
 
     <div
-      class="px-1 py-1 m-1 text-xs font-semibold rounded-md bg-highlightHigh text-text"
+      class="bg-highlightHigh text-text m-1 rounded-md px-1 py-1 text-xs font-semibold"
     >
       <p>Created: {recipe.created?.toLocaleDateString()}</p>
       <p>Edited: {recipe.edited?.toLocaleDateString()}</p>

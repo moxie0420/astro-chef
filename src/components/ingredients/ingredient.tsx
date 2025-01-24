@@ -1,12 +1,12 @@
+import { Units, type unit } from "@lib/types";
+import { actions } from "astro:actions";
 import {
   createEffect,
   createSignal,
-  type Component,
   For,
+  type Component,
   type JSX,
 } from "solid-js";
-import { actions } from "astro:actions";
-import { Units, type unit } from "@lib/types";
 
 import Cancel from "src/icons/cancel.svg?component-solid";
 

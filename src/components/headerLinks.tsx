@@ -1,5 +1,5 @@
-import { createSignal, For, type Component } from "solid-js";
 import { navigate } from "astro:transitions/client";
+import { createSignal, For, type Component } from "solid-js";
 
 const HeaderLinks: Component<{
   pages: {

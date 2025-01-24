@@ -79,7 +79,7 @@ console.log(params);
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <div class="flex flex-col xl:flex-row w-full">
+  <div class="flex w-full flex-col xl:flex-row">
     <SearchOptions
       page={params.page || 1}
       number={params.number || 25}
@@ -89,11 +89,11 @@ console.log(params);
     />
     <div>
       <div
-        class="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-4 mx-auto p-2"
+        class="mx-auto grid grid-cols-2 gap-2 p-2 md:grid-cols-3 xl:grid-cols-4"
       >
         {recipes.map((r) => <RecipeCard recipe={r} />)}
       </div>
-      <div class="flex justify-between mx-auto w-full">
+      <div class="mx-auto flex w-full justify-between">
         <Button id="prevPage">Prev</Button>
         <Button id="nextPage">Next</Button>
       </div>

@@ -1,6 +1,6 @@
+import type { filter_t } from "@lib/types";
 import { type Component, For, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
-import type { filter_t } from "@lib/types";
 
 const SearchOptions: Component<{
   page: number;

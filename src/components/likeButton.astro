@@ -14,7 +14,7 @@ const { liked, recipeId } = Astro.props;
   data-id={recipeId}
   type="button"
   is="like-button"
-  class="m-auto isolate lg:text-2x fill-base data-[liked=false]:text-base data-[liked=true]:hover:text-base data-[liked=true]:text-gold data-[liked=false]:hover:text-gold"
+  class="lg:text-2x fill-base data-[liked=true]:text-gold data-[liked=false]:hover:text-gold isolate m-auto data-[liked=false]:text-base data-[liked=true]:hover:text-base"
 >
   <Bookmark size={26} />
 </button>

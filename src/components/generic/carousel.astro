@@ -23,7 +23,7 @@ const { data } = await Astro.callAction(actions.Recipe.getRecipes, {
 
 <glide-carousel data-signature={signature}>
   <div>
-    <div id="glider" class="p-2 rounded-lg glider bg-surface">
+    <div id="glider" class="glider bg-surface rounded-lg p-2">
       {data?.map((recipe) => <RecipeCard recipe={recipe} />)}
     </div>
     <div class="grid grid-cols-5">
@@ -38,7 +38,7 @@ const { data } = await Astro.callAction(actions.Recipe.getRecipes, {
       <div
         role="tablist"
         id={"dots-" + signature}
-        class="w-full col-span-3 dots sm:hidden"
+        class="dots col-span-3 w-full sm:hidden"
       >
       </div>
       <div class="col-start-5">

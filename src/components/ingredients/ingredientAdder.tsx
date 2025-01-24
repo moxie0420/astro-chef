@@ -1,10 +1,10 @@
 import Fraction from "fraction.js";
 
+import { Units, type unit } from "@lib/types";
 import { createSignal, type Component, type JSX } from "solid-js";
-import { type unit, Units } from "@lib/types";
 
-import Add from "src/icons/add.svg?component-solid";
 import { actions } from "astro:actions";
+import Add from "src/icons/add.svg?component-solid";
 
 const IngredientAdder: Component<{
   recipeId: number;

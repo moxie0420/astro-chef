@@ -1,6 +1,6 @@
-import type { APIRoute } from "astro";
 import { db } from "@db/index";
 import { recipe } from "@db/schema";
+import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ redirect }) => {
   const count = await db.$count(recipe);

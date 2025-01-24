@@ -1,15 +1,15 @@
 import { relations, sql } from "drizzle-orm";
 import {
-  integer,
-  real,
-  pgTable,
-  varchar,
-  timestamp,
-  time,
-  text,
   boolean,
-  primaryKey,
   index,
+  integer,
+  pgTable,
+  primaryKey,
+  real,
+  text,
+  time,
+  timestamp,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 export type selectRecipe = typeof recipe.$inferSelect;

@@ -4,9 +4,9 @@ import { z } from "astro:schema";
 import {
   db,
   filterByLiked,
+  recipeSearch,
   sortBy,
   withPagination,
-  recipeSearch,
 } from "@db/index";
 import { recipe } from "@db/schema";
 import { eq } from "drizzle-orm";

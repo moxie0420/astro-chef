@@ -1,10 +1,10 @@
 import { db } from "@db/index";
-import { recipe, ingredients, list } from "@db/schema";
+import { ingredients, list, recipe } from "@db/schema";
 import { count } from "drizzle-orm";
 
-import Fraction from "fraction.js";
 import { Units } from "@lib/types";
 import { reset } from "drizzle-seed";
+import Fraction from "fraction.js";
 
 async function generateRecipes(number: number) {
   function genEntries(number: number) {

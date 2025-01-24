@@ -20,28 +20,28 @@ const list = await Astro.callAction(actions.lists.getList.orThrow, {
 
 <Layout title={list?.title || ""}>
   <div
-    class="flex flex-col h-screen gap-2 mx-auto overflow-auto bg-cover bg-surface max-w-screen-2xl"
+    class="bg-surface mx-auto flex h-screen max-w-screen-2xl flex-col gap-2 overflow-auto bg-cover"
   >
-    <div class="pb-3 text-xl font-bold text-center md:text-4xl lg:text-5xl">
+    <div class="pb-3 text-center text-xl font-bold md:text-4xl lg:text-5xl">
       {list?.title}
     </div>
-    <div class="grid justify-between w-11/12 grid-cols-2 mx-auto">
-      <div class="p-2 m-auto rounded-md w-fit bg-overlay">
+    <div class="mx-auto grid w-11/12 grid-cols-2 justify-between">
+      <div class="bg-overlay m-auto w-fit rounded-md p-2">
         <DefaultImage src={list?.image || null} alt={list?.imageAlt || null} />
-        <div class="flex mx-auto">
+        <div class="mx-auto flex">
           {
             editing ? (
               <form class="relative flex w-full" id="image-alt">
                 <input
                   name="alt"
-                  class="w-full m-1 mx-auto border-2 rounded-md selection:outline selection:outline-pine border-muted bg-surface"
+                  class="selection:outline-pine border-muted bg-surface m-1 mx-auto w-full rounded-md border-2 selection:outline"
                   type="text"
                   placeholder="Image description"
                   value={list?.imageAlt}
                 />
                 <button
                   type="submit"
-                  class="absolute inset-y-0 right-3 hover:text-pine"
+                  class="hover:text-pine absolute inset-y-0 right-3"
                 >
                   
                 </button>
@@ -56,7 +56,7 @@ const list = await Astro.callAction(actions.lists.getList.orThrow, {
       <Markdown body={list?.description || ""} editing={editing} />
     </div>
     <div
-      class="grid grid-cols-2 gap-1 p-2 px-2 mx-auto overflow-y-scroll rounded-lg md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 bg-overlay scroll-smooth"
+      class="bg-overlay mx-auto grid grid-cols-2 gap-1 overflow-y-scroll scroll-smooth rounded-lg p-2 px-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5"
     >
       {
         list?.recipes.map((r) => (
@@ -65,7 +65,7 @@ const list = await Astro.callAction(actions.lists.getList.orThrow, {
             data-list-id={id}
             data-recipe-id={r.recipeId}
           >
-            <div id="delete" class="absolute z-10 top-1 right-3 text-overlay">
+            <div id="delete" class="text-overlay absolute top-1 right-3 z-10">
               
             </div>
             {/* <RecipeCard recipe={r} /> */}

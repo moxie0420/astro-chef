@@ -107,9 +107,12 @@ importers:
       prettier-plugin-astro:
         specifier: ^0.14.1
         version: 0.14.1
+      prettier-plugin-organize-imports:
+        specifier: ^4.1.0
+        version: 4.1.0(prettier@3.4.1)(typescript@5.7.3)
       prettier-plugin-tailwindcss:
         specifier: ^0.6.11
-        version: 0.6.11(prettier-plugin-astro@0.14.1)(prettier@3.4.1)
+        version: 0.6.11(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.1.0(prettier@3.4.1)(typescript@5.7.3))(prettier@3.4.1)
       rollup-plugin-visualizer:
         specifier: ^5.14.0
         version: 5.14.0(rollup@2.79.2)
@@ -6236,6 +6239,19 @@ packages:
       }
     engines: { node: ^14.15.0 || >=16.0.0 }
 
+  prettier-plugin-organize-imports@4.1.0:
+    resolution:
+      {
+        integrity: sha512-5aWRdCgv645xaa58X8lOxzZoiHAldAPChljr/MT0crXVOWTZ+Svl4hIWlz+niYSlO6ikE5UXkN1JrRvIP2ut0A==,
+      }
+    peerDependencies:
+      prettier: ">=2.0"
+      typescript: ">=2.9"
+      vue-tsc: ^2.1.0
+    peerDependenciesMeta:
+      vue-tsc:
+        optional: true
+
   prettier-plugin-tailwindcss@0.6.11:
     resolution:
       {
@@ -12119,11 +12135,17 @@ snapshots:
       prettier: 3.4.1
       sass-formatter: 0.7.9
 
-  prettier-plugin-tailwindcss@0.6.11(prettier-plugin-astro@0.14.1)(prettier@3.4.1):
+  prettier-plugin-organize-imports@4.1.0(prettier@3.4.1)(typescript@5.7.3):
+    dependencies:
+      prettier: 3.4.1
+      typescript: 5.7.3
+
+  prettier-plugin-tailwindcss@0.6.11(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.1.0(prettier@3.4.1)(typescript@5.7.3))(prettier@3.4.1):
     dependencies:
       prettier: 3.4.1
     optionalDependencies:
       prettier-plugin-astro: 0.14.1
+      prettier-plugin-organize-imports: 4.1.0(prettier@3.4.1)(typescript@5.7.3)
 
   prettier@2.8.7:
     optional: true

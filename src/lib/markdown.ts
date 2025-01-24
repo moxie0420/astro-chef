@@ -1,5 +1,5 @@
-import { marked, type RendererObject } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { marked, type RendererObject } from "marked";
 
 const renderer: RendererObject = {
   image({ href, text }) {

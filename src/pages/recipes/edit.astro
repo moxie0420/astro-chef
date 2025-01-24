@@ -26,16 +26,16 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 <Layout title={data.title} editing={true}>
   <editor-element
     data-recipe={id}
-    class="w-full md:w-5/6 bg-surface mx-auto text-text"
+    class="bg-surface text-text mx-auto w-full md:w-5/6"
   >
-    <div class="grid w-full pb-3 grid-cols-2 mx-auto max-w-2xl">
+    <div class="mx-auto grid w-full max-w-2xl grid-cols-2 pb-3">
       <input
         id="recipeTitle"
         slot="title"
         name="title"
         form="editor"
         type="text"
-        class="w-full bg-surface col-span-2 md:text-3xl font-bold"
+        class="bg-surface col-span-2 w-full font-bold md:text-3xl"
         placeholder="Recipe Title"
         value={data.title}
       />
@@ -64,12 +64,12 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
       />
     </div>
 
-    <div class="w-fit mx-auto">
+    <div class="mx-auto w-fit">
       <Ingredients recipeId={data.id} editing={true} client:only />
     </div>
 
-    <div class="flex flex-col xl:flex-row gap-2 h-fit">
-      <div class="max-w-sm p-2 mx-auto">
+    <div class="flex h-fit flex-col gap-2 xl:flex-row">
+      <div class="mx-auto max-w-sm p-2">
         <AvailibleImages />
       </div>
 

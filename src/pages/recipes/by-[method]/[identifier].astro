@@ -29,15 +29,15 @@ Astro.callAction(actions.Recipe.updateRecipe, {
 ---
 
 <Layout title={data.title || ""} recipeId={data.id}>
-  <div class="mx-auto bg-surface w-full max-w-screen-2xl overflow-scroll">
+  <div class="bg-surface mx-auto w-full max-w-screen-2xl overflow-scroll">
     <div
-      class="pb-3 text-center font-bold text-xl md:text-4xl lg:text-5xl text-text"
+      class="text-text pb-3 text-center text-xl font-bold md:text-4xl lg:text-5xl"
     >
       {data.title}
     </div>
-    <div class="w-5/6 2xl:w-3/5 mx-auto relative">
+    <div class="relative mx-auto w-5/6 2xl:w-3/5">
       <DefaultImage src={data.image} alt={data.imageAlt} />
-      <div class="absolute bottom-1 left-1 bg-overlay">
+      <div class="bg-overlay absolute bottom-1 left-1">
         {/*<AddToList recipeId={data.id} />*/}
       </div>
     </div>

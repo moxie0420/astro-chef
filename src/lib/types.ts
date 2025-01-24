@@ -36,4 +36,4 @@ export const isMetric = /(gram|liter)/;
 
 export const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
 
-export { Units, type unit, type filter_t, type sort_t };
+export { Units, type filter_t, type sort_t, type unit };
