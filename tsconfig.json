@@ -12,7 +12,14 @@
     },
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite-plugin-solid-svg/types"]
+    "types": [
+      "vite-plugin-solid-svg/types",
+      "vite-plugin-pwa/client",
+      "vite-plugin-pwa/info"
+    ]
+  },
+  "watchOptions": {
+    "excludeDirectories": ["./node_modules"]
   },
   "extends": "astro/tsconfigs/strict"
 }

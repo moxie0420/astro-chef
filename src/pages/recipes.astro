@@ -1,52 +1,97 @@
 ---
+import { actions } from "astro:actions";
+import type { filter_t, sort_t } from "@lib/types";
+
 import MainLayout from "@layouts/layout.astro";
 import RecipeCard from "@components/recipe/recipeCard.astro";
-import SearchOptions from "@components/searchOptions.astro";
-
-import { actions } from "astro:actions";
+import SearchOptions from "@components/search/searchOptions";
 import Button from "@components/generic/button.astro";
 
-const filter = Astro.url.searchParams.getAll("filter");
-
-const sortparam = Astro.url.searchParams.get("sortBy") as
-  | "by-id"
-  | "popular"
-  | "random"
-  | "title"
-  | null;
-const count = Astro.url.searchParams.get("perPage");
-const search = Astro.url.searchParams.get("search");
-const page = Astro.url.searchParams.get("page");
+const getData = async (
+  search?: string,
+  sort: "by-id" | "popular" | "random" | "title" = "popular",
+  page: number = 1,
+  number: number = 25,
+  filter?: Array<filter_t>,
+) => {
+  return Astro.callAction(actions.Recipe.getRecipes, {
+    page,
+    number,
+    filter,
+    sort,
+    query: search,
+  }).then((res) => res);
+};
 
 let res;
-if (search) {
-  res = await Astro.callAction(actions.Recipe.getRecipes, {
-    sort: sortparam !== null ? sortparam : "by-id",
-    filter: filter,
-    query: search,
-    number: parseInt(count || "20"),
-    page: parseInt(page!) || 1,
-  });
-} else
-  res = await Astro.callAction(actions.Recipe.getRecipes, {
-    sort: sortparam !== null ? sortparam : "by-id",
-    filter: filter,
-    number: parseInt(count || "20"),
-    page: parseInt(page!) || 1,
-  });
+let params: {
+  search?: string;
+  sortParam?: sort_t;
+  page?: number;
+  number?: number;
+  filters?: Array<filter_t>;
+} = {};
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
 
-if (res.error) console.error(res.error.message);
-if (!res.data) return Astro.redirect("/404");
+    params.search = data.get("search") as string;
+    params.sortParam = data.get("sortBy") as sort_t;
+    const page = data.get("page") as string;
+    const count = data.get("count") as string;
+
+    params.filters = data.getAll("filters") as filter_t[] | undefined;
+
+    params.page = page === "null" || page == null ? 1 : parseInt(page);
+    params.number = count === "null" || count == null ? 25 : parseInt(count);
+
+    res = await getData(
+      params.search,
+      params.sortParam,
+      params.page,
+      params.number,
+      params.filters,
+    );
+
+    if (res.error || !res.data) throw res.error;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      return Astro.redirect("/404");
+    }
+  }
+} else {
+  try {
+    res = await getData();
+    if (res.error || !res.data) throw res.error;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      return Astro.redirect("/404");
+    }
+  }
+}
+
+if (!res?.data) return Astro.redirect("/404");
+const recipes = res.data;
+
+console.log(params);
 ---
 
 <MainLayout title={"Browse Recipes"}>
   <div class="flex flex-col xl:flex-row w-full">
-    <SearchOptions />
+    <SearchOptions
+      page={params.page || 1}
+      number={params.number || 25}
+      filter={params.filters}
+      sort={params.sortParam || "popular"}
+      client:only
+    />
     <div>
       <div
-        class="grid grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto p-2"
+        class="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-4 mx-auto p-2"
       >
-        {res.data.map((r) => <RecipeCard recipe={r} />)}
+        {recipes.map((r) => <RecipeCard recipe={r} />)}
       </div>
       <div class="flex justify-between mx-auto w-full">
         <Button id="prevPage">Prev</Button>

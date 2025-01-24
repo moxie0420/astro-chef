@@ -1,5 +1,5 @@
 import { defineConfig, envField } from "astro/config";
-import { VitePWA } from "vite-plugin-pwa";
+import AstroPWA from "@vite-pwa/astro";
 import { visualizer } from "rollup-plugin-visualizer";
 
 import tailwindcss from "@tailwindcss/vite";
@@ -26,7 +26,17 @@ export default defineConfig({
       }),
     },
   },
-  integrations: [devtoolBreakpoints(), solidJs({ devtools: true })],
+  integrations: [
+    devtoolBreakpoints(),
+    solidJs({ devtools: true }),
+    AstroPWA({
+      registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+      },
+      workbox: { navigateFallback: "/404" },
+    }),
+  ],
   output: "server",
   adapter: node({
     mode: "standalone",
@@ -38,7 +48,6 @@ export default defineConfig({
         filename: "stats.html",
       }),
       tailwindcss(),
-      VitePWA({ registerType: "autoUpdate" }),
       solidSvg({ defaultAsComponent: false }),
     ],
   },

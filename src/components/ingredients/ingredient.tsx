@@ -53,13 +53,13 @@ const Ingredient: Component<{
       <td class="basis-1/3">
         <input
           type="text"
-          class="w-full bg-surface"
+          class="bg-surface w-full"
           value={amount()}
           onChange={updateAmount}
         />
       </td>
       <td class="basis-1/3">
-        <select class="w-full bg-surface" onChange={updateUnit}>
+        <select class="bg-surface w-full" onChange={updateUnit}>
           <For each={Units}>
             {(unit: unit) => (
               <option value={unit} selected={Unit() === unit}>
@@ -72,7 +72,7 @@ const Ingredient: Component<{
       <td class="basis-1/3">
         <input
           type="text"
-          class="w-full bg-surface"
+          class="bg-surface w-full"
           value={name()}
           onChange={updateName}
         />

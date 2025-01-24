@@ -13,6 +13,10 @@ const Units: unit[] = [
   "miligram",
 ];
 
+type filter_t = "liked";
+
+type sort_t = "by-id" | "popular" | "random" | "title";
+
 type unit =
   | "none"
   | "teaspoon"
@@ -32,4 +36,4 @@ export const isMetric = /(gram|liter)/;
 
 export const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
 
-export { Units, type unit };
+export { Units, type unit, type filter_t, type sort_t };

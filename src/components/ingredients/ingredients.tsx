@@ -17,7 +17,7 @@ const fetchIngredients = async (id: number) => {
 };
 
 const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
-  props: any
+  props: any,
 ) => {
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
@@ -25,9 +25,9 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
   const [ingredients, { refetch }] = createResource(recipeId, fetchIngredients);
 
   return (
-    <table class="bg-overlay m-1 p-4 border-highlightHigh text-sm md:text-xl lg:text-2xl 2xl:text-3xl mx-auto text-text rounded-lg">
+    <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
       <thead class="flex w-full">
-        <tr class=" flex w-full mx-1 text-left">
+        <tr class="mx-1 flex w-full text-left">
           <Show
             when={editing()}
             fallback={<th class="mx-auto underline">Ingredients</th>}
@@ -41,7 +41,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
       <tbody class="max-h-screen scroll-auto">
         <For each={ingredients()}>
           {(ingredient) => (
-            <tr class="w-full flex flex-row">
+            <tr class="flex w-full flex-row">
               <Show
                 when={editing()}
                 fallback={

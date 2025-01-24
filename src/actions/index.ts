@@ -25,7 +25,7 @@ export const server = {
         console.log("writing: " + image[x].name);
         await fs.writeFile(
           `${IMAGE_DIRECTORY}/${image[x].name}`,
-          image[x].stream()
+          image[x].stream(),
         );
         console.log("wrote: " + image[x].name);
       }

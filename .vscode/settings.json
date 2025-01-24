@@ -11,9 +11,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "direnv.restart.automatic": true,
-  "prettier.documentSelectors": ["**/*.astro"],
   "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

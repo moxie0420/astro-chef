@@ -34,8 +34,14 @@ export const Recipe = {
   getRecipes: defineAction({
     input: z.object({
       number: z.coerce.number().optional().nullable(),
-      sort: z.enum(["random", "popular", "by-id", "title", "views"]),
-      filter: z.array(z.enum(["liked"]).or(z.string())).optional(),
+      sort: z
+        .enum(["random", "popular", "by-id", "title", "views"])
+        .optional()
+        .nullable(),
+      filter: z
+        .array(z.enum(["liked"]).or(z.string()))
+        .optional()
+        .nullable(),
       query: z.string().optional().nullable(),
       page: z.number().optional().default(1),
     }),
@@ -44,9 +50,10 @@ export const Recipe = {
 
       q = withPagination(q, page, number || 25);
 
-      q = sortBy(q, sort, recipe);
+      if (sort && sort != null) q = sortBy(q, sort, recipe);
+      else q = sortBy(q, "popular", recipe);
 
-      if (typeof query === "string") q = recipeSearch(q, query);
+      if (typeof query === "string" && query !== "") q = recipeSearch(q, query);
 
       filter?.forEach((filter) => {
         switch (filter) {

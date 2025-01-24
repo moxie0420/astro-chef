@@ -51,21 +51,21 @@ export const recipe = pgTable(
   (table) => [
     index("recipe_title_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.title})`
+      sql`to_tsvector('english', ${table.title})`,
     ),
     index("recipe_description_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.description})`
+      sql`to_tsvector('english', ${table.description})`,
     ),
     index("recipe_body_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.body})`
+      sql`to_tsvector('english', ${table.body})`,
     ),
     index("recipe_author_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.author})`
+      sql`to_tsvector('english', ${table.author})`,
     ),
-  ]
+  ],
 );
 
 export const recipeRelations = relations(recipe, ({ many }) => ({
@@ -98,7 +98,7 @@ export const listToRecipes = pgTable(
       .notNull()
       .references(() => recipe.id),
   },
-  (t) => [primaryKey({ columns: [t.listId, t.recipeId] })]
+  (t) => [primaryKey({ columns: [t.listId, t.recipeId] })],
 );
 
 export const listToRecipesRelations = relations(listToRecipes, ({ one }) => ({

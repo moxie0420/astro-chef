@@ -13,7 +13,7 @@ class recipe extends HTMLElement {
           recipeId: parseInt(recipeId),
         });
         location.reload();
-      }
+      },
     );
   }
 }

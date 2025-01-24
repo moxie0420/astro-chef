@@ -30,7 +30,7 @@ const IngredientAdder: Component<{
     setName(event.currentTarget.value);
 
   const updateAmount: JSX.EventHandler<HTMLInputElement, InputEvent> = (
-    event
+    event,
   ) => setAmount(event.currentTarget.value);
 
   const updateUnit: JSX.EventHandler<HTMLSelectElement, Event> = (event) =>
@@ -81,7 +81,7 @@ const IngredientAdder: Component<{
           <button style="submit">
             <Add
               width={20}
-              class="text-pine m-1 rounded-full bg-highlightMed"
+              class="text-pine bg-highlightMed m-1 rounded-full"
               onClick={addIngredient}
             />
           </button>

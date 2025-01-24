@@ -31,7 +31,7 @@ const Markdown: Component<{
   const [preview, setPreview] = createSignal(genMd(body()));
 
   const genPreview: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = (
-    event
+    event,
   ) => setPreview(genMd(event.currentTarget.value));
 
   const save: JSX.EventHandler<HTMLTextAreaElement, Event> = (event) => {
@@ -47,19 +47,19 @@ const Markdown: Component<{
       fallback={
         <article
           innerHTML={preview()}
-          class="p-2 pt-10 mx-auto prose-sm prose text-justify flex flex-col md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay rounded-md my-2 text-text text-pretty"
+          class="prose-sm prose md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay text-text mx-auto my-2 flex flex-col rounded-md p-2 pt-10 text-justify text-pretty"
         />
       }
     >
-      <div class="grid grid-row md:grid-cols-2  gap-1 p-1 border rounded-md bg-overlay selection:outline selection:outline-pine max-w-screen-xl mx-auto overflow-scroll h-screen">
+      <div class="grid-row bg-overlay selection:outline-pine mx-auto grid h-screen max-w-screen-xl gap-1 overflow-scroll rounded-md border p-1 selection:outline md:grid-cols-2">
         <textarea
-          class="prose resize prose-rosePine border-highlightHigh bg-overlay w-full"
+          class="prose prose-rosePine border-highlightHigh bg-overlay w-full resize"
           innerText={body()}
           onInput={genPreview}
           onChange={save}
         />
         <div
-          class="prose border-none resize prose-rosePine border-highlightHigh bg-overlay"
+          class="prose prose-rosePine border-highlightHigh bg-overlay resize border-none"
           innerHTML={preview()}
         />
       </div>

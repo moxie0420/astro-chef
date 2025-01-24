@@ -168,12 +168,8 @@
           "name": "list_to_recipes_listId_lists_id_fk",
           "tableFrom": "list_to_recipes",
           "tableTo": "lists",
-          "columnsFrom": [
-            "listId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["listId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -181,12 +177,8 @@
           "name": "list_to_recipes_recipeId_Recipe_id_fk",
           "tableFrom": "list_to_recipes",
           "tableTo": "Recipe",
-          "columnsFrom": [
-            "recipeId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["recipeId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -194,10 +186,7 @@
       "compositePrimaryKeys": {
         "list_to_recipes_listId_recipeId_pk": {
           "name": "list_to_recipes_listId_recipeId_pk",
-          "columns": [
-            "listId",
-            "recipeId"
-          ]
+          "columns": ["listId", "recipeId"]
         }
       },
       "uniqueConstraints": {},

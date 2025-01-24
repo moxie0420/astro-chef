@@ -12,7 +12,7 @@ const HeaderLinks: Component<{
   const editing = () => props.editing;
 
   const [currentPage, setCurrentPage] = createSignal(
-    window.location.pathname.substring(0, 8)
+    window.location.pathname.substring(0, 8),
   );
 
   return (
@@ -27,7 +27,7 @@ const HeaderLinks: Component<{
               setCurrentPage(nextPage);
               navigate(page.path);
             }}
-            class={`p-1 transition ease-in-out rounded-lg ${page.path === currentPage() ? (editing() ? "bg-love" : "bg-pine") : ""}`}
+            class={`rounded-lg p-1 transition ease-in-out ${page.path === currentPage() ? (editing() ? "bg-love" : "bg-pine") : ""}`}
           >
             {page.name}
           </button>
