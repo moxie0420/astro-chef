@@ -1,4 +1,5 @@
 import { type Component, createSignal, Show, type JSX } from "solid-js";
+import { isServer } from "solid-js/web";
 
 import { marked, type RendererObject } from "marked";
 import DOMPurify from "isomorphic-dompurify";
@@ -14,16 +15,9 @@ const renderer: RendererObject = {
 function genMd(text: string) {
   marked.use({ renderer });
   const md = marked.parse(text) as string;
-  const clean = Purify.sanitize(md);
+  const clean = isServer ? DOMPurify.sanitize(md) : Purify.sanitize(md);
   return clean;
 }
-
-const intalPreview = (text: string) => {
-  marked.use({ renderer });
-  const md = marked.parse(text) as string;
-  const clean = DOMPurify.sanitize(md);
-  return clean;
-};
 
 const Markdown: Component<{
   editing: boolean;
@@ -34,7 +28,7 @@ const Markdown: Component<{
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
 
-  const [preview, setPreview] = createSignal(intalPreview(body()));
+  const [preview, setPreview] = createSignal(genMd(body()));
 
   const genPreview: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = (
     event
@@ -65,7 +59,6 @@ const Markdown: Component<{
           onChange={save}
         />
         <div
-          id="preview"
           class="prose border-none resize prose-rosePine border-highlightHigh bg-overlay"
           innerHTML={preview()}
         />

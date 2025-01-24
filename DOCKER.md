@@ -3,12 +3,13 @@
 Docker is a toll to simplify software building and deployment
 
 [Download docker](https://docs.docker.com/get-docker/)
+[Download Nix](https://nixos.org/download/)
 
 ## Terminal commands:
 
 ### build image:
 
-docker build -t image-name .
+nix build .#container; docker load < ./result
 
 ### list images:
 

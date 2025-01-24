@@ -1,6 +1,6 @@
 import Fraction from "fraction.js";
 
-import { createSignal, type Component, type JSX, type Setter } from "solid-js";
+import { createSignal, type Component, type JSX } from "solid-js";
 import { type unit, Units } from "@lib/types";
 
 import Add from "src/icons/add.svg?component-solid";

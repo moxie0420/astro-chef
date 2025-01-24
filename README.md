@@ -12,7 +12,7 @@ Astro chef is a ready to go solution to store and use your recipe collection
 
 - [x] Devcontainer
 - [x] Astro + Plugins
-- [ ] Animations
+- [x] Animations
 
 - Components
 
