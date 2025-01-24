@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client";
-import { createSignal, For, type Component } from "solid-js";
+import { createSignal, For, onMount, type Component } from "solid-js";
 
 const HeaderLinks: Component<{
   pages: {
@@ -15,6 +15,13 @@ const HeaderLinks: Component<{
     window.location.pathname.substring(0, 8),
   );
 
+  onMount(() => {
+    document.addEventListener("astro:after-swap", () => {
+      const path = window.location.pathname.substring(0, 8);
+      setCurrentPage(path);
+    });
+  });
+
   return (
     <div class="flex">
       <For each={pages()}>
@@ -27,7 +34,9 @@ const HeaderLinks: Component<{
               setCurrentPage(nextPage);
               navigate(page.path);
             }}
-            class={`rounded-lg p-1 transition ease-in-out ${page.path === currentPage() ? (editing() ? "bg-love" : "bg-pine") : ""}`}
+            class="data-[editing=true]:data-[current=true]:bg-love data-[current=true]:bg-pine rounded-lg p-1 transition ease-in-out"
+            data-editing={editing()}
+            data-current={page.path === currentPage()}
           >
             {page.name}
           </button>
