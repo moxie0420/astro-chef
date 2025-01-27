@@ -12,7 +12,7 @@ import solidSvg from "vite-plugin-solid-svg";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "http://cookbook.local",
+  site: "https://astrochef.xyz",
   experimental: {
     responsiveImages: true,
     svg: true,

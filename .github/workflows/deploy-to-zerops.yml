@@ -2,9 +2,8 @@ name: Deploy to Zerops
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    tags:
+      - "*"
 
 jobs:
   deploy:
