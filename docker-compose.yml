@@ -14,7 +14,7 @@ services:
       - db
 
   db:
-    image: "postgres:alpine"
+    image: "postgres:16-alpine"
     restart: always
     shm_size: 128mb
     env_file:

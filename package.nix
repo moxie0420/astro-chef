@@ -1,6 +1,6 @@
 {
   stdenv,
-  nodejs-slim_latest,
+  nodejs-slim_22,
   pnpm,
 }:
 stdenv.mkDerivation (finalAttrs: {
@@ -9,7 +9,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = ./.;
 
   nativeBuildInputs = [
-    nodejs-slim_latest
+    nodejs-slim_22
     pnpm.configHook
   ];
 
