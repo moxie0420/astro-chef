@@ -110,20 +110,21 @@ export const Recipe = {
   updateRecipe: defineAction({
     input: z.object({
       id: z.number(),
-      title: z.string().optional(),
-      author: z.string().optional(),
-      prepTime: z.string().time().optional(),
-      cookTime: z.string().time().optional(),
-      description: z.string().optional(),
-      body: z.string().optional(),
-      image: z.string().optional(),
-      imageAlt: z.string().optional(),
-      totalViews: z.number().optional(),
+      title: z.string().optional().default(""),
+      author: z.string().optional().default("No Author Yet"),
+      edited: z.string().optional().default(new Date().toLocaleDateString()),
+      prepTime: z.string().optional().default(""),
+      cookTime: z.string().optional().default(""),
+      description: z.string().optional().default(""),
+      body: z.string().optional().default(""),
+      image: z.string().optional().default(""),
+      imageAlt: z.string().optional().default("Not Set Yet"),
+      totalViews: z.number().optional().default(0),
     }),
     handler: async (input) => {
       return await db
         .update(recipe)
-        .set(input)
+        .set({ ...input, edited: new Date() })
         .where(eq(recipe.id, input.id))
         .returning();
     },

@@ -1,12 +1,10 @@
 ---
 import { actions } from "astro:actions";
 
-import DefaultImage from "@components/assets/defaultImage.astro";
 import IngredientHolder from "@components/ingredients/ingredients";
 import Layout from "@layouts/layout.astro";
 import Markdown from "@components/markdown";
-// import { recipe } from "@db/schema";
-// import AddToList from "@components/recipe/addToList.astro";
+import RecipeInfo from "@components/recipe/RecipeInfo";
 
 const { method, identifier } = Astro.params;
 
@@ -35,12 +33,8 @@ Astro.callAction(actions.Recipe.updateRecipe, {
     >
       {data.title}
     </div>
-    <div class="relative mx-auto w-5/6 2xl:w-3/5">
-      <DefaultImage src={data.image} alt={data.imageAlt} />
-      <div class="bg-overlay absolute bottom-1 left-1">
-        {/*<AddToList recipeId={data.id} />*/}
-      </div>
-    </div>
+    {/** @ts-ignore */}
+    <RecipeInfo recipe={data} editing={false} client:load />
 
     <div class="mx-auto">
       <IngredientHolder recipeId={data.id} editing={false} client:only />

@@ -1,18 +1,3 @@
-const Units: unit[] = [
-  "teaspoon",
-  "tablespoon",
-  "cup",
-  "ounce",
-  "fluid cup",
-  "fluid ounce",
-  "pint",
-  "quart",
-  "gallon",
-  "kilogram",
-  "gram",
-  "miligram",
-];
-
 type filter_t = "liked";
 
 type sort_t = "by-id" | "popular" | "random" | "title";
@@ -32,8 +17,41 @@ type unit =
   | "gram"
   | "miligram";
 
-export const isMetric = /(gram|liter)/;
+const Units: unit[] = [
+  "none",
+  "teaspoon",
+  "tablespoon",
+  "cup",
+  "ounce",
+  "fluid cup",
+  "fluid ounce",
+  "pint",
+  "quart",
+  "gallon",
+  "kilogram",
+  "gram",
+  "miligram",
+];
 
-export const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
+const isMetric = /(gram|liter)/;
 
-export { Units, type filter_t, type sort_t, type unit };
+const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
+
+type Recipe = {
+  id: number;
+  title: string;
+  author: string;
+  created: string;
+  edited: string;
+  prepTime: string;
+  cookTime: string;
+  description: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  liked: boolean;
+  totalViews: number;
+};
+
+export { Units, isMetric, isRecipePage };
+export type { Recipe, filter_t, sort_t, unit };

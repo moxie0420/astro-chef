@@ -35,6 +35,25 @@ export default defineConfig({
         enabled: true,
       },
       workbox: { navigateFallback: "/404" },
+      includeAssets: ["favicon.svg"],
+      manifest: {
+        name: "Astro Chef",
+        short_name: "AstroChef",
+        description: "Your All in One stop for your recipe needs",
+        theme_color: "#191724",
+        icons: [
+          {
+            src: "favicon.svg",
+            sizes: "192x192",
+            type: "image/svg",
+          },
+          {
+            src: "favicon.svg",
+            sizes: "512x512",
+            type: "image/svg",
+          },
+        ],
+      },
     }),
   ],
   output: "server",

@@ -1,7 +1,7 @@
 ---
 import { actions } from "astro:actions";
 
-import DefaultImage from "@components/assets/defaultImage.astro";
+import RecipeInfo from "@components/recipe/RecipeInfo";
 import Layout from "@layouts/layout.astro";
 import Ingredients from "@components/ingredients/ingredients";
 import Markdown from "@components/markdown";
@@ -24,49 +24,10 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
 <Layout title={data.title} editing={true}>
-  <editor-element
-    data-recipe={id}
-    class="bg-surface text-text mx-auto w-full md:w-5/6"
-  >
-    <div class="mx-auto grid w-full max-w-2xl grid-cols-2 pb-3">
-      <input
-        id="recipeTitle"
-        slot="title"
-        name="title"
-        form="editor"
-        type="text"
-        class="bg-surface col-span-2 w-full font-bold md:text-3xl"
-        placeholder="Recipe Title"
-        value={data.title}
-      />
-      <DefaultImage
-        src={data.image}
-        alt={data.imageAlt}
-        class:list={["col-span-2"]}
-      />
-      <input
-        id="imageAlt"
-        name="imageAlt"
-        form="editor"
-        type="text"
-        class="bg-surface"
-        placeholder="Image alt text"
-        value={data.imageAlt}
-      />
-      <input
-        id="imagePath"
-        name="image"
-        form="editor"
-        type="text"
-        class="bg-surface"
-        placeholder="Image Source"
-        value={data.image}
-      />
-    </div>
-
-    <div class="mx-auto w-fit">
-      <Ingredients recipeId={data.id} editing={true} client:only />
-    </div>
+  <div class="bg-surface text-text mx-auto w-full md:w-5/6">
+    {/* @ts-ignore */}
+    <RecipeInfo recipe={data} editing={true} client:load />
+    <Ingredients recipeId={data.id} editing={true} client:only />
 
     <div class="flex h-fit flex-col gap-2 xl:flex-row">
       <div class="mx-auto max-w-sm p-2">
@@ -82,48 +43,5 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
         />
       </div>
     </div>
-  </editor-element>
+  </div>
 </Layout>
-
-<script>
-  import { actions } from "astro:actions";
-
-  const event = new Event("save-data", {
-    bubbles: false,
-    cancelable: false,
-    composed: false,
-  });
-
-  class Editor extends HTMLElement {
-    recipe = parseInt(this.dataset.recipe!);
-    editor = this.querySelector("textarea");
-    imageAlt = this.querySelector("#imageAlt") as HTMLInputElement;
-    image = this.querySelector("#imagePath") as HTMLInputElement;
-    recipeTitle = this.querySelector("#recipeTitle") as HTMLInputElement;
-    ingredients = this.querySelector("tbody");
-
-    save() {
-      if (this.ingredients) {
-        this.ingredients.childNodes.forEach((child) => {
-          child.dispatchEvent(event);
-        });
-      }
-
-      actions.Recipe.updateRecipe({
-        id: this.recipe,
-        body: this.editor?.value,
-        image: this.image?.value,
-        imageAlt: this.imageAlt?.value,
-        title: this.recipeTitle?.value,
-      }).then(({ error, data }) => {
-        if (error) console.error(error.message);
-        if (data) console.log("saved");
-      });
-    }
-
-    constructor() {
-      super();
-    }
-  }
-  customElements.define("editor-element", Editor);
-</script>

@@ -1,20 +1,10 @@
 import { truncate } from "@lib/math";
 import { isMetric } from "@lib/types";
-import { actions } from "astro:actions";
 import { createResource, For, Show, type Component } from "solid-js";
-import { isServer } from "solid-js/web";
 
+import { fetchIngredients } from "@lib/ingredients";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
-
-const fetchIngredients = async (id: number) => {
-  if (!isServer) {
-    const { data } = await actions.ingredient.getIngredients({
-      recipeId: id,
-    });
-    return data;
-  }
-};
 
 const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
   props: any,
@@ -22,11 +12,13 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
 
-  const [ingredients] = createResource(recipeId, fetchIngredients);
+  const [ingredients, { refetch }] = createResource(() =>
+    fetchIngredients(recipeId()),
+  );
 
   return (
     <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
-      <thead class="flex w-full">
+      <thead class="mx-auto flex w-full">
         <tr class="mx-1 flex w-full text-left">
           <Show
             when={editing()}
@@ -41,7 +33,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
       <tbody class="max-h-screen scroll-auto">
         <For each={ingredients()}>
           {(ingredient) => (
-            <tr class="flex w-full flex-row">
+            <tr class="flex w-full flex-row p-1">
               <Show
                 when={editing()}
                 fallback={
@@ -50,14 +42,14 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
                   </td>
                 }
               >
-                <Ingredient ingredient={ingredient} />
+                <Ingredient ingredient={ingredient} refetch={refetch} />
               </Show>
             </tr>
           )}
         </For>
       </tbody>
       <Show when={editing()}>
-        <IngredientAdder recipeId={recipeId()} />
+        <IngredientAdder recipeId={recipeId()} refetch={refetch} />
       </Show>
     </table>
   );

@@ -7,7 +7,6 @@ import {
   primaryKey,
   real,
   text,
-  time,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -36,17 +35,17 @@ export const recipe = pgTable(
   {
     id: integer().primaryKey().generatedByDefaultAsIdentity(),
     title: varchar({ length: 255 }).notNull(),
-    author: varchar({ length: 255 }).default("No author yet"),
+    author: varchar({ length: 255 }).default("No author yet").notNull(),
     created: timestamp().defaultNow(),
     edited: timestamp().defaultNow(),
-    prepTime: time(),
-    cookTime: time(),
+    prepTime: varchar({ length: 255 }).notNull().default("0:00"),
+    cookTime: varchar({ length: 255 }).notNull().default("0:00"),
     description: varchar({ length: 255 }).notNull(),
-    body: text().default(""),
-    image: varchar({ length: 255 }).default("/default.png"),
-    imageAlt: varchar({ length: 255 }).default("default image"),
-    liked: boolean().default(false),
-    totalViews: integer().default(0),
+    body: text().default("").notNull(),
+    image: varchar({ length: 255 }).default("/default.png").notNull(),
+    imageAlt: varchar({ length: 255 }).default("default image").notNull(),
+    liked: boolean().default(false).notNull(),
+    totalViews: integer().default(0).notNull(),
   },
   (table) => [
     index("recipe_title_index").using(
