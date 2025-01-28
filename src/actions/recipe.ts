@@ -1,14 +1,8 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
-import {
-  db,
-  filterByLiked,
-  recipeSearch,
-  sortBy,
-  withPagination,
-} from "@db/index";
-import { recipe } from "@db/schema";
+import { db, withPagination } from "@db/index";
+import { filterByLiked, recipe, recipeSearch, sortBy } from "@db/schema/recipe";
 import { eq } from "drizzle-orm";
 
 export const Recipe = {
@@ -78,7 +72,8 @@ export const Recipe = {
           with: {
             ingredients: true,
           },
-          where: eq(recipe.id, parseInt(identifier as string)),
+          where: (recipe, { eq }) =>
+            eq(recipe.id, parseInt(identifier as string)),
         });
 
         if (!recipe)
@@ -112,7 +107,7 @@ export const Recipe = {
       id: z.number(),
       title: z.string().optional().default(""),
       author: z.string().optional().default("No Author Yet"),
-      edited: z.string().optional().default(new Date().toLocaleDateString()),
+      edited: z.date().optional().default(new Date()),
       prepTime: z.string().optional().default(""),
       cookTime: z.string().optional().default(""),
       description: z.string().optional().default(""),

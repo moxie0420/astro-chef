@@ -4,6 +4,7 @@ import "glider-js/glider.min.css";
 
 import Button from "@components/generic/button.astro";
 import RecipeCard from "@components/recipe/recipeCard.astro";
+import type { Recipe } from "@lib/types";
 
 const signature = Math.floor(Math.random() * 100);
 
@@ -24,7 +25,7 @@ const { data } = await Astro.callAction(actions.Recipe.getRecipes, {
 <glide-carousel data-signature={signature}>
   <div>
     <div id="glider" class="glider bg-surface rounded-lg p-2">
-      {data?.map((recipe) => <RecipeCard recipe={recipe} />)}
+      {data?.map((recipe) => <RecipeCard recipe={recipe as Recipe} />)}
     </div>
     <div class="grid grid-cols-5">
       <div class="col-start-1">

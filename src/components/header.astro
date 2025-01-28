@@ -1,14 +1,10 @@
 ---
-import { actions } from "astro:actions";
-
 import Button from "@components/generic/button.astro";
 import ImageUploader from "./assets/imageUploader.astro";
 import Flyout from "./generic/flyout.astro";
 import Modal from "./generic/modal.astro";
 import Menu from "src/icons/menu.svg";
 import Input from "./generic/input.astro";
-
-import HeaderLinks from "./headerLinks";
 
 const regex = /^\/recipes\//;
 
@@ -21,25 +17,9 @@ interface Props {
   recipeId?: number;
 }
 const { pages, recipeId, editing } = Astro.props;
-
-const result = Astro.getActionResult(actions.create);
-if (result && !result.error) {
-  return Astro.redirect(`/${result.data.type}s/by-id/${result.data.res.id}`);
-}
 ---
 
-<site-nav
-  data-recipe={recipeId}
-  data-editing={editing}
-  class="bg-surface border-highlightHigh text-text sticky top-0 z-20 flex w-full justify-between rounded-md p-1 font-extrabold shadow-lg md:text-3xl"
->
-  <HeaderLinks
-    pages={pages}
-    editing={editing || false}
-    client:only
-    transition:persist
-  />
-
+<site-nav data-recipe={recipeId} data-editing={editing}>
   <div class="flex w-fit md:gap-2">
     <Flyout>
       <Button slot="button" size="medium" rounded><Menu /></Button>

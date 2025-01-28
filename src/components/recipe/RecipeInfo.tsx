@@ -138,8 +138,8 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
 
         <div class="bg-highlightHigh relative mt-1 flex flex-col rounded-md p-2">
           <p>{recipe.totalViews} Views</p>
-          <p>Created on {recipe.created.toString()}</p>
-          <p>Last edited on {recipe.edited.toString()}</p>
+          <p>Created on {recipe.created?.toString()}</p>
+          <p>Last edited on {recipe.edited?.toString()}</p>
           <div class="absolute top-0 right-1">
             <LikeButton liked={recipe.liked} recipeId={recipe.id} />
           </div>

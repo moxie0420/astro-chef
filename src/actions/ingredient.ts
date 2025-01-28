@@ -2,7 +2,7 @@ import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 import { db } from "@db/index";
-import { ingredients } from "@db/schema";
+import { ingredients } from "@db/schema/ingredients";
 import { eq } from "drizzle-orm";
 
 export const ingredient = {
@@ -12,7 +12,8 @@ export const ingredient = {
     }),
     handler: async (input) => {
       const ingredientList = await db.query.ingredients.findMany({
-        where: eq(ingredients.recipeId, input.recipeId),
+        where: (ingredients, { eq }) =>
+          eq(ingredients.recipeId, input.recipeId),
         orderBy: ingredients.name,
       });
       if (!ingredientList)

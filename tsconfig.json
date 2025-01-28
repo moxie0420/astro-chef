@@ -21,5 +21,8 @@
   },
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules/**"],
+  "watchOptions": {
+    "excludeDirectories": ["node_modules/*"]
+  }
 }

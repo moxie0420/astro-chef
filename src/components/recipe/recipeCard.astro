@@ -1,11 +1,11 @@
 ---
 import Image from "@components/assets/defaultImage.astro";
-import LikeButton from "@components/likeButton.astro";
+import LikeButton from "@components/likeButton";
 
-import type { selectRecipe } from "@db/schema";
+import type { Recipe } from "@lib/types";
 
 interface Props {
-  recipe: selectRecipe;
+  recipe: Recipe;
 }
 
 const { recipe } = Astro.props;
@@ -45,8 +45,8 @@ else link = "/recipes/by-id/" + recipe.id;
     <div
       class="bg-highlightHigh text-text m-1 rounded-md px-1 py-1 text-xs font-semibold"
     >
-      <p>Created: {recipe.created?.toLocaleDateString()}</p>
-      <p>Edited: {recipe.edited?.toLocaleDateString()}</p>
+      <p>Created: {recipe.created}</p>
+      <p>Edited: {recipe.edited}</p>
     </div>
   </a>
 </div>

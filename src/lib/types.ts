@@ -41,8 +41,8 @@ type Recipe = {
   id: number;
   title: string;
   author: string;
-  created: string;
-  edited: string;
+  created?: Date;
+  edited?: Date;
   prepTime: string;
   cookTime: string;
   description: string;

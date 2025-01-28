@@ -6,26 +6,28 @@ import { defineAction } from "astro:actions";
 import { IMAGE_DIRECTORY } from "astro:env/server";
 import { z } from "astro:schema";
 import fs from "fs/promises";
-import { lists } from "./lists";
 
 import { db } from "@db/index";
-import { recipe } from "@db/schema";
+import { recipe } from "@db/schema/recipe";
 
 export const server = {
   Recipe,
   ingredient,
-  lists,
   uploadImage: defineAction({
-    accept: "form",
     input: z.object({
-      image: z.array(z.instanceof(File)),
+      image: z
+        .object({
+          name: z.string(),
+          data: z.instanceof(Uint8Array),
+        })
+        .array(),
     }),
     handler: async ({ image }) => {
       for (let x = 0; x < image.length; x++) {
-        console.log("writing: " + image[x].name);
+        console.log("writing: " + image[x]);
         await fs.writeFile(
           `${IMAGE_DIRECTORY}/${image[x].name}`,
-          image[x].stream(),
+          image[x].data,
         );
         console.log("wrote: " + image[x].name);
       }
@@ -38,6 +40,7 @@ export const server = {
       description: z.string(),
     }),
     handler: async ({ title, description }) => {
+      console.log("adding recipe");
       const res = await db
         .insert(recipe)
         .values({
@@ -49,6 +52,8 @@ export const server = {
           imageAlt: "Default Image",
         })
         .returning();
+
+      console.log("done?");
 
       return res[0].id;
     },

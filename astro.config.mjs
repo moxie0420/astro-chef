@@ -24,6 +24,11 @@ export default defineConfig({
         access: "public",
         default: `/data/Images`,
       }),
+      ENVIRONMENT: envField.enum({
+        context: "server",
+        access: "public",
+        values: ["prod", "dev"],
+      }),
     },
   },
   integrations: [
@@ -31,11 +36,7 @@ export default defineConfig({
     solidJs({ devtools: true }),
     AstroPWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-      },
       workbox: { navigateFallback: "/404" },
-      includeAssets: ["favicon.svg"],
       manifest: {
         name: "Astro Chef",
         short_name: "AstroChef",
@@ -43,14 +44,24 @@ export default defineConfig({
         theme_color: "#191724",
         icons: [
           {
-            src: "favicon.svg",
-            sizes: "192x192",
-            type: "image/svg",
+            src: "favicon.ico",
+            sizes: "48x48",
           },
           {
-            src: "favicon.svg",
+            src: "android-chrome-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "android-chrome-512x512.png",
             sizes: "512x512",
-            type: "image/svg",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
           },
         ],
       },
