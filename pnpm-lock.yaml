@@ -17,6 +17,9 @@ importers:
       '@astrojs/solid-js':
         specifier: ^5.0.4
         version: 5.0.4(@types/node@22.10.10)(jiti@2.4.2)(lightningcss@1.29.1)(solid-devtools@0.33.0(solid-js@1.9.4)(vite@6.0.11(@types/node@22.10.10)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(solid-js@1.9.4)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)
+      '@fontsource/noto-sans':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@solid-primitives/upload':
         specifier: ^0.1.0
         version: 0.1.0(solid-js@1.9.4)
@@ -1355,6 +1358,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/noto-sans@5.1.1':
+    resolution: {integrity: sha512-WesuII3BzvzVr0JqYIgnEeJPwXvpFAo9tNCMH1AqoLSCdStKJugMaIcVJ/sT+Pw9ytIlUO3ccbqbe+BhhsXm9g==}
 
   '@hexagon/base64@1.1.28':
     resolution: {integrity: sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==}
@@ -6395,6 +6401,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.24.2':
     optional: true
+
+  '@fontsource/noto-sans@5.1.1': {}
 
   '@hexagon/base64@1.1.28': {}
 

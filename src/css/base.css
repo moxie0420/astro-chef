@@ -6,6 +6,11 @@
 @plugin "@tailwindcss/forms";
 
 @theme {
+  --font-sans: "Noto Sans", "Noto Color Emoji", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-*: initial;
+
   --color-base: #191724;
   --color-surface: #1f1d2e;
   --color-overlay: #26233a;
