@@ -13,21 +13,26 @@ const RecipeCard: Component<{ recipe: Recipe }> = (props) => {
       onClick={async () => await navigate(`/recipes/by-id/${recipe().id}`)}
       class="text-text bg-highlightLow border-base m-1 flex w-full flex-col rounded-md"
     >
-      <div class="relative flex aspect-video w-full">
+      <div class="flex aspect-video w-full">
         <div class="m-auto basis-2/3 p-1">
           <Image src={recipe().image} alt={recipe().imageAlt} />
         </div>
-        <div class="bg-highlightMed m-1 flex w-full flex-col rounded-md p-1.5">
-          <p class="text-2xl font-bold">{recipe().title}</p>
-          <p class="pb-2 text-lg font-semibold">By {recipe().author}</p>
-          <p>{recipe().description}</p>
-        </div>
-
-        <div class="absolute top-0.5 left-0.5">
-          <LikeButton size={26} liked={recipe().liked} recipeId={recipe().id} />
+        <div class="bg-highlightMed relative m-1 flex w-full flex-col rounded-md p-1.5">
+          <p class="text-lg font-bold md:text-2xl">{recipe().title}</p>
+          <p class="text-md pb-2 font-semibold md:text-lg">
+            By {recipe().author}
+          </p>
+          <p class="text-sm">{recipe().description}</p>
+          <div class="absolute right-1 -bottom-1">
+            <LikeButton
+              size={26}
+              liked={recipe().liked}
+              recipeId={recipe().id}
+            />
+          </div>
         </div>
       </div>
-      <div class="m-1 mx-auto flex w-full gap-1 p-1.5">
+      <div class="m-1 mx-auto flex w-full gap-1 p-1.5 text-sm">
         <div class="bg-highlightMed my-auto flex basis-2/3 flex-col rounded-md px-1 text-nowrap">
           <div class="flex justify-between gap-1">
             <p>To Prep</p>

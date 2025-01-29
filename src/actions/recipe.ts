@@ -29,7 +29,7 @@ export const Recipe = {
     input: z.object({
       number: z.coerce.number().optional().nullable(),
       sort: z
-        .enum(["random", "popular", "by-id", "title", "views"])
+        .enum(["random", "popular", "by-id", "title"])
         .optional()
         .nullable(),
       filter: z

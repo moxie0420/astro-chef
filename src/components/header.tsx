@@ -101,18 +101,24 @@ const Header: Component<props> = (props) => {
                         </button>
                       </Match>
                       <Match when={!editing()}>
-                        <Motion.button
-                          initial={{ y: -100 }}
-                          animate={{ y: 0 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.75 }}
-                          class="bg-muted rounded-md text-xl font-bold"
-                          onClick={() =>
-                            navigate(`/recipes/edit?id=${recipeId()}`)
-                          }
+                        <Show
+                          when={window.location.pathname.startsWith(
+                            "/recipes/",
+                          )}
                         >
-                          Edit
-                        </Motion.button>
+                          <Motion.button
+                            initial={{ y: -100 }}
+                            animate={{ y: 0 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.75 }}
+                            class="bg-muted rounded-md text-xl font-bold"
+                            onClick={() =>
+                              navigate(`/recipes/edit?id=${recipeId()}`)
+                            }
+                          >
+                            Edit
+                          </Motion.button>
+                        </Show>
 
                         <Motion.div
                           initial={{ y: -100 }}

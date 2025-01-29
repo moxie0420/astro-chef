@@ -45,7 +45,7 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
   });
 
   return (
-    <div class="bg-overlay text-text m-2 mx-auto flex w-fit gap-1 rounded-md p-2">
+    <div class="bg-overlay text-text mx-auto flex w-fit max-w-xl flex-col gap-1 rounded-md p-1 md:flex-row">
       <div class="bg-highlightMed flex basis-1/3 flex-col gap-1 rounded-md p-1">
         <Switch>
           <Match when={!editing()}>
@@ -113,8 +113,8 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
         </Switch>
       </div>
 
-      <div class="flex basis-2/3 flex-col">
-        <div class="mx-auto max-w-sm basis-2/3">
+      <div class="flex flex-col">
+        <div class="mx-auto">
           <Image src={currentImage()} alt={recipe.imageAlt} />
         </div>
 
@@ -126,19 +126,19 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
             </div>
           }
         >
-          <div class="mx-auto flex">
+          <div class="mx-auto flex w-full max-w-sm flex-col gap-1">
             <input
               type="text"
               name="image"
               value={recipe.image}
-              class="bg-surface rounded-l-md"
+              class="bg-surface basis-1/2 rounded-md"
               onChange={updateRecipe}
             />
             <input
               type="text"
               name="imageAlt"
               value={recipe.imageAlt}
-              class="bg-surface rounded-r-md"
+              class="bg-surface basis-1/2 rounded-md"
               onChange={updateRecipe}
             />
           </div>
