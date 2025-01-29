@@ -1,7 +1,7 @@
+import S3 from "@lib/S3";
 import type { APIRoute } from "astro";
 import { fileTypeFromBuffer } from "file-type";
 import No_Data from "src/icons/no_data.svg?raw";
-import S3 from "../../lib/S3.ts";
 
 const notfound = async () =>
   new Response(No_Data.toString(), {
