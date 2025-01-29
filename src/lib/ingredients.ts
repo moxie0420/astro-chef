@@ -5,7 +5,7 @@ const fetchIngredients = async (id: number) => {
   const { data } = await actions.ingredient.getIngredients({
     recipeId: id,
   });
-  return data as fullIngredient[];
+  return data;
 };
 
 interface fullIngredient {

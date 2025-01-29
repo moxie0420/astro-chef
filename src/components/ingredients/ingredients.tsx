@@ -1,6 +1,6 @@
 import { truncate } from "@lib/math";
 import { isMetric } from "@lib/types";
-import { createResource, For, Show, type Component } from "solid-js";
+import { createResource, For, Show, Suspense, type Component } from "solid-js";
 
 import { fetchIngredients } from "@lib/ingredients";
 import Ingredient from "./ingredient";
@@ -31,22 +31,24 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
         </tr>
       </thead>
       <tbody class="max-h-screen scroll-auto">
-        <For each={ingredients()}>
-          {(ingredient) => (
-            <tr class="flex w-full flex-row p-1">
-              <Show
-                when={editing()}
-                fallback={
-                  <td class="px-2">
-                    {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "" ? "of" : ""} ${ingredient.name}`}
-                  </td>
-                }
-              >
-                <Ingredient ingredient={ingredient} refetch={refetch} />
-              </Show>
-            </tr>
-          )}
-        </For>
+        <Suspense fallback={<div>Nothing Here Yet</div>}>
+          <For each={ingredients()}>
+            {(ingredient) => (
+              <tr class="flex w-full flex-row p-1">
+                <Show
+                  when={editing()}
+                  fallback={
+                    <td class="px-2">
+                      {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "" ? "of" : ""} ${ingredient.name}`}
+                    </td>
+                  }
+                >
+                  <Ingredient ingredient={ingredient} refetch={refetch} />
+                </Show>
+              </tr>
+            )}
+          </For>
+        </Suspense>
       </tbody>
       <Show when={editing()}>
         <IngredientAdder recipeId={recipeId()} refetch={refetch} />

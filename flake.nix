@@ -38,10 +38,9 @@
               docker load < result
             '';
           };
-          processes = {
-          };
           packages = with pkgs; [
             alejandra
+            nil
             compose2nix
           ];
           languages.javascript = {

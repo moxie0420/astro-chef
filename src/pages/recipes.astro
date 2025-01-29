@@ -3,7 +3,7 @@ import { actions } from "astro:actions";
 import type { filter_t, Recipe, sort_t } from "@lib/types";
 
 import MainLayout from "@layouts/layout.astro";
-import RecipeCard from "@components/recipe/recipeCard.astro";
+import RecipeCard from "@components/recipe/recipeCard";
 import SearchOptions from "@components/search/searchOptions";
 import Button from "@components/generic/button.astro";
 
@@ -74,29 +74,33 @@ if (Astro.request.method === "POST") {
 
 if (!res?.data) return Astro.redirect("/404");
 const recipes = res.data;
-
-console.log(params);
 ---
 
 <MainLayout title={"Browse Recipes"}>
-  <div class="flex w-full flex-col xl:flex-row">
+  <div class="flex h-screen w-full flex-col xl:flex-row">
     <SearchOptions
+      search={params.search}
       page={params.page || 1}
       number={params.number || 25}
       filter={params.filters}
       sort={params.sortParam || "popular"}
-      client:only
+      client:load
     />
-    <div>
-      <div
-        class="mx-auto grid grid-cols-2 gap-2 p-2 md:grid-cols-3 xl:grid-cols-4"
-      >
-        {recipes.map((r) => <RecipeCard recipe={r as Recipe} />)}
-      </div>
-      <div class="mx-auto flex w-full justify-between">
-        <Button id="prevPage">Prev</Button>
-        <Button id="nextPage">Next</Button>
-      </div>
+
+    <div
+      class="mx-auto grid grid-cols-2 gap-2 p-2 md:grid-cols-3 xl:grid-cols-4"
+    >
+      {
+        recipes.map((r) => (
+          <RecipeCard recipe={r as Recipe} client:only>
+            <div slot="fallback" class="size-full animate-pulse" />
+          </RecipeCard>
+        ))
+      }
+    </div>
+    <div class="absolute bottom-0 mx-auto flex w-full justify-between">
+      <Button id="prevPage">Prev</Button>
+      <Button id="nextPage">Next</Button>
     </div>
   </div>
 </MainLayout>

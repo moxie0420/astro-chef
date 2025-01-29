@@ -1,16 +1,6 @@
-services:
-  astro-chef:
-    image: "ghcr.io/moxie0420/astro-chef:latest"
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 80:4321
-    volumes:
-      - astroChef:/data
-    depends_on:
-      - db
+name: AstroChef
 
+services:
   db:
     image: "postgres:16-alpine"
     restart: always
@@ -19,9 +9,16 @@ services:
       - .env
     ports:
       - 5432:5432
+
+  storage:
+    image: "quay.io/minio/minio"
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: minio server /data --console-address ":9001"
     volumes:
-      - db:/var/lib/postgresql/data
+      - images:/data
 
 volumes:
-  astroChef:
-  db:
+  images:

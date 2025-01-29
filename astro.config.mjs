@@ -28,6 +28,20 @@ export default defineConfig({
         context: "server",
         access: "public",
         values: ["prod", "dev"],
+        default: "dev",
+      }),
+
+      S3_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      S3_ACCESS_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      S3_SECRET_KEY: envField.string({
+        context: "server",
+        access: "secret",
       }),
     },
   },
@@ -73,7 +87,7 @@ export default defineConfig({
   }),
   vite: {
     plugins: [
-      visualizer(),
+      visualizer({ emitFile: true, filename: "stats.html" }),
       tailwindcss(),
       solidSvg({ defaultAsComponent: false }),
     ],

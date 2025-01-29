@@ -11,12 +11,11 @@ const HeaderLinks: Component<{
   const pages = () => props.pages;
   const editing = () => props.editing;
 
-  const [currentPage, setCurrentPage] = createSignal(
-    window.location.pathname.substring(0, 8),
-  );
+  const [currentPage, setCurrentPage] = createSignal("");
 
   onMount(() => {
-    document.addEventListener("astro:after-swap", () => {
+    setCurrentPage(window.location.pathname.substring(0, 8));
+    document.addEventListener("astro:after-preparations", () => {
       const path = window.location.pathname.substring(0, 8);
       setCurrentPage(path);
     });

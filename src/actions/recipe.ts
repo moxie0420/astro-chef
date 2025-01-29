@@ -63,43 +63,24 @@ export const Recipe = {
   }),
   getRecipe: defineAction({
     input: z.object({
-      method: z.string().optional(),
-      identifier: z.coerce.string().optional(),
+      identifier: z.string(),
     }),
-    handler: async ({ method, identifier }) => {
-      if (method == "id") {
-        const res = await db.query.recipe.findFirst({
-          with: {
-            ingredients: true,
-          },
-          where: (recipe, { eq }) =>
-            eq(recipe.id, parseInt(identifier as string)),
+    handler: async ({ identifier }) => {
+      const res = await db.query.recipe.findFirst({
+        with: {
+          ingredients: true,
+        },
+        where: (recipe, { eq }) =>
+          eq(recipe.id, parseInt(identifier as string)),
+      });
+
+      if (!recipe)
+        throw new ActionError({
+          code: "NOT_FOUND",
+          message: "recipe " + identifier + " was not found",
         });
 
-        if (!recipe)
-          throw new ActionError({
-            code: "NOT_FOUND",
-            message: "recipe " + identifier + " was not found",
-          });
-
-        return res;
-      }
-
-      if (method == "title") {
-        const res = await db.query.recipe.findFirst({
-          with: {
-            ingredients: true,
-          },
-          where: eq(recipe.title, identifier as string),
-        });
-
-        if (!recipe)
-          throw new ActionError({
-            code: "NOT_FOUND",
-            message: "recipe " + identifier + " was not found",
-          });
-        return res;
-      }
+      return res;
     },
   }),
   updateRecipe: defineAction({
@@ -107,7 +88,6 @@ export const Recipe = {
       id: z.number(),
       title: z.string().optional().default(""),
       author: z.string().optional().default("No Author Yet"),
-      edited: z.date().optional().default(new Date()),
       prepTime: z.string().optional().default(""),
       cookTime: z.string().optional().default(""),
       description: z.string().optional().default(""),

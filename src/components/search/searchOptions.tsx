@@ -7,11 +7,13 @@ const SearchOptions: Component<{
   number: number;
   filter?: Array<filter_t>;
   sort: "random" | "popular" | "title" | "by-id";
+  search?: string;
 }> = (props) => {
   const page = () => props.page;
   const number = () => props.number;
   const filter = () => props.filter;
   const sort = () => props.sort;
+  const search = () => props.search;
 
   const filters: Array<{ text: string; name: filter_t }> = [
     {
@@ -25,6 +27,7 @@ const SearchOptions: Component<{
     number: number(),
     filter: filter() || [],
     sort: sort(),
+    search: search(),
   });
 
   const updateFormField: JSX.EventHandler<
@@ -48,6 +51,7 @@ const SearchOptions: Component<{
         onChange={updateFormField}
         class="bg-highlightHigh rounded-lg"
         placeholder="Search..."
+        value={search()}
       />
       <select
         name="sort"
@@ -103,11 +107,14 @@ const SearchOptions: Component<{
           type="number"
           name="count"
           onChange={updateFormField}
-          value={number()}
+          value={form.number}
           class="bg-muted rounded-md"
         />
       </div>
 
+      <button type="submit" class="bg-pine text-text m-1 rounded-md text-xl">
+        Search
+      </button>
       <input type="submit" hidden />
     </form>
   );

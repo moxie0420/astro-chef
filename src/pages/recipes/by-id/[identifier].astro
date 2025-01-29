@@ -6,10 +6,11 @@ import Layout from "@layouts/layout.astro";
 import Markdown from "@components/markdown";
 import RecipeInfo from "@components/recipe/RecipeInfo";
 
-const { method, identifier } = Astro.params;
+const { identifier } = Astro.params;
+
+if (!identifier) return Astro.redirect("/");
 
 const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
-  method,
   identifier,
 });
 

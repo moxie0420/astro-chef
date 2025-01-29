@@ -13,7 +13,7 @@ import { ingredients } from "./ingredients";
 
 export function recipeSearch<T extends PgSelect>(qb: T, search: string) {
   return qb.where(
-    sql`to_tsvector('english', ${recipe.title}) @@ to_tsquery('english', ${search})`,
+    sql`to_tsvector('english', ${recipe.title}) @@ to_tsquery('english', ${search} || ':*')`,
   );
 }
 
@@ -23,7 +23,7 @@ export function filterByLiked<T extends PgSelect>(qb: T, type: typeof recipe) {
 
 export function sortBy<T extends PgSelect>(
   qb: T,
-  by: "random" | "popular" | "by-id" | "title" | "views",
+  by: "random" | "popular" | "by-id" | "title",
   type: typeof recipe,
 ) {
   switch (by) {
@@ -35,8 +35,6 @@ export function sortBy<T extends PgSelect>(
       return qb.orderBy(sql`random()`);
     case "title":
       return qb.orderBy(type.title);
-    case "views":
-      return qb.orderBy(type.totalViews);
   }
 }
 
@@ -57,24 +55,17 @@ export const recipe = pgTable(
     liked: boolean().default(false).notNull(),
     totalViews: integer().default(0).notNull(),
   },
-  (table) => [
-    index("recipe_title_index").using(
+  (table) => ({
+    searchIndex: index("search_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.title})`,
+      sql`(
+        setweight(to_tsvector('english', ${table.title}), 'A') ||
+        setweight(to_tsvector('english', ${table.description}), 'B') ||
+        setweight(to_tsvector('english', ${table.body}), 'B') ||
+        setweight(to_tsvector('english', ${table.author}), 'A')
+      )`,
     ),
-    index("recipe_description_index").using(
-      "gin",
-      sql`to_tsvector('english', ${table.description})`,
-    ),
-    index("recipe_body_index").using(
-      "gin",
-      sql`to_tsvector('english', ${table.body})`,
-    ),
-    index("recipe_author_index").using(
-      "gin",
-      sql`to_tsvector('english', ${table.author})`,
-    ),
-  ],
+  }),
 );
 
 export const recipeRelations = relations(recipe, ({ many }) => ({

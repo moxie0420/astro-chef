@@ -35,7 +35,7 @@ const Units: unit[] = [
 
 const isMetric = /(gram|liter)/;
 
-const isRecipePage = /^\/recipes[\/](by-id|by-name)/gm;
+const isRecipePage = /^\/recipes[/](by-id|by-name)/gm;
 
 type Recipe = {
   id: number;

@@ -13,7 +13,6 @@ const id = params.get("id");
 if (!id) return Astro.redirect("/404?message=Recipe came back undefined");
 
 const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
-  method: "id",
   identifier: id,
 });
 
@@ -26,7 +25,10 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 <Layout title={data.title} editing={true}>
   <div class="bg-surface text-text mx-auto w-full md:w-5/6">
     {/* @ts-ignore */}
-    <RecipeInfo recipe={data} editing={true} client:load />
+    <RecipeInfo recipe={data} editing={true} client:only>
+      {/* @ts-ignore */}
+      <RecipeInfo slot="fallback" recipe={data} editing={true} client:load />
+    </RecipeInfo>
     <Ingredients recipeId={data.id} editing={true} client:only />
 
     <div class="flex h-fit flex-col gap-2 xl:flex-row">

@@ -2,6 +2,7 @@ import { type Recipe } from "@lib/types";
 import {
   createEffect,
   createSignal,
+  lazy,
   Match,
   Show,
   Switch,
@@ -10,17 +11,21 @@ import {
 } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import Image from "@components/assets/image";
 import LikeButton from "@components/likeButton";
 import { actions } from "astro:actions";
 
+const Image = lazy(async () => import("@components/assets/image"));
+
 const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
+  let ImageRef: HTMLInputElement | undefined;
+
   const editing = () => props.editing;
 
   const [recipe, setRecipe] = createStore(props.recipe);
 
   const [currentTitle, setCurrentTitle] = createSignal(recipe.title);
   const [currentAuthor, setCurrentAuthor] = createSignal(recipe.author);
+  const [currentImage, setCurrentImage] = createSignal(recipe.image);
 
   const updateRecipe: JSX.EventHandler<
     HTMLInputElement | HTMLTextAreaElement,
@@ -31,10 +36,13 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
 
     if (key && val && val !== "") {
       setRecipe(key, val);
+      if (key == "image") setCurrentImage(val);
     }
   };
 
-  createEffect(async () => await actions.Recipe.updateRecipe(recipe));
+  createEffect(async () => {
+    await actions.Recipe.updateRecipe(recipe);
+  });
 
   return (
     <div class="bg-overlay text-text m-2 mx-auto flex w-fit gap-1 rounded-md p-2">
@@ -107,7 +115,7 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
 
       <div class="flex basis-2/3 flex-col">
         <div class="mx-auto max-w-sm basis-2/3">
-          <Image src="" alt="" />
+          <Image src={currentImage()} alt={recipe.imageAlt} />
         </div>
 
         <Show
@@ -138,8 +146,14 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
 
         <div class="bg-highlightHigh relative mt-1 flex flex-col rounded-md p-2">
           <p>{recipe.totalViews} Views</p>
-          <p>Created on {recipe.created?.toString()}</p>
-          <p>Last edited on {recipe.edited?.toString()}</p>
+          <p>
+            Created on {recipe.created?.toLocaleDateString()} at{" "}
+            {recipe.created?.toLocaleTimeString()}
+          </p>
+          <p>
+            Last edited at {recipe.edited?.toLocaleTimeString()} on{" "}
+            {recipe.edited?.toLocaleDateString()}
+          </p>
           <div class="absolute top-0 right-1">
             <LikeButton liked={recipe.liked} recipeId={recipe.id} />
           </div>

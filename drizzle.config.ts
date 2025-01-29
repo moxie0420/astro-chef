@@ -8,7 +8,7 @@ const db = `postgres://${USER}:${PWD}@localhost:5432`;
 
 export default defineConfig({
   out: "./drizzle",
-  schema: "./db/schema",
+  schema: "./src/db/schema",
   dialect: "postgresql",
   dbCredentials: {
     url: db,

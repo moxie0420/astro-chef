@@ -2,7 +2,7 @@
 import { IMAGE_DIRECTORY } from "astro:env/server";
 import { glob } from "glob";
 
-import DefaultImage from "./defaultImage.astro";
+import DefaultImage from "./image";
 
 const matches = await glob(`**/*.{png,jpeg,jpg,webm}`, {
   cwd: IMAGE_DIRECTORY,

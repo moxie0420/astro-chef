@@ -65,7 +65,7 @@ const IngredientAdder: Component<{
           name="amount"
           class="bg-surface w-full rounded-l-md"
           placeholder="Amount"
-          oninput={updateIngredient}
+          onInput={updateIngredient}
         />
       </div>
 
@@ -74,7 +74,7 @@ const IngredientAdder: Component<{
           name="unit"
           id="unit"
           class="bg-surface w-full"
-          oninput={updateIngredient}
+          onInput={updateIngredient}
         >
           <For each={Units}>
             {(unit) => (
@@ -94,7 +94,7 @@ const IngredientAdder: Component<{
           class="bg-surface text-text w-full rounded-r-md"
           placeholder="Name"
           maxlength="25"
-          oninput={updateIngredient}
+          onInput={updateIngredient}
         />
       </div>
 

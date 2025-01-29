@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@db/*": ["db/*"],
+      "@db/*": ["src/db/*"],
       "@public/*": ["public/*"],
       "@layouts/*": ["src/layouts/*"],
       "@components/*": ["src/components/*"],

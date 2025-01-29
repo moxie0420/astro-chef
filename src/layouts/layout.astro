@@ -61,7 +61,7 @@ const id = () => {
         ],
       }}
     />
-    <script src="/src/pwa.ts"></script>
+    <script src="/src/lib/pwa.ts"></script>
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
     <ClientRouter />
   </head>
@@ -72,7 +72,7 @@ const id = () => {
       recipeId={id() || recipeId}
       editing={editing}
       transition:persist
-      client:only
+      client:load
     />
     <slot />
   </body>
