@@ -1,6 +1,13 @@
 name: AstroChef
 
 services:
+  astro-chef:
+    image: "ghcr.io/moxie0420/astro-chef:latest"
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 80:4321
   db:
     image: "postgres:16-alpine"
     restart: always

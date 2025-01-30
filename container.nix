@@ -12,8 +12,8 @@ dockerTools.buildLayeredImage {
 
   contents = [astro-chef nodejs_22];
   config = {
-    Cmd = "node /dist/server/entry.mjs";
-    WorkingDir = "/data";
+    Cmd = "node ./dist/server/entry.mjs";
+    WorkingDir = "/";
     Env = [
       "HOST=${hostIP}"
       "PORT=${port}"
