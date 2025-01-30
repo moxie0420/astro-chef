@@ -2,7 +2,6 @@ import { eq, relations, sql } from "drizzle-orm";
 import type { PgSelect } from "drizzle-orm/pg-core";
 import {
   boolean,
-  index,
   integer,
   pgTable,
   text,
@@ -38,35 +37,21 @@ export function sortBy<T extends PgSelect>(
   }
 }
 
-export const recipe = pgTable(
-  "Recipe",
-  {
-    id: integer().primaryKey().generatedByDefaultAsIdentity(),
-    title: varchar({ length: 255 }).notNull(),
-    author: varchar({ length: 255 }).default("No author yet").notNull(),
-    created: timestamp().defaultNow(),
-    edited: timestamp().defaultNow(),
-    prepTime: varchar({ length: 255 }).notNull().default("0:00"),
-    cookTime: varchar({ length: 255 }).notNull().default("0:00"),
-    description: varchar({ length: 255 }).notNull(),
-    body: text().default("").notNull(),
-    image: varchar({ length: 255 }).default("/default.png").notNull(),
-    imageAlt: varchar({ length: 255 }).default("default image").notNull(),
-    liked: boolean().default(false).notNull(),
-    totalViews: integer().default(0).notNull(),
-  },
-  (table) => ({
-    searchIndex: index("search_index").using(
-      "gin",
-      sql`(
-        setweight(to_tsvector('english', ${table.title}), 'A') ||
-        setweight(to_tsvector('english', ${table.description}), 'B') ||
-        setweight(to_tsvector('english', ${table.body}), 'B') ||
-        setweight(to_tsvector('english', ${table.author}), 'A')
-      )`,
-    ),
-  }),
-);
+export const recipe = pgTable("Recipe", {
+  id: integer().primaryKey().generatedByDefaultAsIdentity(),
+  title: varchar({ length: 255 }),
+  author: varchar({ length: 255 }).default("No author yet").notNull(),
+  created: timestamp().defaultNow(),
+  edited: timestamp().defaultNow(),
+  prepTime: varchar({ length: 255 }),
+  cookTime: varchar({ length: 255 }),
+  description: varchar({ length: 255 }),
+  body: text().default("").notNull(),
+  image: varchar({ length: 255 }).default("/default.png").notNull(),
+  imageAlt: varchar({ length: 255 }).default("default image").notNull(),
+  liked: boolean().default(false).notNull(),
+  totalViews: integer().default(0).notNull(),
+});
 
 export const recipeRelations = relations(recipe, ({ many }) => ({
   ingredients: many(ingredients),
