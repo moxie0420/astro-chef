@@ -1,10 +1,7 @@
 {
   dockerTools,
   astro-chef,
-  nodejs_latest,
-  busybox,
-  bash,
-  sqld,
+  nodejs_22,
   created ? "now",
   port ? "4321",
   hostIP ? "0.0.0.0",
@@ -13,17 +10,9 @@ dockerTools.buildLayeredImage {
   name = "Astro-Chef";
   tag = "latest";
 
-  contents = [astro-chef nodejs_latest busybox bash sqld];
+  contents = [astro-chef nodejs_22];
   config = {
-    Cmd = [
-      "/bin/bash"
-      "-c"
-      ''
-        cd /
-        npx drizzle-kit migrate
-        node /dist/server/entry.mjs
-      ''
-    ];
+    Cmd = "node /dist/server/entry.mjs";
     WorkingDir = "/data";
     Env = [
       "HOST=${hostIP}"
