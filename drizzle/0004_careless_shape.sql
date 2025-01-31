@@ -1,1 +1,0 @@
-ALTER TABLE "Recipe" ALTER COLUMN "totalViews" DROP NOT NULL;

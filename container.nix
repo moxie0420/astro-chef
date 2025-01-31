@@ -3,8 +3,6 @@
   astro-chef,
   nodejs_22,
   created ? "now",
-  port ? "4321",
-  hostIP ? "0.0.0.0",
 }:
 dockerTools.buildLayeredImage {
   name = "Astro-Chef";
@@ -12,19 +10,12 @@ dockerTools.buildLayeredImage {
 
   contents = [astro-chef nodejs_22];
   config = {
-    Cmd = "node ./dist/server/entry.mjs";
-    WorkingDir = "/";
+    Cmd = "${nodejs_22}/bin/node ${astro-chef}/dist/server/entry.mjs";
     Env = [
-      "HOST=${hostIP}"
-      "PORT=${port}"
       "ASTRO_TELEMETRY_DISABLED=1"
     ];
     ExposedPorts = {
-      port = {};
-      dbPort = {};
-    };
-    Volumes = {
-      "/data" = {};
+      port = 4321;
     };
   };
 
