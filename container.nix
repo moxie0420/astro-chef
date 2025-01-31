@@ -10,7 +10,7 @@ dockerTools.buildLayeredImage {
 
   contents = [astro-chef nodejs_22];
   config = {
-    Cmd = "${nodejs_22}/bin/node ${astro-chef}/dist/server/entry.mjs";
+    Cmd = "/bin/node /dist/server/entry.mjs";
     Env = [
       "ASTRO_TELEMETRY_DISABLED=1"
     ];

@@ -1,13 +1,18 @@
 {
   inputs = {
-    devenv = {
-      url = "github:cachix/devenv";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
+    devenv.url = "github:cachix/devenv";
+  };
+
+  nixConfig = {
+    substituters = [
+      "https://astro-chef.cachix.org"
+    ];
+    trusted-public-keys = [
+      "astro-chef.cachix.org-1:O7sHVqTZKm3PzY5SmpuwWurIAMdetk7oOtAClULR19A="
+    ];
   };
 
   outputs = inputs @ {
@@ -22,35 +27,28 @@
         inputs.devenv.flakeModule
       ];
 
-      flake.nixConfig = {
-        substituters = [
-          "https://astro-chef.cachix.org"
-        ];
-        trusted-public-keys = [
-          "astro-chef.cachix.org-1:O7sHVqTZKm3PzY5SmpuwWurIAMdetk7oOtAClULR19A="
-        ];
-      };
-
       systems = ["x86_64-linux" "aarch64-linux"];
 
       perSystem = {pkgs, ...}: {
         packages = rec {
           astro-chef = pkgs.callPackage ./package.nix {};
           container = pkgs.callPackage ./container.nix {inherit astro-chef created;};
-          default = astro-chef;
+          default = container;
         };
 
         devenv.shells.default = {
-          scripts = {
-            buildDist.exec = ''
-              nix build .#container
-              docker load < result
-            '';
+          cachix = {
+            enable = true;
+            push.pull = ["pre-commit-hooks" "astro-chef"];
           };
+
+          scripts.build.exec = ''
+            nix build .#container
+            docker load < result
+          '';
           packages = with pkgs; [
             alejandra
             nil
-            compose2nix
           ];
           languages.javascript = {
             enable = true;
