@@ -15,7 +15,7 @@ dockerTools.buildLayeredImage {
       "ASTRO_TELEMETRY_DISABLED=1"
     ];
     ExposedPorts = {
-      port = 4321;
+      "4321" = {};
     };
   };
 
