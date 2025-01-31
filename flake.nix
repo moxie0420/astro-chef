@@ -22,6 +22,15 @@
         inputs.devenv.flakeModule
       ];
 
+      flake.nixConfig = {
+        substituters = [
+          "https://astro-chef.cachix.org"
+        ];
+        trusted-public-keys = [
+          "astro-chef.cachix.org-1:O7sHVqTZKm3PzY5SmpuwWurIAMdetk7oOtAClULR19A="
+        ];
+      };
+
       systems = ["x86_64-linux" "aarch64-linux"];
 
       perSystem = {pkgs, ...}: {

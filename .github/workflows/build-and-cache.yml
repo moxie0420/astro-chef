@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: "Build & Cache"
 
 on:
   push:
@@ -13,13 +13,17 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: astro-chef
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - run: nix build .#container
       - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
