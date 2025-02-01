@@ -37,11 +37,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1737540480,
-        "narHash": "sha256-ss/Ug6me2wd5hiNP4v8FIYF4emdEZtV4w/CQ4590qS8=",
+        "lastModified": 1738232507,
+        "narHash": "sha256-AFzzs8DypasqcQZ3vLPxh6uO/ZniPWKk4bJkSAUpgTg=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "5cd6c94c7d6edf5dbf1c579de3c9db8fbd515a5f",
+        "rev": "8b611a15df98b6225eec53be7d24bf39d3ab494d",
         "type": "github"
       },
       "original": {
@@ -188,11 +188,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1727438425,
-        "narHash": "sha256-X8ES7I1cfNhR9oKp06F6ir4Np70WGZU5sfCOuNBEwMg=",
+        "lastModified": 1734114420,
+        "narHash": "sha256-n52PUzub5jZWc8nI/sR7UICOheU8rNA+YZ73YaHeCBg=",
         "owner": "domenkozar",
         "repo": "nix",
-        "rev": "f6c5ae4c1b2e411e6b1e6a8181cc84363d6a7546",
+        "rev": "bde6a1a0d1f2af86caa4d20d23eca019f3d57eee",
         "type": "github"
       },
       "original": {
@@ -248,11 +248,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1733477122,
-        "narHash": "sha256-qamMCz5mNpQmgBwc8SB5tVMlD5sbwVIToVZtSxMph9s=",
+        "lastModified": 1716977621,
+        "narHash": "sha256-Q1UQzYcMJH4RscmpTkjlgqQDX5yi1tZL0O345Ri6vXQ=",
         "owner": "cachix",
         "repo": "devenv-nixpkgs",
-        "rev": "7bd9e84d0452f6d2e63b6e6da29fe73fac951857",
+        "rev": "4267e705586473d3e5c8d50299e71503f16a6fb6",
         "type": "github"
       },
       "original": {
