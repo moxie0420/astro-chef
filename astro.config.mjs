@@ -1,6 +1,6 @@
 import AstroPWA from "@vite-pwa/astro";
 import { defineConfig, envField } from "astro/config";
-import { visualizer } from "rollup-plugin-visualizer";
+import Sonda from "sonda/astro";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -48,6 +48,7 @@ export default defineConfig({
   integrations: [
     devtoolBreakpoints(),
     solidJs({ devtools: true }),
+    Sonda({ server: true }),
     AstroPWA({
       registerType: "autoUpdate",
       workbox: { navigateFallback: "/404" },
@@ -86,10 +87,7 @@ export default defineConfig({
     mode: "standalone",
   }),
   vite: {
-    plugins: [
-      visualizer({ emitFile: true, filename: "stats.html" }),
-      tailwindcss(),
-      solidSvg({ defaultAsComponent: false }),
-    ],
+    build: { sourcemap: true },
+    plugins: [tailwindcss(), solidSvg({ defaultAsComponent: false })],
   },
 });

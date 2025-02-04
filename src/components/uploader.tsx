@@ -3,6 +3,7 @@ import {
   createFileUploader,
   type UploadFile,
 } from "@solid-primitives/upload";
+import { actions } from "astro:actions";
 import { createSignal, For, type Component, type Setter } from "solid-js";
 
 const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
@@ -26,16 +27,12 @@ const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
     const formData = new FormData();
     upload.forEach((file) => formData.append(file.name, file));
 
-    const res = await fetch("/api/image", { method: "POST", body: formData });
-    switch (res.status) {
-      case 200:
-        setFilesToUpload([]);
-        menuCloser(false);
-        break;
-
-      case 500:
-        console.error("failed to upload files");
-        break;
+    const { data, error } = await actions.images.upload(formData);
+    if (error) {
+      console.error("failed to upload files");
+    } else {
+      setFilesToUpload([]);
+      menuCloser(false);
     }
   };
 

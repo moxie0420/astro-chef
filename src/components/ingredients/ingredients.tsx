@@ -17,7 +17,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
   );
 
   return (
-    <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
+    <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto w-full max-w-2xl rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
       <thead class="mx-auto flex w-full">
         <tr class="mx-1 flex w-full text-left">
           <Show
@@ -30,7 +30,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
           </Show>
         </tr>
       </thead>
-      <tbody class="max-h-screen scroll-auto">
+      <tbody class="mx-auto scroll-auto">
         <Suspense fallback={<div>Nothing Here Yet</div>}>
           <For each={ingredients()}>
             {(ingredient) => (
@@ -38,7 +38,7 @@ const Ingredients: Component<{ editing: boolean; recipeId: number }> = (
                 <Show
                   when={editing()}
                   fallback={
-                    <td class="px-2">
+                    <td class="mx-auto px-2">
                       {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "" ? "of" : ""} ${ingredient.name}`}
                     </td>
                   }

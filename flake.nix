@@ -6,17 +6,6 @@
     devenv.url = "github:cachix/devenv";
   };
 
-  nixConfig = {
-    substituters = [
-      "https://astro-chef.cachix.org"
-      "https://devenv.cachix.org"
-    ];
-    trusted-public-keys = [
-      "astro-chef.cachix.org-1:O7sHVqTZKm3PzY5SmpuwWurIAMdetk7oOtAClULR19A="
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-    ];
-  };
-
   outputs = inputs @ {
     flake-parts,
     self,
@@ -41,7 +30,8 @@
         devenv.shells.default = {
           cachix = {
             enable = true;
-            pull = ["pre-commit-hooks" "astro-chef"];
+            push = "astro-chef";
+            pull = ["astro-chef"];
           };
 
           scripts.build.exec = ''
@@ -54,11 +44,8 @@
           ];
           languages.javascript = {
             enable = true;
-            package = pkgs.nodejs_22;
-            pnpm = {
-              enable = true;
-              package = pkgs.pnpm;
-            };
+            package = pkgs.nodejs-slim_22;
+            pnpm.enable = true;
           };
         };
       };

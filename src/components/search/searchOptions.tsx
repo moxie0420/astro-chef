@@ -51,7 +51,7 @@ const SearchOptions: Component<{
         onChange={updateFormField}
         class="bg-highlightHigh rounded-lg"
         placeholder="Search..."
-        value={search()}
+        value={search() || undefined}
       />
       <select
         name="sort"

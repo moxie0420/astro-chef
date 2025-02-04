@@ -39,21 +39,17 @@ export const ingredient = {
       whole: z.number(),
       fraction: z.string(),
     }),
-    handler: async (input) => {
-      console.log(`adding ${input.name}`);
-      return await db.insert(ingredients).values(input).returning();
-    },
+    handler: async (input) =>
+      await db.insert(ingredients).values(input).returning(),
   }),
   removeIngredient: defineAction({
     input: z.object({
       ingredientId: z.number(),
     }),
-    handler: async (input) => {
-      console.log("removing ingredient: " + input.ingredientId);
+    handler: async (input) =>
       await db
         .delete(ingredients)
-        .where(eq(ingredients.id, input.ingredientId));
-    },
+        .where(eq(ingredients.id, input.ingredientId)),
   }),
   updateIngredient: defineAction({
     input: z.object({

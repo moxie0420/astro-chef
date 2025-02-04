@@ -28,5 +28,8 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - run: nix build
+      - run: nix build --json | jq -r '.[].outputs | to_entries[].value' | cachix push mycache
+      - run: nix develop --no-pure-eval --profile dev-profile -c true
+      - run: nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)'
       - run: nix run nixpkgs#skopeo -- login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}} ghcr.io
       - run: nix run nixpkgs#skopeo -- copy docker-archive:./result "docker://ghcr.io/moxie0420/astro-chef"

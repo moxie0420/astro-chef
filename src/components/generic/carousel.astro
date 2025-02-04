@@ -24,7 +24,7 @@ const { data } = await Astro.callAction(actions.Recipe.getRecipes, {
 
 <glide-carousel data-signature={signature}>
   <div>
-    <div id="glider" class="bg-surface grid grid-rows-1 rounded-lg p-1">
+    <div id="glider" class="bg-surface grid h-80 grid-rows-1 rounded-lg p-1">
       {
         data?.map((recipe) => (
           <RecipeCard recipe={recipe as Recipe} client:only>

@@ -1,7 +1,16 @@
-import { createResource, Suspense, type Component } from "solid-js";
+import { actions } from "astro:actions";
+import {
+  createEffect,
+  createSignal,
+  Match,
+  Suspense,
+  Switch,
+  type Component,
+} from "solid-js";
+import No_Data from "src/icons/no_data.svg?raw";
 
 const Image: Component<{
-  src: string | URL;
+  src: string;
   alt?: string;
   width?: number;
 }> = (props) => {
@@ -9,22 +18,28 @@ const Image: Component<{
   const alt = () => props.alt;
   const width = () => props.width;
 
-  const [image] = createResource(async () =>
-    fetch(`/api/image?path=${src()}`)
-      .then((response) => response.blob())
-      .then((blob) => URL.createObjectURL(blob)),
-  );
+  const [image, setImage] = createSignal<string | undefined>();
+
+  createEffect(async () => {
+    const { data } = await actions.images.get({ path: src() });
+    if (!data) return;
+    setImage(URL.createObjectURL(new Blob(data)));
+  });
 
   return (
     <Suspense
-      fallback={<div class="flex animate-pulse space-y-4 space-x-4"></div>}
+      fallback={<div class="bg-highlightHigh space-8 flex animate-pulse"></div>}
     >
-      <img
-        src={image()}
-        alt={alt() || "Image Alt not provided"}
-        class="mx-auto"
-        width={width()}
-      />
+      <Switch>
+        <Match when={image()}>
+          <img
+            src={image() || No_Data}
+            alt={alt() || "Image Alt not provided"}
+            class="mx-auto"
+            width={width()}
+          />
+        </Match>
+      </Switch>
     </Suspense>
   );
 };

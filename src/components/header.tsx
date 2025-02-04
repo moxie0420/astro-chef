@@ -72,6 +72,7 @@ const Header: Component<props> = (props) => {
         <Show when={isMenuOpen()}>
           <Portal>
             <Motion.div
+              data-astro-prefetch="false"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

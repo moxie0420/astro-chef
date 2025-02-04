@@ -5,7 +5,6 @@ import RecipeInfo from "@components/recipe/RecipeInfo";
 import Layout from "@layouts/layout.astro";
 import Ingredients from "@components/ingredients/ingredients";
 import Markdown from "@components/markdown";
-import AvailibleImages from "@components/assets/availibleImages.astro";
 
 const params = Astro.url.searchParams;
 
@@ -22,20 +21,13 @@ else if (error) return;
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
-<Layout title={data.title} editing={true}>
+<Layout title={data.title || "editing"} editing={true}>
   <div class="bg-surface text-text mx-auto w-full md:w-5/6">
     {/* @ts-ignore */}
-    <RecipeInfo recipe={data} editing={true} client:only>
-      {/* @ts-ignore */}
-      <RecipeInfo slot="fallback" recipe={data} editing={true} client:load />
-    </RecipeInfo>
+    <RecipeInfo recipe={data} editing={true} client:only />
     <Ingredients recipeId={data.id} editing={true} client:only />
 
     <div class="flex h-fit flex-col gap-2 xl:flex-row">
-      <div class="mx-auto max-w-sm p-2">
-        <AvailibleImages />
-      </div>
-
       <div class="w-full">
         <Markdown
           body={data.body || ""}

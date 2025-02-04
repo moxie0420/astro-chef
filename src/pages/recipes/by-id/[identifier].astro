@@ -15,7 +15,7 @@ const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
 });
 
 if (error?.code) return Astro.redirect("/404?message=" + error?.message);
-else if (error) return Astro.redirect("/404?message=An Unkown Error Occured");
+else if (error) return Astro.redirect("/404?message=An unknown Error occurred");
 
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
@@ -28,14 +28,11 @@ Astro.callAction(actions.Recipe.updateRecipe, {
 ---
 
 <Layout title={data.title || ""} recipeId={data.id}>
-  <div class="bg-surface mx-auto w-full max-w-screen-2xl overflow-scroll">
-    <div
-      class="text-text pb-3 text-center text-xl font-bold md:text-4xl lg:text-5xl"
-    >
-      {data.title}
-    </div>
+  <div
+    class="bg-surface m-2 mx-auto h-screen w-4/5 overflow-scroll rounded-xl p-2"
+  >
     {/** @ts-ignore */}
-    <RecipeInfo recipe={data} editing={false} client:load />
+    <RecipeInfo recipe={data} editing={false} client:only />
 
     <div class="mx-auto">
       <IngredientHolder recipeId={data.id} editing={false} client:only />

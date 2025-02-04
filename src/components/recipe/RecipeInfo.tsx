@@ -40,20 +40,20 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
     }
   };
 
-  createEffect(async () => {
-    await actions.Recipe.updateRecipe(recipe);
-  });
+  createEffect(async () => await actions.Recipe.updateRecipe(recipe));
 
   return (
-    <div class="bg-overlay text-text mx-auto flex w-fit max-w-xl flex-col gap-1 rounded-md p-1 md:flex-row">
-      <div class="bg-highlightMed flex basis-1/3 flex-col gap-1 rounded-md p-1">
+    <div class="bg-overlay text-text mx-auto flex max-w-2xl flex-col gap-1 rounded-md p-2 md:flex-row">
+      <div class="bg-highlightMed flex basis-3/8 flex-col gap-1 rounded-md p-1">
         <Switch>
           <Match when={!editing()}>
             <span class="basis-1/16 text-3xl font-bold">{currentTitle()}</span>
             <span class="basis-1/16 text-xl">By {currentAuthor()}</span>
-            <p>Prep time : {recipe.prepTime}</p>
-            <p>Cook time : {recipe.prepTime}</p>
-            <p>{recipe.description}</p>
+            <p class="basis-full text-lg">{recipe.description}</p>
+            <div class="bg-highlightHigh flex flex-col rounded-md p-1">
+              <p>Prep time: {recipe.prepTime}</p>
+              <p>Cook time: {recipe.prepTime}</p>
+            </div>
           </Match>
           <Match when={editing()}>
             <label for="title" class="basis-1/16 text-3xl font-bold">
@@ -113,7 +113,7 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
         </Switch>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex basis-full flex-col">
         <div class="mx-auto">
           <Image src={currentImage()} alt={recipe.imageAlt} />
         </div>
