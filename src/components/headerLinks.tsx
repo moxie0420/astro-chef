@@ -5,36 +5,42 @@ const HeaderLinks: Component<{
   pages: {
     name: string;
     path: string;
+    disabled?: boolean;
   }[];
   editing: boolean;
 }> = (props) => {
   const pages = () => props.pages;
   const editing = () => props.editing;
 
-  const [currentPage, setCurrentPage] = createSignal("");
+  const [currentPage, setCurrentPage] = createSignal<string>();
 
   onMount(() => {
-    setCurrentPage(window.location.pathname.substring(0, 8));
+    if (window.location.pathname.includes("edit")) setCurrentPage("/edit");
+    if (window.location.pathname.includes("recipes"))
+      setCurrentPage("/recipes");
+    if (window.location.pathname === "/") setCurrentPage("/");
+
     document.addEventListener("astro:after-preparations", () => {
-      const path = window.location.pathname.substring(0, 8);
-      setCurrentPage(path);
+      if (window.location.pathname.includes("edit")) setCurrentPage("/edit");
+      if (window.location.pathname.includes("recipes"))
+        setCurrentPage("/recipes");
+      if (window.location.pathname === "/") setCurrentPage("/");
     });
   });
 
   return (
-    <div class="flex">
+    <div class="flex gap-1">
       <For each={pages()}>
         {(page) => (
           <button
+            disabled={page.disabled}
             type="button"
             onClick={() => {
-              const nextPage =
-                page.path === "/recipes/random" ? "/recipes" : page.path;
-              setCurrentPage(nextPage);
+              setCurrentPage(page.path);
               navigate(page.path);
             }}
-            class="data-[editing=true]:data-[current=true]:bg-love data-[current=true]:bg-pine rounded-lg p-1 transition ease-in-out"
-            data-editing={editing()}
+            class="data-[editing=true]:data-[current=true]:bg-love data-[current=true]:bg-pine hover:bg-base rounded-lg p-1 transition ease-in-out"
+            data-editing={currentPage() === "/edit"}
             data-current={page.path === currentPage()}
           >
             {page.name}

@@ -1,15 +1,15 @@
 ---
 import { actions } from "astro:actions";
 
-import RecipeInfo from "@components/recipe/RecipeInfo";
-import Layout from "@layouts/layout.astro";
 import Ingredients from "@components/ingredients/ingredients";
+import Layout from "@layouts/layout.astro";
 import Markdown from "@components/markdown";
+import RecipeInfo from "@components/recipe/RecipeInfo";
+import type { Recipe } from "@lib/types";
 
-const params = Astro.url.searchParams;
+const { id } = Astro.params;
 
-const id = params.get("id");
-if (!id) return Astro.redirect("/404?message=Recipe came back undefined");
+if (!id) return Astro.redirect("/recipes");
 
 const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
   identifier: id,
@@ -23,9 +23,13 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
 <Layout title={data.title || "editing"} editing={true}>
   <div class="bg-surface text-text mx-auto w-full md:w-5/6">
-    {/* @ts-ignore */}
-    <RecipeInfo recipe={data} editing={true} client:only />
-    <Ingredients recipeId={data.id} editing={true} client:only />
+    <RecipeInfo recipe={data as Recipe} editing={true} client:only />
+    <Ingredients
+      recipeId={data.id}
+      editing={true}
+      ingredients={data.ingredients}
+      client:only
+    />
 
     <div class="flex h-fit flex-col gap-2 xl:flex-row">
       <div class="w-full">

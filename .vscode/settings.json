@@ -18,5 +18,13 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "explorer.excludeGitIgnore": false,
-  "cSpell.words": ["pname", "stdenv"]
+  "cSpell.words": [
+    "dburl",
+    "Embla",
+    "fontsource",
+    "noto",
+    "pglite",
+    "pname",
+    "stdenv"
+  ]
 }

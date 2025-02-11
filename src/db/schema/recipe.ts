@@ -39,13 +39,13 @@ export function sortBy<T extends PgSelect>(
 
 export const recipe = pgTable("Recipe", {
   id: integer().primaryKey().generatedByDefaultAsIdentity(),
-  title: varchar({ length: 255 }),
+  title: varchar({ length: 255 }).default("No title yet").notNull(),
   author: varchar({ length: 255 }).default("No author yet").notNull(),
   created: timestamp().defaultNow(),
   edited: timestamp().defaultNow(),
-  prepTime: varchar({ length: 255 }),
-  cookTime: varchar({ length: 255 }),
-  description: varchar({ length: 255 }),
+  prepTime: varchar({ length: 255 }).default("").notNull(),
+  cookTime: varchar({ length: 255 }).default("").notNull(),
+  description: varchar({ length: 255 }).default("No description yet").notNull(),
   body: text().default("").notNull(),
   image: varchar({ length: 255 }).default("/default.png").notNull(),
   imageAlt: varchar({ length: 255 }).default("default image").notNull(),

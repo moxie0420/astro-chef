@@ -7,20 +7,20 @@ import {
   Switch,
   type Component,
 } from "solid-js";
-import No_Data from "src/icons/no_data.svg?raw";
+import No_Data from "src/icons/no_data.svg";
 
 const Image: Component<{
   src: string;
   alt?: string;
-  width?: number;
 }> = (props) => {
   const src = () => props.src;
   const alt = () => props.alt;
-  const width = () => props.width;
 
   const [image, setImage] = createSignal<string | undefined>();
 
   createEffect(async () => {
+    if (src() == "") return;
+
     const { data } = await actions.images.get({ path: src() });
     if (!data) return;
     setImage(URL.createObjectURL(new Blob(data)));
@@ -31,12 +31,17 @@ const Image: Component<{
       fallback={<div class="bg-highlightHigh space-8 flex animate-pulse"></div>}
     >
       <Switch>
+        <Match when={!image()}>
+          <img
+            src={No_Data.src}
+            class="m-1 mx-auto h-44 w-full object-contain"
+          />
+        </Match>
         <Match when={image()}>
           <img
-            src={image() || No_Data}
+            src={image()}
             alt={alt() || "Image Alt not provided"}
-            class="mx-auto"
-            width={width()}
+            class="m-1 mx-auto h-44 w-full object-contain"
           />
         </Match>
       </Switch>

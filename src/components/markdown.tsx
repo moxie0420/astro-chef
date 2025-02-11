@@ -1,4 +1,10 @@
-import { createSignal, Show, type Component, type JSX } from "solid-js";
+import {
+  createSignal,
+  Match,
+  Switch,
+  type Component,
+  type JSX,
+} from "solid-js";
 import { isServer } from "solid-js/web";
 
 import { actions } from "astro:actions";
@@ -30,40 +36,47 @@ const Markdown: Component<{
 
   const [preview, setPreview] = createSignal(genMd(body()));
 
-  const genPreview: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = (
-    event,
-  ) => setPreview(genMd(event.currentTarget.value));
+  const genPreview: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = ({
+    currentTarget: { value },
+  }) => setPreview(genMd(value));
 
-  const save: JSX.EventHandler<HTMLTextAreaElement, Event> = (event) => {
+  const save: JSX.EventHandler<HTMLTextAreaElement, Event> = ({
+    currentTarget: { value },
+  }) => {
     actions.Recipe.updateRecipe({
-      body: event.currentTarget.value,
+      body: value,
       id: recipeId(),
     });
   };
 
   return (
-    <Show
-      when={editing()}
-      fallback={
-        <article
-          innerHTML={preview()}
-          class="prose-sm prose md:prose-lg 2xl:prose-2xl prose-rosePine bg-overlay text-text mx-auto my-2 flex flex-col rounded-md p-2 pt-10 text-justify text-pretty"
-        />
-      }
+    <div
+      data-editing={editing() ? editing() : undefined}
+      class="bg-overlay text-text outline-pine border-pine mx-auto min-h-64 max-w-2xl rounded-md data-editing:border-2"
     >
-      <div class="grid-row bg-overlay selection:outline-pine mx-auto grid h-screen max-w-screen-xl gap-1 overflow-scroll rounded-md border p-1 selection:outline md:grid-cols-2">
-        <textarea
-          class="prose prose-rosePine border-highlightHigh bg-overlay w-full resize"
-          innerText={body()}
-          onInput={genPreview}
-          onChange={save}
-        />
-        <div
-          class="prose prose-rosePine border-highlightHigh bg-overlay resize border-none"
-          innerHTML={preview()}
-        />
-      </div>
-    </Show>
+      <Switch>
+        <Match when={!editing()}>
+          <article
+            innerHTML={preview()}
+            class="prose-sm prose md:prose-lg 2xl:prose-2xl prose-rosePine border-none p-2 text-center text-pretty"
+          />
+        </Match>
+        <Match when={editing()}>
+          <div class="flex size-full min-h-64">
+            <textarea
+              class="prose prose-rosePine bg-overlay w-full border-none"
+              innerText={body()}
+              onInput={genPreview}
+              onChange={save}
+            />
+            <div
+              class="prose prose-rosePine bg-overlay w-full border-none"
+              innerHTML={preview()}
+            />
+          </div>
+        </Match>
+      </Switch>
+    </div>
   );
 };
 

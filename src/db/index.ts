@@ -1,22 +1,26 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
+
+import { PGlite } from "@electric-sql/pglite";
+import { vector } from "@electric-sql/pglite/vector";
 import type { PgSelect } from "drizzle-orm/pg-core";
+import { drizzle } from "drizzle-orm/pglite";
 
 import * as ingredients from "./schema/ingredients.ts";
 import * as recipes from "./schema/recipe.ts";
 
 const schema = { ...recipes, ...ingredients };
 
-const PWD = process.env.POSTGRES_PASSWORD;
-const USER = process.env.POSTGRES_USER;
+console.log(`loading db @ ${process.env.DATABASE_URL}`);
 
-const dburl = `postgres://${USER}:${PWD}@localhost:5432`;
-
-const tmp_db = drizzle(dburl, {
-  schema: schema,
+const client = new PGlite(process.env.DATABASE_URL!, {
+  extensions: {
+    vector,
+  },
 });
 
-export const db = tmp_db;
+export const listen = client.listen;
+
+export const db = drizzle({ schema: schema, client });
 
 export function withPagination<T extends PgSelect>(
   qb: T,

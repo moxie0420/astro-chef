@@ -72,12 +72,11 @@ const Header: Component<props> = (props) => {
         <Show when={isMenuOpen()}>
           <Portal>
             <Motion.div
-              data-astro-prefetch="false"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, easing: "ease-in-out" }}
-              class="text-text absolute top-0 left-0 z-40 flex size-full backdrop-blur-sm"
+              class="text-text fixed inset-0 z-40 flex size-full backdrop-blur-sm"
             >
               <div class="m-25 mx-auto h-fit w-full max-w-md flex-col">
                 <Motion
@@ -94,9 +93,7 @@ const Header: Component<props> = (props) => {
                         <button class="bg-muted rounded-md">Delete</button>
                         <button
                           class="bg-muted rounded-md"
-                          onClick={() =>
-                            navigate(`/recipes/by-id/${recipeId()}`)
-                          }
+                          onClick={() => navigate(`/recipes/${recipeId()}`)}
                         >
                           Save & Exit
                         </button>
@@ -113,9 +110,7 @@ const Header: Component<props> = (props) => {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.75 }}
                             class="bg-muted rounded-md text-xl font-bold"
-                            onClick={() =>
-                              navigate(`/recipes/edit?id=${recipeId()}`)
-                            }
+                            onClick={() => navigate(`/edit/${recipeId()}`)}
                           >
                             Edit
                           </Motion.button>

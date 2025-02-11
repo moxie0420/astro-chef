@@ -16,25 +16,25 @@ const Ingredient: Component<{
     | null
     | undefined;
 }> = (props) => {
-  const ingredient = () => props.ingredient;
+  const id = () => props.ingredient.id;
 
   const removeIngredient = async (id: number) => {
     await actions.ingredient.removeIngredient({ ingredientId: id });
     props.refetch?.();
   };
 
-  const [{ amount, Unit, name }, setIngredient] = createStore({
-    amount: ingredient().fraction,
-    Unit: ingredient().unit,
-    name: ingredient().name,
+  const [ingredient, setIngredient] = createStore({
+    amount: props.ingredient.fraction,
+    unit: props.ingredient.unit,
+    name: props.ingredient.name,
   });
 
   createEffect(() => {
     actions.ingredient.updateIngredient({
-      ingredientId: ingredient().id,
-      amount: amount,
-      name: name,
-      unit: Unit,
+      ingredientId: id(),
+      amount: ingredient.amount,
+      name: ingredient.name,
+      unit: ingredient.unit,
     });
   });
 
@@ -42,7 +42,7 @@ const Ingredient: Component<{
     HTMLInputElement | HTMLSelectElement | HTMLButtonElement,
     Event
   > = (event) => {
-    const key = event.currentTarget?.name as "name" | "amount" | "Unit";
+    const key = event.currentTarget?.name as "name" | "amount" | "unit";
     const val = event.currentTarget?.value;
 
     if (!(key || val) || val !== "") {
@@ -57,7 +57,7 @@ const Ingredient: Component<{
           type="text"
           name="amount"
           class="bg-surface w-full rounded-l-md"
-          value={amount}
+          value={ingredient.amount}
           onChange={updateIngredient}
         />
       </td>
@@ -69,7 +69,7 @@ const Ingredient: Component<{
         >
           <For each={Units}>
             {(unit: unit) => (
-              <option value={unit} selected={Unit === unit}>
+              <option value={unit} selected={ingredient.unit === unit}>
                 {unit}
               </option>
             )}
@@ -81,12 +81,12 @@ const Ingredient: Component<{
           type="text"
           name="name"
           class="bg-surface w-full rounded-r-md"
-          value={name}
+          value={ingredient.name}
           onChange={updateIngredient}
         />
       </td>
       <td>
-        <button onClick={[removeIngredient, ingredient().id]} class="m-1">
+        <button onClick={[removeIngredient, id()]} class="m-1">
           <Cancel width={20} class="text-love" />
         </button>
       </td>

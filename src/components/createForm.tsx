@@ -39,7 +39,7 @@ const CreateForm: Component<{ closeForm: (val: boolean) => boolean }> = (
         return;
       }
 
-      await navigate(`/recipes/by-id/${data}`);
+      await navigate(`/recipes/${data}`);
     });
 
   return (

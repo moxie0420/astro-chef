@@ -1,8 +1,6 @@
 import { type Recipe } from "@lib/types";
 import {
-  createEffect,
   createSignal,
-  lazy,
   Match,
   Show,
   Switch,
@@ -14,11 +12,9 @@ import { createStore } from "solid-js/store";
 import LikeButton from "@components/likeButton";
 import { actions } from "astro:actions";
 
-const Image = lazy(async () => import("@components/assets/image"));
+import Image from "@components/assets/image";
 
 const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
-  let ImageRef: HTMLInputElement | undefined;
-
   const editing = () => props.editing;
 
   const [recipe, setRecipe] = createStore(props.recipe);
@@ -38,9 +34,9 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
       setRecipe(key, val);
       if (key == "image") setCurrentImage(val);
     }
+    console.log(`${key}: ${val}`);
+    actions.Recipe.updateRecipe(recipe);
   };
-
-  createEffect(async () => await actions.Recipe.updateRecipe(recipe));
 
   return (
     <div class="bg-overlay text-text mx-auto flex max-w-2xl flex-col gap-1 rounded-md p-2 md:flex-row">
@@ -50,9 +46,9 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
             <span class="basis-1/16 text-3xl font-bold">{currentTitle()}</span>
             <span class="basis-1/16 text-xl">By {currentAuthor()}</span>
             <p class="basis-full text-lg">{recipe.description}</p>
-            <div class="bg-highlightHigh flex flex-col rounded-md p-1">
+            <div class="bg-highlightHigh flex flex-col rounded-md p-1 text-nowrap">
               <p>Prep time: {recipe.prepTime}</p>
-              <p>Cook time: {recipe.prepTime}</p>
+              <p>Cook time: {recipe.cookTime}</p>
             </div>
           </Match>
           <Match when={editing()}>
@@ -114,7 +110,7 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
       </div>
 
       <div class="flex basis-full flex-col">
-        <div class="mx-auto">
+        <div class="m-auto">
           <Image src={currentImage()} alt={recipe.imageAlt} />
         </div>
 

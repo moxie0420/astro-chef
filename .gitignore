@@ -1,5 +1,7 @@
 # build output
 dist/
+dev-dist/
+
 # generated types
 .astro/
 
@@ -30,9 +32,10 @@ data/
 Images/*
 !Images/No_data.png
 
+# databases
 database.db
+recipes/
 
 # nix system specific stuff
 .direnv
 .devenv
-!.envrc

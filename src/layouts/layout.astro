@@ -4,8 +4,8 @@ import "@styles/base.css";
 import { ClientRouter } from "astro:transitions";
 import { pwaInfo } from "virtual:pwa-info";
 import { SEO } from "astro-seo";
-import Header from "@components/header";
 
+import Header from "@components/header";
 import "@fontsource/noto-sans";
 
 interface Props {
@@ -27,13 +27,12 @@ const pages = [
     name: "Recipes",
     path: "/recipes",
   },
+  {
+    name: "Editing",
+    path: "/edit",
+    disabled: true,
+  },
 ];
-
-const id = () => {
-  const id = Astro.url.searchParams.get("id");
-  if (!id) return;
-  return parseInt(id);
-};
 ---
 
 <html lang="en">
@@ -62,10 +61,10 @@ const id = () => {
     <ClientRouter />
   </head>
 
-  <body class="bg-base flex h-screen flex-col">
+  <body class="bg-base overflow-x-hidden">
     <Header
       pages={pages}
-      recipeId={id() || recipeId}
+      recipeId={recipeId}
       editing={editing}
       transition:persist
       client:load
