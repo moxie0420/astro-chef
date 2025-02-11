@@ -34,7 +34,8 @@ Images/*
 
 # databases
 database.db
-recipes/
+recipes-db/
+
 
 # nix system specific stuff
 .direnv
