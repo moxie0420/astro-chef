@@ -22,8 +22,8 @@
 
       perSystem = {pkgs, ...}: {
         packages = rec {
-          astro-chef = pkgs.callPackage ./package.nix {};
-          container = pkgs.callPackage ./container.nix {inherit astro-chef created;};
+          astro-chef = pkgs.callPackage ./nix/package.nix {};
+          container = pkgs.callPackage ./nix/container.nix {inherit astro-chef created;};
           default = container;
         };
 

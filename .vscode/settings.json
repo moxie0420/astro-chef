@@ -19,11 +19,15 @@
   },
   "explorer.excludeGitIgnore": false,
   "cSpell.words": [
+    "cachix",
     "dburl",
+    "devenv",
     "Embla",
     "fontsource",
+    "nixpkgs",
     "noto",
     "pglite",
+    "pkgs",
     "pname",
     "stdenv"
   ]
