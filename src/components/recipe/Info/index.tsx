@@ -14,6 +14,7 @@ import LikeButton from "@components/likeButton";
 import { actions } from "astro:actions";
 
 import Image from "@components/assets/image";
+import TextArea from "@components/forms/inputs/TextArea";
 import TextInput from "@components/forms/inputs/TextInput";
 import Title from "./title";
 
@@ -23,9 +24,6 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
   const editing = () => props.editing;
 
   const [recipe, setRecipe] = createStore(props.recipe);
-
-  const [currentTitle, setCurrentTitle] = createSignal(recipe.title);
-  const [currentAuthor, setCurrentAuthor] = createSignal(recipe.author);
   const [currentImage, setCurrentImage] = createSignal(recipe.image);
 
   const updateRecipe: JSX.EventHandler<
@@ -48,8 +46,12 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
       <div class="bg-highlightMed flex basis-3/8 flex-col gap-1 rounded-md p-1">
         <Switch>
           <Match when={!editing()}>
-            <span class="basis-1/16 text-3xl font-bold">{currentTitle()}</span>
-            <span class="basis-1/16 text-xl">By {currentAuthor()}</span>
+            <span class="basis-1/16 text-3xl font-bold">
+              {recipe.title || `"Untitled"`}
+            </span>
+            <span class="basis-1/16 text-xl">
+              By {recipe.author || "No One"}
+            </span>
             <p class="basis-full text-lg">{recipe.description}</p>
             <div class="bg-highlightHigh flex flex-col rounded-md p-1 text-nowrap">
               <p>Prep time: {recipe.prepTime}</p>
@@ -77,14 +79,14 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
               Cook Time
             </TextInput>
 
-            <label for="description">Description</label>
-            <textarea
+            <TextArea
               name="description"
               value={recipe.description}
-              class="bg-surface h-full rounded-md"
               onChange={updateRecipe}
               placeholder="Not set yet"
-            />
+            >
+              Description
+            </TextArea>
           </Match>
         </Switch>
       </div>
@@ -103,20 +105,20 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
           }
         >
           <div class="mx-auto flex w-full max-w-sm flex-col gap-1">
-            <input
-              type="text"
+            <TextInput
               name="image"
               value={recipe.image}
-              class="bg-surface basis-1/2 rounded-md"
               onChange={updateRecipe}
-            />
-            <input
-              type="text"
+            >
+              Image Path
+            </TextInput>
+            <TextInput
               name="imageAlt"
               value={recipe.imageAlt}
-              class="bg-surface basis-1/2 rounded-md"
               onChange={updateRecipe}
-            />
+            >
+              Image Description
+            </TextInput>
           </div>
         </Show>
 

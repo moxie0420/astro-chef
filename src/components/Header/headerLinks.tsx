@@ -10,7 +10,6 @@ const HeaderLinks: Component<{
   editing: boolean;
 }> = (props) => {
   const pages = () => props.pages;
-  const editing = () => props.editing;
 
   const [currentPage, setCurrentPage] = createSignal<string>();
 

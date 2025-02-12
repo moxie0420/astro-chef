@@ -50,7 +50,7 @@ const IngredientAdder: Component<{
         <input
           type="text"
           name="amount"
-          class="bg-surface w-full rounded-l-md"
+          class="bg-surface size-full rounded-l-md px-1"
           placeholder="Amount"
           onInput={updateIngredient}
         />
@@ -60,15 +60,11 @@ const IngredientAdder: Component<{
         <select
           name="unit"
           id="unit"
-          class="bg-surface w-full"
+          class="bg-surface size-full px-1"
           onInput={updateIngredient}
         >
           <For each={units}>
-            {(unit) => (
-              <option value={unit}>
-                {unit === "none" ? "---None---" : unit}
-              </option>
-            )}
+            {(unit) => <option value={unit}>{unit}</option>}
           </For>
         </select>
       </div>
@@ -78,7 +74,7 @@ const IngredientAdder: Component<{
         <input
           name="name"
           type="text"
-          class="bg-surface text-text w-full rounded-r-md"
+          class="bg-surface text-text size-full rounded-r-md px-1"
           placeholder="Name"
           maxlength="25"
           onInput={updateIngredient}

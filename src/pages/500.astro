@@ -1,5 +1,5 @@
 ---
-import MainLayout from "@layouts/layout.astro";
+import Main from "@layouts/main.astro";
 
 interface Props {
   error: unknown;
@@ -8,8 +8,8 @@ interface Props {
 const { error } = Astro.props;
 ---
 
-<MainLayout title={error instanceof Error ? error.name : "Unkown Error"}>
+<Main title={error instanceof Error ? error.name : "Unknown Error"}>
   <div class="text-center">
-    {error instanceof Error ? error.message : "Unkown Error"}
+    {error instanceof Error ? error.message : "Unknown Error"}
   </div>
-</MainLayout>
+</Main>

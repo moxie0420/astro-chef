@@ -1,6 +1,7 @@
 import type { filters } from "@lib/recipe";
 import { type Component, For, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
+import TextInput from "../inputs/TextInput";
 
 const SearchOptions: Component<{
   page: number;
@@ -44,19 +45,21 @@ const SearchOptions: Component<{
     <form
       method="post"
       action={"/recipes"}
-      class="bg-overlay m-2 mx-auto flex max-w-md flex-col gap-2 rounded-md p-2"
+      class="bg-overlay m-1 mx-auto flex max-w-md flex-col gap-1 rounded-md p-1"
     >
-      <input
+      <TextInput
         name="search"
         onChange={updateFormField}
-        class="bg-highlightHigh rounded-lg"
         placeholder="Search..."
         value={search() ? search() : ""}
-      />
+      >
+        Search for Recipes
+      </TextInput>
+
       <select
         name="sort"
         onChange={updateFormField}
-        class="bg-highlightHigh text-text my-auto w-full rounded-lg"
+        class="bg-highlightHigh text-text my-auto w-full rounded-md px-2"
       >
         <option value="random" selected={"random" === sort()}>
           Random
@@ -108,7 +111,7 @@ const SearchOptions: Component<{
           name="count"
           onChange={updateFormField}
           value={form.number}
-          class="bg-muted rounded-md"
+          class="bg-muted rounded-md px-2"
         />
       </div>
 

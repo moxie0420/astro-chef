@@ -17,9 +17,11 @@ const RecipeCard: Component<{ recipe: Recipe }> = (props) => {
       <Image src={recipe().image} alt={recipe().imageAlt} />
 
       <div class="bg-highlightMed relative m-1 mx-auto flex h-full min-h-26 w-full basis-full flex-col overflow-x-scroll rounded-md p-1.5">
-        <p class="text-lg font-bold md:text-2xl">{recipe().title}</p>
+        <p class="text-lg font-bold md:text-2xl">
+          {recipe().title === "" ? `"Untitled"` : recipe().title}
+        </p>
         <p class="text-md pb-2 font-semibold md:text-lg">
-          By {recipe().author}
+          By {recipe().author === "" ? "No One Yet" : recipe().author}
         </p>
         <p class="text-sm">{recipe().description}</p>
         <div class="absolute right-1">

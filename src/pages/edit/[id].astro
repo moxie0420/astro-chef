@@ -22,24 +22,25 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
 <Layout title={data.title || "editing"} editing={true}>
-  <div class="bg-surface text-text mx-auto w-full md:w-5/6">
+  <div class="pt-1">
     <Info recipe={data as Recipe} editing={true} client:only />
-    <Ingredients
-      recipeId={data.id}
-      editing={true}
-      ingredients={data.ingredients}
-      client:only
-    />
+  </div>
 
-    <div class="flex h-fit flex-col gap-2 xl:flex-row">
-      <div class="w-full">
-        <Markdown
-          body={data.body || ""}
-          editing={true}
-          recipeId={data.id}
-          client:load
-        />
-      </div>
+  <Ingredients
+    recipeId={data.id}
+    editing={true}
+    ingredients={data.ingredients}
+    client:only
+  />
+
+  <div class="flex h-fit flex-col gap-2 xl:flex-row">
+    <div class="w-full">
+      <Markdown
+        body={data.body || ""}
+        editing={true}
+        recipeId={data.id}
+        client:load
+      />
     </div>
   </div>
 </Layout>

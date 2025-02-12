@@ -51,14 +51,14 @@ const Ingredient: Component<{
         <input
           type="text"
           name="amount"
-          class="bg-surface w-full rounded-l-md"
+          class="bg-surface size-full rounded-l-md px-1"
           value={ingredient.amount}
           onChange={updateIngredient}
         />
       </td>
       <td class="basis-1/3">
         <select
-          class="bg-surface w-full"
+          class="bg-surface size-full px-1"
           name="Unit"
           onChange={updateIngredient}
         >
@@ -75,7 +75,7 @@ const Ingredient: Component<{
         <input
           type="text"
           name="name"
-          class="bg-surface w-full rounded-r-md"
+          class="bg-surface size-full rounded-r-md px-1"
           value={ingredient.name}
           onChange={updateIngredient}
         />

@@ -64,13 +64,13 @@ const Markdown: Component<{
         <Match when={editing()}>
           <div class="flex size-full min-h-64">
             <textarea
-              class="prose prose-rosePine bg-overlay w-full border-none"
+              class="text-text bg-overlay w-full rounded-l-md border-none p-0.5 text-sm"
               innerText={body()}
               onInput={genPreview}
               onChange={save}
             />
             <div
-              class="prose prose-rosePine bg-overlay w-full border-none"
+              class="prose prose-rosePine bg-overlay w-full rounded-r-md border-none"
               innerHTML={preview()}
             />
           </div>

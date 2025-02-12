@@ -10,7 +10,7 @@ import {
   type Component,
 } from "solid-js";
 
-import type { fullIngredient } from "@lib/ingredients";
+import type { ingredient } from "@lib/ingredients";
 import { isServer } from "solid-js/web";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
@@ -18,24 +18,22 @@ import IngredientAdder from "./ingredientAdder";
 const Ingredients: Component<{
   editing: boolean;
   recipeId: number;
-  ingredients: fullIngredient[];
+  ingredients: ingredient[];
 }> = (props) => {
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
 
   const isMetric = /(gram|liter)/;
 
-  const [ingredients, { refetch }] = createResource<fullIngredient[]>(
-    async () => {
-      if (isServer) {
-        return props.ingredients;
-      }
-      const { data } = await actions.ingredient.getIngredients({
-        recipeId: recipeId(),
-      });
-      return data as fullIngredient[];
-    },
-  );
+  const [ingredients, { refetch }] = createResource<ingredient[]>(async () => {
+    if (isServer) {
+      return props.ingredients;
+    }
+    const { data } = await actions.ingredient.getIngredients({
+      recipeId: recipeId(),
+    });
+    return data as ingredient[];
+  });
 
   onMount(() => refetch);
 

@@ -6,32 +6,32 @@ interface props {
   value?: string;
   onInput?: (
     event: InputEvent & {
-      currentTarget: HTMLInputElement;
-      target: HTMLInputElement;
+      currentTarget: HTMLTextAreaElement;
+      target: HTMLTextAreaElement;
     },
   ) => void;
   onChange?: (
     event: Event & {
-      currentTarget: HTMLInputElement;
-      target: HTMLInputElement;
+      currentTarget: HTMLTextAreaElement;
+      target: HTMLTextAreaElement;
     },
   ) => void;
 }
 
-const TextInput: ParentComponent<props> = (props) => {
+const TextArea: ParentComponent<props> = (props) => {
   return (
     <div class="text-text flex flex-col">
       <div class="inline-block px-1">{props.children}</div>
-      <input
+      <textarea
         name={props.name}
         placeholder={props.placeholder || ""}
-        value={props.value || ""}
         class="bg-highlightLow rounded-md px-2 py-1"
         onInput={(event) => props.onInput?.(event)}
         onChange={(event) => props.onChange?.(event)}
-      />
+        innerText={props.value || ""}
+      ></textarea>
     </div>
   );
 };
 
-export default TextInput;
+export default TextArea;

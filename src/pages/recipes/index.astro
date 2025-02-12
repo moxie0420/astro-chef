@@ -87,13 +87,7 @@ const recipes = res.data;
   />
 
   <div class="mx-auto flex size-full flex-wrap">
-    {
-      recipes.map((r) => (
-        <RecipeCard recipe={r as Recipe} client:load>
-          <div slot="fallback" class="size-full animate-pulse" />
-        </RecipeCard>
-      ))
-    }
+    {recipes.map((r) => <RecipeCard recipe={r as Recipe} client:load />)}
   </div>
 
   <div class="m-2 mx-auto flex w-full justify-between">
