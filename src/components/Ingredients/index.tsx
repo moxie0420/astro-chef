@@ -1,5 +1,4 @@
 import { truncate } from "@lib/math";
-import { isMetric } from "@lib/types";
 import { actions } from "astro:actions";
 import {
   createResource,
@@ -23,6 +22,8 @@ const Ingredients: Component<{
 }> = (props) => {
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
+
+  const isMetric = /(gram|liter)/;
 
   const [ingredients, { refetch }] = createResource<fullIngredient[]>(
     async () => {

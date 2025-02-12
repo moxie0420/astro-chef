@@ -1,11 +1,11 @@
 ---
 import { actions } from "astro:actions";
+import type { Recipe } from "@lib/recipe";
 
-import Ingredients from "@components/ingredients/ingredients";
-import Layout from "@layouts/layout.astro";
+import Ingredients from "@components/Ingredients";
+import Layout from "@layouts/main.astro";
 import Markdown from "@components/markdown";
-import RecipeInfo from "@components/recipe/RecipeInfo";
-import type { Recipe } from "@lib/types";
+import Info from "@components/recipe/Info";
 
 const { id } = Astro.params;
 
@@ -23,7 +23,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
 <Layout title={data.title || "editing"} editing={true}>
   <div class="bg-surface text-text mx-auto w-full md:w-5/6">
-    <RecipeInfo recipe={data as Recipe} editing={true} client:only />
+    <Info recipe={data as Recipe} editing={true} client:only />
     <Ingredients
       recipeId={data.id}
       editing={true}

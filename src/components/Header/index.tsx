@@ -17,8 +17,8 @@ import { Motion, Presence } from "solid-motionone";
 import OpenMenu from "src/icons/menu-open.svg?component-solid";
 import Menu from "src/icons/menu.svg?component-solid";
 
-const CreateForm = lazy(() => import("./createForm"));
-const Uploader = lazy(() => import("./uploader"));
+const CreateForm = lazy(() => import("@components/forms/Create"));
+const Uploader = lazy(() => import("@components/forms/Upload"));
 
 interface props {
   pages: {

@@ -1,5 +1,5 @@
+import type { ingredients } from "@db/schema/ingredients";
 import { actions } from "astro:actions";
-import type { unit } from "./types";
 
 const fetchIngredients = async (id: number) => {
   const { data } = await actions.ingredient.getIngredients({
@@ -7,21 +7,38 @@ const fetchIngredients = async (id: number) => {
   });
   return data;
 };
+type unit =
+  | "none"
+  | "teaspoon"
+  | "tablespoon"
+  | "cup"
+  | "ounce"
+  | "fluid cup"
+  | "fluid ounce"
+  | "pint"
+  | "quart"
+  | "gallon"
+  | "kilogram"
+  | "gram"
+  | "miligram";
 
-interface fullIngredient {
-  id: number;
-  recipeId: number;
-  name: string;
-  unit: string;
-  whole: number;
-  fraction: string;
-}
+const units: unit[] = [
+  "none",
+  "teaspoon",
+  "tablespoon",
+  "cup",
+  "ounce",
+  "fluid cup",
+  "fluid ounce",
+  "pint",
+  "quart",
+  "gallon",
+  "kilogram",
+  "gram",
+  "miligram",
+];
 
-interface ingredient {
-  amount: string;
-  name: string;
-  unit: unit;
-}
+type ingredient = typeof ingredients.$inferSelect;
 
-export { fetchIngredients };
-export type { fullIngredient, ingredient };
+export { fetchIngredients, units };
+export type { ingredient, unit };

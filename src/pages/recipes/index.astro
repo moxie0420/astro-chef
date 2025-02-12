@@ -1,17 +1,17 @@
 ---
 import { actions } from "astro:actions";
-import type { filter_t, Recipe, sort_t } from "@lib/types";
+import type { filters, Recipe, sorting } from "@lib/recipe";
 
-import MainLayout from "@layouts/layout.astro";
-import RecipeCard from "@components/recipe/recipeCard";
-import SearchOptions from "@components/search/searchOptions";
+import Main from "@layouts/main.astro";
+import RecipeCard from "@components/recipe/Card";
+import SearchOptions from "@components/forms/Search";
 
 const getData = async (
   search?: string,
   sort: "by-id" | "popular" | "random" | "title" = "popular",
   page: number = 1,
   number: number = 25,
-  filter?: Array<filter_t>,
+  filter?: Array<filters>,
 ) => {
   return Astro.callAction(actions.Recipe.getRecipes, {
     page,
@@ -25,10 +25,10 @@ const getData = async (
 let res;
 let params: {
   search?: string;
-  sortParam?: sort_t;
+  sortParam?: sorting;
   page?: number;
   number?: number;
-  filters?: Array<filter_t>;
+  filters?: Array<filters>;
 } = {};
 
 if (Astro.request.method === "POST") {
@@ -36,11 +36,11 @@ if (Astro.request.method === "POST") {
     const data = await Astro.request.formData();
 
     params.search = data.get("search") as string;
-    params.sortParam = data.get("sortBy") as sort_t;
+    params.sortParam = data.get("sortBy") as sorting;
     const page = data.get("page") as string;
     const count = data.get("count") as string;
 
-    params.filters = data.getAll("filters") as filter_t[] | undefined;
+    params.filters = data.getAll("filters") as filters[] | undefined;
 
     params.page = page === "null" || page == null ? 1 : parseInt(page);
     params.number = count === "null" || count == null ? 25 : parseInt(count);
@@ -76,7 +76,7 @@ if (!res?.data) return Astro.redirect("/404");
 const recipes = res.data;
 ---
 
-<MainLayout title={"Browse Recipes"}>
+<Main title={"Browse Recipes"}>
   <SearchOptions
     search={params.search}
     page={params.page || 1}
@@ -100,7 +100,7 @@ const recipes = res.data;
     <button id="prevPage" class="bg-foam rounded-md px-2">Prev</button>
     <button id="nextPage" class="bg-foam rounded-md px-2">Next</button>
   </div>
-</MainLayout>
+</Main>
 
 <script>
   import { navigate } from "astro:transitions/client";

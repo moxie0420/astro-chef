@@ -1,5 +1,5 @@
-import RecipeCard from "@components/recipe/recipeCard";
-import type { Recipe } from "@lib/types";
+import RecipeCard from "@components/recipe/Card";
+import type { Recipe } from "@lib/recipe";
 import createEmblaCarousel from "embla-carousel-solid";
 import { type ParentComponent, For } from "solid-js";
 

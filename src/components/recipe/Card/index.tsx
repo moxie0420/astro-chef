@@ -1,4 +1,4 @@
-import type { Recipe } from "@lib/types";
+import type { Recipe } from "@lib/recipe";
 import { navigate } from "astro:transitions/client";
 import { type Component } from "solid-js";
 

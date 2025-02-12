@@ -1,5 +1,4 @@
-import type { fullIngredient } from "@lib/ingredients";
-import { Units, type unit } from "@lib/types";
+import { units, type ingredient, type unit } from "@lib/ingredients";
 import { actions } from "astro:actions";
 import { createEffect, For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -7,14 +6,10 @@ import { createStore } from "solid-js/store";
 import Cancel from "src/icons/cancel.svg?component-solid";
 
 const Ingredient: Component<{
-  ingredient: fullIngredient;
+  ingredient: ingredient;
   refetch: (
     info?: unknown,
-  ) =>
-    | fullIngredient[]
-    | Promise<fullIngredient[] | undefined>
-    | null
-    | undefined;
+  ) => ingredient[] | Promise<ingredient[] | undefined> | null | undefined;
 }> = (props) => {
   const id = () => props.ingredient.id;
 
@@ -67,7 +62,7 @@ const Ingredient: Component<{
           name="Unit"
           onChange={updateIngredient}
         >
-          <For each={Units}>
+          <For each={units}>
             {(unit: unit) => (
               <option value={unit} selected={ingredient.unit === unit}>
                 {unit}

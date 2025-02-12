@@ -1,5 +1,6 @@
-import { type Recipe } from "@lib/types";
+import { type Recipe } from "@lib/recipe";
 import {
+  createContext,
   createSignal,
   Match,
   Show,
@@ -13,6 +14,10 @@ import LikeButton from "@components/likeButton";
 import { actions } from "astro:actions";
 
 import Image from "@components/assets/image";
+import TextInput from "@components/forms/inputs/TextInput";
+import Title from "./title";
+
+const recipeContext = createContext();
 
 const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
   const editing = () => props.editing;
@@ -52,50 +57,25 @@ const RecipeInfo: Component<{ recipe: Recipe; editing: boolean }> = (props) => {
             </div>
           </Match>
           <Match when={editing()}>
-            <label for="title" class="basis-1/16 text-3xl font-bold">
-              {currentTitle()}
-            </label>
-            <label for="title" class="basis-1/16 text-xl">
-              By {currentAuthor()}
-            </label>
-            <input
-              type="text"
-              name="title"
-              value={currentTitle()}
-              class="bg-surface rounded-md"
-              onInput={(event) => setCurrentTitle(event.currentTarget.value)}
-              onChange={updateRecipe}
-              placeholder="Recipe Title"
-            />
-            <input
-              type="text"
-              name="author"
-              value={currentAuthor()}
-              class="bg-surface rounded-md"
-              onInput={(event) => setCurrentAuthor(event.currentTarget.value)}
-              onChange={updateRecipe}
-              placeholder="Recipe Author"
-            />
+            <Title />
 
-            <label for="prepTime">Prep Time</label>
-            <input
-              type="text"
+            <TextInput
               name="prepTime"
               value={recipe.prepTime}
-              class="bg-surface rounded-md"
-              onChange={updateRecipe}
               placeholder="Not Set Yet"
-            />
+              onChange={updateRecipe}
+            >
+              Prep Time
+            </TextInput>
 
-            <label for="cookTime">Cook Time</label>
-            <input
-              type="text"
+            <TextInput
               name="cookTime"
               value={recipe.cookTime}
-              class="bg-surface rounded-md"
+              placeholder="Not set yet"
               onChange={updateRecipe}
-              placeholder="not set yet"
-            />
+            >
+              Cook Time
+            </TextInput>
 
             <label for="description">Description</label>
             <textarea

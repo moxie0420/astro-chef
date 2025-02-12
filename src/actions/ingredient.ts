@@ -5,6 +5,8 @@ import { db } from "@db/index";
 import { ingredients } from "@db/schema/ingredients";
 import { eq } from "drizzle-orm";
 
+import Fraction from "fraction.js";
+
 export const ingredient = {
   getIngredients: defineAction({
     input: z.object({
@@ -34,13 +36,23 @@ export const ingredient = {
   addIngredient: defineAction({
     input: z.object({
       recipeId: z.number(),
+      amount: z.union([z.string(), z.number()]),
       name: z.string(),
       unit: z.string(),
-      whole: z.number(),
-      fraction: z.string(),
     }),
-    handler: async (input) =>
-      await db.insert(ingredients).values(input).returning(),
+    handler: async ({ recipeId, amount, name, unit }) => {
+      const val = new Fraction(amount);
+
+      const newIngredient = {
+        name: name,
+        unit: unit,
+        fraction: val.toFraction(true),
+        whole: val.valueOf(),
+        recipeId: recipeId,
+      };
+
+      await db.insert(ingredients).values(newIngredient);
+    },
   }),
   removeIngredient: defineAction({
     input: z.object({

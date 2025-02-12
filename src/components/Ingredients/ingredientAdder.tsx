@@ -1,7 +1,5 @@
-import Fraction from "fraction.js";
-
-import type { fullIngredient, ingredient } from "@lib/ingredients";
-import { Units, type unit } from "@lib/types";
+import type { ingredient, unit } from "@lib/ingredients";
+import { units } from "@lib/ingredients";
 import { For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
 
@@ -12,37 +10,26 @@ const IngredientAdder: Component<{
   recipeId: number;
   refetch: (
     info?: unknown,
-  ) =>
-    | fullIngredient[]
-    | Promise<fullIngredient[] | undefined>
-    | null
-    | undefined;
+  ) => ingredient[] | Promise<ingredient[] | undefined> | null | undefined;
 }> = (props) => {
   const recipeId = () => props.recipeId;
 
-  const [newIngredient, setNewIngredient] = createStore({
+  const [newIngredient, setNewIngredient] = createStore<{
+    name: string;
+    amount: string | number;
+    unit: unit;
+  }>({
     name: "",
     amount: "",
-    unit: "none" as unit,
+    unit: "none",
   });
 
-  const addIngredient = async ({ amount, name, unit }: ingredient) => {
-    const val = new Fraction(amount);
-
-    const newIngredient = {
-      name: name,
-      unit: unit,
-      fraction: val.toFraction(true),
-      whole: val.valueOf(),
-      recipeId: recipeId(),
-    };
-
-    await actions.ingredient.addIngredient(newIngredient);
-    props.refetch?.();
-  };
-
   const handleSubmit: JSX.EventHandler<HTMLButtonElement, Event> = async () => {
-    addIngredient(newIngredient);
+    await actions.ingredient.addIngredient({
+      recipeId: recipeId(),
+      ...newIngredient,
+    });
+    props.refetch?.();
   };
 
   const updateIngredient: JSX.EventHandler<
@@ -76,7 +63,7 @@ const IngredientAdder: Component<{
           class="bg-surface w-full"
           onInput={updateIngredient}
         >
-          <For each={Units}>
+          <For each={units}>
             {(unit) => (
               <option value={unit}>
                 {unit === "none" ? "---None---" : unit}

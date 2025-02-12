@@ -1,11 +1,11 @@
-import type { filter_t } from "@lib/types";
+import type { filters } from "@lib/recipe";
 import { type Component, For, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
 
 const SearchOptions: Component<{
   page: number;
   number: number;
-  filter?: Array<filter_t>;
+  filter?: Array<filters>;
   sort: "random" | "popular" | "title" | "by-id";
   search?: string;
 }> = (props) => {
@@ -15,7 +15,7 @@ const SearchOptions: Component<{
   const sort = () => props.sort;
   const search = () => props.search;
 
-  const filters: Array<{ text: string; name: filter_t }> = [
+  const filters: Array<{ text: string; name: filters }> = [
     {
       text: "Liked Recipes",
       name: "liked",
