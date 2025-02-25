@@ -1,10 +1,10 @@
-import { actions } from "astro:actions";
 import { navigate } from "astro:transitions/client";
 import type { Component } from "solid-js";
 import { onMount } from "solid-js";
 import { Motion } from "solid-motionone";
 import Cancel from "src/icons/cancel.svg?component-solid";
 
+import { trpc } from "@lib/trpc/client";
 import { z } from "astro:schema";
 
 const CreateRecipeForm = z.object({
@@ -33,13 +33,8 @@ const CreateForm: Component<{ closeForm: (val: boolean) => boolean }> = (
 
       CreateRecipeForm.parse(newRecipe);
 
-      const { data, error } = await actions.create(newRecipe);
-      if (error) {
-        if (error instanceof Error) console.error(error.message);
-        return;
-      }
-
-      await navigate(`/recipes/${data}`);
+      const res = await trpc.recipe.create.mutate(newRecipe);
+      await navigate(`/recipes/${res.identifiers}`);
     });
 
   return (

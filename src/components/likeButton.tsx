@@ -1,4 +1,4 @@
-import { actions } from "astro:actions";
+import { trpc } from "@lib/trpc/client";
 import type { Component } from "solid-js";
 import { createEffect, createSignal, Show } from "solid-js";
 
@@ -16,9 +16,9 @@ const LikeButton: Component<{
 
   const toggleLiked = () => setLiked(!liked());
 
-  createEffect(() => {
-    actions.Recipe.setLiked({ id: id(), liked: liked() });
-  });
+  createEffect(() =>
+    liked() ? trpc.recipe.like.mutate(id()) : trpc.recipe.dislike.mutate(id()),
+  );
 
   return (
     <button

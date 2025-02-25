@@ -1,22 +1,18 @@
-import { units, type ingredient, type unit } from "@lib/ingredients";
-import { actions } from "astro:actions";
+import { trpc } from "@lib/trpc/client";
+import { units, type unit } from "@lib/units";
 import { createEffect, For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
+import type { Ingredient as Ingredient_t } from "src/entity/Ingredient";
 
 import Cancel from "src/icons/cancel.svg?component-solid";
 
 const Ingredient: Component<{
-  ingredient: ingredient;
-  refetch: (
-    info?: unknown,
-  ) => ingredient[] | Promise<ingredient[] | undefined> | null | undefined;
+  ingredient: Ingredient_t;
 }> = (props) => {
   const id = () => props.ingredient.id;
 
-  const removeIngredient = async (id: number) => {
-    await actions.ingredient.removeIngredient({ ingredientId: id });
-    props.refetch?.();
-  };
+  const removeIngredient = async () =>
+    await trpc.ingredient.delete.mutate(id());
 
   const [ingredient, setIngredient] = createStore({
     amount: props.ingredient.fraction,
@@ -25,11 +21,13 @@ const Ingredient: Component<{
   });
 
   createEffect(() => {
-    actions.ingredient.updateIngredient({
-      ingredientId: id(),
-      amount: ingredient.amount,
-      name: ingredient.name,
-      unit: ingredient.unit,
+    trpc.ingredient.update.mutate({
+      id: id(),
+      data: {
+        amount: ingredient.amount,
+        name: ingredient.name,
+        unit: ingredient.unit,
+      },
     });
   });
 

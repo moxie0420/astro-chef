@@ -1,9 +1,9 @@
+import { trpc } from "@lib/trpc/client";
 import {
   createDropzone,
   createFileUploader,
   type UploadFile,
 } from "@solid-primitives/upload";
-import { actions } from "astro:actions";
 import { createSignal, For, type Component, type Setter } from "solid-js";
 
 const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
@@ -27,13 +27,11 @@ const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
     const formData = new FormData();
     upload.forEach((file) => formData.append(file.name, file));
 
-    const { data, error } = await actions.images.upload(formData);
-    if (error) {
-      console.error("failed to upload files");
-    } else {
-      setFilesToUpload([]);
-      menuCloser(false);
-    }
+    const res = await trpc.image.upload.mutate(formData);
+    if (!res) return;
+
+    setFilesToUpload([]);
+    menuCloser(false);
   };
 
   return (

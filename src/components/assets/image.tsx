@@ -1,4 +1,4 @@
-import { actions } from "astro:actions";
+import { trpc } from "@lib/trpc/client";
 import {
   createEffect,
   createSignal,
@@ -20,8 +20,7 @@ const Image: Component<{
 
   createEffect(async () => {
     if (src() == "") return;
-
-    const { data } = await actions.images.get({ path: src() });
+    const data = await trpc.image.fetch.query(src());
     if (!data) return;
     setImage(URL.createObjectURL(new Blob(data)));
   });

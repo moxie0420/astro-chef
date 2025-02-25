@@ -1,29 +1,19 @@
 ---
-import { actions } from "astro:actions";
-
 import IngredientHolder from "@components/Ingredients";
 import Main from "@layouts/main.astro";
 import Markdown from "@components/markdown";
 import RecipeInfo from "@components/recipe/Info";
-import type { Recipe } from "@lib/recipe";
+import { PGLite } from "src/data-source";
+import { Recipe } from "src/entity/Recipe";
 
 const { id } = Astro.params;
 
 if (!id) return Astro.redirect("/");
 
-const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
-  identifier: id,
+const data = await PGLite.getRepository(Recipe).findOne({
+  where: { id: parseInt(id) },
 });
-
-if (error?.code) return Astro.redirect("/404?message=" + error?.message);
-else if (error) return Astro.redirect("/404?message=An unknown Error occurred");
-
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
-
-Astro.callAction(actions.Recipe.updateRecipe, {
-  id: parseInt(id),
-  totalViews: data.totalViews + 1,
-});
 ---
 
 <Main title={data.title || ""} recipeId={data.id}>
@@ -32,12 +22,7 @@ Astro.callAction(actions.Recipe.updateRecipe, {
   </div>
 
   <div class="mx-auto">
-    <IngredientHolder
-      recipeId={data.id}
-      editing={false}
-      ingredients={data.ingredients}
-      client:load
-    />
+    <IngredientHolder recipeId={data.id} editing={false} client:load />
   </div>
 
   <Markdown

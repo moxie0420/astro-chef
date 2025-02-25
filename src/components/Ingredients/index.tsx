@@ -1,5 +1,4 @@
 import { truncate } from "@lib/math";
-import { actions } from "astro:actions";
 import {
   createResource,
   For,
@@ -10,30 +9,22 @@ import {
   type Component,
 } from "solid-js";
 
-import type { ingredient } from "@lib/ingredients";
-import { isServer } from "solid-js/web";
+import { trpc } from "@lib/trpc/client";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
 
 const Ingredients: Component<{
   editing: boolean;
   recipeId: number;
-  ingredients: ingredient[];
 }> = (props) => {
   const editing = () => props.editing;
   const recipeId = () => props.recipeId;
 
   const isMetric = /(gram|liter)/;
 
-  const [ingredients, { refetch }] = createResource<ingredient[]>(async () => {
-    if (isServer) {
-      return props.ingredients;
-    }
-    const { data } = await actions.ingredient.getIngredients({
-      recipeId: recipeId(),
-    });
-    return data as ingredient[];
-  });
+  const [ingredients, { refetch }] = createResource(
+    async () => await trpc.recipe.ingredients.query(recipeId()),
+  );
 
   onMount(() => refetch);
 
@@ -67,11 +58,11 @@ const Ingredients: Component<{
                     when={editing()}
                     fallback={
                       <td class="mx-auto px-2">
-                        {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "" ? "of" : ""} ${ingredient.name}`}
+                        {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "none" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "none" ? "of" : ""} ${ingredient.name}`}
                       </td>
                     }
                   >
-                    <Ingredient ingredient={ingredient} refetch={refetch} />
+                    <Ingredient ingredient={ingredient} />
                   </Show>
                 </tr>
               )}
@@ -81,7 +72,7 @@ const Ingredients: Component<{
       </Switch>
 
       <Show when={editing()}>
-        <IngredientAdder recipeId={recipeId()} refetch={refetch} />
+        <IngredientAdder recipeId={recipeId()} />
       </Show>
     </table>
   );

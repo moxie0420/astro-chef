@@ -1,12 +1,15 @@
 import RecipeCard from "@components/recipe/Card";
-import type { Recipe } from "@lib/recipe";
+import { trpc } from "@lib/trpc/client";
 import createEmblaCarousel from "embla-carousel-solid";
-import { type ParentComponent, For } from "solid-js";
+import { type ParentComponent, createResource, For } from "solid-js";
 
-const Carousel: ParentComponent<{ title: string; recipes?: Recipe[] }> = (
-  props,
-) => {
-  const recipes = () => props.recipes;
+const Carousel: ParentComponent<{ title: string }> = (props) => {
+  const [recipes] = createResource(
+    async () =>
+      await trpc.recipe.getMultiple.query({
+        number: 10,
+      }),
+  );
 
   const [emblaRef, emblaApi] = createEmblaCarousel(() => ({ loop: true }));
 

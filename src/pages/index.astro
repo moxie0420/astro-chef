@@ -1,26 +1,12 @@
 ---
 import Main from "@layouts/main.astro";
 import Carousel from "@components/Carousel";
-import { actions } from "astro:actions";
-import type { Recipe } from "@lib/recipe";
 
 const title = "Astro Chef";
-
-const randRes = await Astro.callAction(actions.Recipe.getRecipes, {
-  sort: "random",
-}).then((res) => res.data);
-
-const likedRes = await Astro.callAction(actions.Recipe.getRecipes, {
-  filter: ["liked"],
-}).then((res) => res.data);
-
-const popularRes = await Astro.callAction(actions.Recipe.getRecipes, {
-  sort: "popular",
-}).then((res) => res.data);
 ---
 
 <Main title={title}>
-  <Carousel title="Random" recipes={randRes as Recipe[]} client:load />
-  <Carousel title="Popular" recipes={popularRes as Recipe[]} client:load />
-  <Carousel title="Liked" recipes={likedRes as Recipe[]} client:load />
+  <Carousel title="Random" client:load />
+  <Carousel title="Popular" client:load />
+  <Carousel title="Liked" client:load />
 </Main>

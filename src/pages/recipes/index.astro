@@ -1,93 +1,40 @@
 ---
-import { actions } from "astro:actions";
-import type { filters, Recipe, sorting } from "@lib/recipe";
-
 import Main from "@layouts/main.astro";
 import RecipeCard from "@components/recipe/Card";
 import SearchOptions from "@components/forms/Search";
+import { trpc } from "@lib/trpc/client";
 
-const getData = async (
-  search?: string,
-  sort: "by-id" | "popular" | "random" | "title" = "popular",
-  page: number = 1,
-  number: number = 25,
-  filter?: Array<filters>,
-) => {
-  return Astro.callAction(actions.Recipe.getRecipes, {
-    page,
-    number,
-    filter,
-    sort,
-    query: search,
-  }).then((res) => res);
+const urlParams = Astro.url.searchParams;
+
+const params: {
+  query?: string;
+  sort: "popular" | "by-id" | "title";
+  number: string;
+} = {
+  query: urlParams.get("q") || undefined,
+  sort: (urlParams.get("s") as "popular" | "by-id" | "title") || "title",
+  number: urlParams.get("n") || "25",
 };
 
-let res;
-let params: {
-  search?: string;
-  sortParam?: sorting;
-  page?: number;
-  number?: number;
-  filters?: Array<filters>;
-} = {};
+const res = await trpc.recipe.getMultiple.query({
+  number: parseInt(params.number),
+  sort: params.sort,
+  query: params.query,
+});
 
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-
-    params.search = data.get("search") as string;
-    params.sortParam = data.get("sortBy") as sorting;
-    const page = data.get("page") as string;
-    const count = data.get("count") as string;
-
-    params.filters = data.getAll("filters") as filters[] | undefined;
-
-    params.page = page === "null" || page == null ? 1 : parseInt(page);
-    params.number = count === "null" || count == null ? 25 : parseInt(count);
-
-    res = await getData(
-      params.search,
-      params.sortParam,
-      params.page,
-      params.number,
-      params.filters,
-    );
-
-    if (res.error || !res.data) throw res.error;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-      return Astro.redirect("/404");
-    }
-  }
-} else {
-  try {
-    res = await getData();
-    if (res.error || !res.data) throw res.error;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-      return Astro.redirect("/404");
-    }
-  }
-}
-
-if (!res?.data) return Astro.redirect("/404");
-const recipes = res.data;
+if (!res) return Astro.redirect("/404");
 ---
 
 <Main title={"Browse Recipes"}>
   <SearchOptions
-    search={params.search}
-    page={params.page || 1}
-    number={params.number || 25}
-    filter={params.filters}
-    sort={params.sortParam || "popular"}
+    search={params.query}
+    number={parseInt(params.number) || 25}
+    sort={params.sort}
     client:load
   />
 
   <div class="mx-auto flex size-full flex-wrap">
-    {recipes.map((r) => <RecipeCard recipe={r as Recipe} client:load />)}
+    {res.map((r) => <RecipeCard recipe={r} client:load />)}
   </div>
 
   <div class="m-2 mx-auto flex w-full justify-between">

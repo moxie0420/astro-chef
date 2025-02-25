@@ -41,6 +41,7 @@
           packages = with pkgs; [
             alejandra
             nil
+            snyk
           ];
           languages.javascript = {
             enable = true;

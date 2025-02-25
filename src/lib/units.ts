@@ -1,12 +1,3 @@
-import type { ingredients } from "@db/schema/ingredients";
-import { actions } from "astro:actions";
-
-const fetchIngredients = async (id: number) => {
-  const { data } = await actions.ingredient.getIngredients({
-    recipeId: id,
-  });
-  return data;
-};
 type unit =
   | "none"
   | "teaspoon"
@@ -38,7 +29,5 @@ const units: unit[] = [
   "miligram",
 ];
 
-type ingredient = typeof ingredients.$inferSelect;
-
-export { fetchIngredients, units };
-export type { ingredient, unit };
+export { units };
+export type { unit };

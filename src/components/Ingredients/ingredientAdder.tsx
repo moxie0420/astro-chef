@@ -1,22 +1,18 @@
-import type { ingredient, unit } from "@lib/ingredients";
-import { units } from "@lib/ingredients";
+import { trpc } from "@lib/trpc/client";
+import type { unit } from "@lib/units";
+import { units } from "@lib/units";
 import { For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
-
-import { actions } from "astro:actions";
 import Add from "src/icons/add.svg?component-solid";
 
 const IngredientAdder: Component<{
   recipeId: number;
-  refetch: (
-    info?: unknown,
-  ) => ingredient[] | Promise<ingredient[] | undefined> | null | undefined;
 }> = (props) => {
   const recipeId = () => props.recipeId;
 
   const [newIngredient, setNewIngredient] = createStore<{
     name: string;
-    amount: string | number;
+    amount: string;
     unit: unit;
   }>({
     name: "",
@@ -25,11 +21,10 @@ const IngredientAdder: Component<{
   });
 
   const handleSubmit: JSX.EventHandler<HTMLButtonElement, Event> = async () => {
-    await actions.ingredient.addIngredient({
+    await trpc.ingredient.create.mutate({
       recipeId: recipeId(),
-      ...newIngredient,
+      data: newIngredient,
     });
-    props.refetch?.();
   };
 
   const updateIngredient: JSX.EventHandler<

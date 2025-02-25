@@ -1,18 +1,14 @@
 import type { filters } from "@lib/recipe";
-import { type Component, For, type JSX } from "solid-js";
+import { type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
 import TextInput from "../inputs/TextInput";
 
 const SearchOptions: Component<{
-  page: number;
   number: number;
-  filter?: Array<filters>;
   sort: "random" | "popular" | "title" | "by-id";
   search?: string;
 }> = (props) => {
-  const page = () => props.page;
   const number = () => props.number;
-  const filter = () => props.filter;
   const sort = () => props.sort;
   const search = () => props.search;
 
@@ -24,9 +20,7 @@ const SearchOptions: Component<{
   ];
 
   const [form, setForm] = createStore({
-    page: page(),
     number: number(),
-    filter: filter() || [],
     sort: sort(),
     search: search(),
   });
@@ -75,35 +69,6 @@ const SearchOptions: Component<{
         </option>
       </select>
 
-      <div class="text-text m-1">
-        <span class="font-bold">Filters</span>
-        <For each={filters}>
-          {(filter) => (
-            <div class="m-1 my-auto flex">
-              <input
-                type="checkbox"
-                value={filter.name}
-                name={filter.name}
-                class="bg-overlay m-1 rounded-full"
-                checked={props.filter?.includes(filter.name)}
-                onChange={(event) => {
-                  if (event.currentTarget.checked === true) {
-                    setForm("filter", (currentFilters) => [
-                      ...currentFilters!,
-                      filter.name,
-                    ]);
-                  } else {
-                    const old = form.filter;
-                    const newfilters = old.filter((f) => f !== filter.name);
-                    setForm("filter", () => newfilters);
-                  }
-                }}
-              />
-              <label for={filter.name}>{filter.text}</label>
-            </div>
-          )}
-        </For>
-      </div>
       <div class="text-text m-1 flex flex-col">
         <label for="count">Recipes per page</label>
         <input

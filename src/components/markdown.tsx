@@ -1,3 +1,7 @@
+import { trpc } from "@lib/trpc/client";
+import Purify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
+import { marked, type RendererObject } from "marked";
 import {
   createSignal,
   Match,
@@ -6,11 +10,6 @@ import {
   type JSX,
 } from "solid-js";
 import { isServer } from "solid-js/web";
-
-import { actions } from "astro:actions";
-import Purify from "dompurify";
-import DOMPurify from "isomorphic-dompurify";
-import { marked, type RendererObject } from "marked";
 
 const renderer: RendererObject = {
   image({ href, text }) {
@@ -43,8 +42,10 @@ const Markdown: Component<{
   const save: JSX.EventHandler<HTMLTextAreaElement, Event> = ({
     currentTarget: { value },
   }) => {
-    actions.Recipe.updateRecipe({
-      body: value,
+    trpc.recipe.update.mutate({
+      data: {
+        body: value,
+      },
       id: recipeId(),
     });
   };

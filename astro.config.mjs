@@ -43,6 +43,11 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      S3_BUCKET: envField.string({
+        context: "server",
+        access: "public",
+        default: "astro-chef",
+      }),
     },
   },
   integrations: [

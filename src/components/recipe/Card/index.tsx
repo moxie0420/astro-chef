@@ -1,6 +1,6 @@
-import type { Recipe } from "@lib/recipe";
 import { navigate } from "astro:transitions/client";
 import { type Component } from "solid-js";
+import type { Recipe } from "src/entity/Recipe";
 
 import LikeButton from "@components/likeButton";
 
@@ -44,11 +44,11 @@ const RecipeCard: Component<{ recipe: Recipe }> = (props) => {
         <div class="bg-highlightMed mx-auto my-auto flex w-full basis-2/3 flex-col rounded-md px-1 text-nowrap">
           <div class="flex justify-between gap-1">
             <p>Created</p>
-            <p>{recipe().created?.toLocaleDateString()}</p>
+            <p>{recipe().created}</p>
           </div>
           <div class="flex justify-between gap-1">
             <p>Edited</p>
-            <p>{recipe().edited?.toLocaleDateString()}</p>
+            <p>{recipe().edited}</p>
           </div>
         </div>
       </div>
