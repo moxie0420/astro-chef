@@ -38,15 +38,22 @@
             nix build .#container
             docker load < result
           '';
+
           packages = with pkgs; [
             alejandra
             nil
             snyk
           ];
+
           languages.javascript = {
             enable = true;
             package = pkgs.nodejs-slim_22;
             pnpm.enable = true;
+          };
+
+          git-hooks.hooks = {
+            alejandra.enable = true;
+            eslint.enable = true;
           };
         };
       };

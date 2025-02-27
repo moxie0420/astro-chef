@@ -1,4 +1,5 @@
 {
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
   "workbench.iconTheme": "catppuccin-perfect-mocha",
   "remote.autoForwardPortsSource": "hybrid",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -17,7 +18,20 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "explorer.excludeGitIgnore": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+    "**/recipes-db": true,
+    "**/.astro": true,
+    "**/.devenv": true,
+    "**/.direnv": true,
+    "**/coverage": true
+  },
   "cSpell.words": [
     "cachix",
     "dburl",
@@ -29,6 +43,7 @@
     "pglite",
     "pkgs",
     "pname",
+    "Sonda",
     "stdenv"
   ]
 }

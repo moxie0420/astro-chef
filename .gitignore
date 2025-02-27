@@ -40,3 +40,7 @@ recipes-db/
 # nix system specific stuff
 .direnv
 .devenv
+
+# Code coverate
+
+coverage/
