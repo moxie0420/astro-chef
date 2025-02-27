@@ -1,14 +1,14 @@
-import S3 from "@lib/S3";
+import { fetchSingle, uploadMultiple } from "@lib/files";
+import { doesBucketExist, getFileUrl, uploader } from "@lib/files/S3";
 import { publicProcedure, router } from "@lib/trpc";
 import { TRPCError } from "@trpc/server";
-import { S3_BUCKET } from "astro:env/server";
 import { z } from "astro:schema";
 
 export const imageRouter = router({
   upload: publicProcedure
     .input(z.instanceof(FormData))
     .mutation(async ({ input }) => {
-      if (!S3.doesBucketExist(S3_BUCKET))
+      if (!doesBucketExist())
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "The requested bucket was not found",
@@ -17,27 +17,31 @@ export const imageRouter = router({
       const files = input.values();
       const data = files.map((val) => val as File);
 
-      return S3.uploadMultiple(data.toArray(), S3_BUCKET);
+      return uploadMultiple(data.toArray(), uploader);
     }),
   fetch: publicProcedure
     .input(
-      z.union([
-        z.string().endsWith(".png"),
-        z.string().endsWith(".jpg"),
-        z.string().endsWith(".jpeg"),
-        z.string().endsWith(".gif"),
-        z.string().endsWith(".webp"),
-      ]),
+      z
+        .union([
+          z.string().endsWith(".png"),
+          z.string().endsWith(".jpg"),
+          z.string().endsWith(".jpeg"),
+          z.string().endsWith(".gif"),
+          z.string().endsWith(".webp"),
+        ])
+        .nullable(),
     )
     .query(async ({ input }) => {
-      const res = await S3.fetchSingle(input, "astro-chef");
-      const body = await res.toArray();
-      if (!body || body.length < 1)
+      if (!input)
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
+          code: "NOT_FOUND",
           message: "Requested image was not found",
         });
-
-      return body;
+      if (!doesBucketExist())
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "The requested bucket was not found",
+        });
+      return fetchSingle(input, getFileUrl);
     }),
 });

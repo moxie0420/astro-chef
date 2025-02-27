@@ -1,8 +1,7 @@
 import "reflect-metadata";
-
-import { type unit, units } from "@lib/units";
+import { type unit, units } from "src/entity/Ingredient/units";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Recipe } from "./Recipe";
+import { Recipe } from "../Recipe";
 
 @Entity()
 export class Ingredient {

@@ -1,13 +1,10 @@
+import node from "@astrojs/node";
+import solidJs from "@astrojs/solid-js";
+import tailwindcss from "@tailwindcss/vite";
 import AstroPWA from "@vite-pwa/astro";
+import devtoolBreakpoints from "astro-devtool-breakpoints";
 import { defineConfig, envField } from "astro/config";
 import Sonda from "sonda/astro";
-
-import tailwindcss from "@tailwindcss/vite";
-
-import node from "@astrojs/node";
-import devtoolBreakpoints from "astro-devtool-breakpoints";
-
-import solidJs from "@astrojs/solid-js";
 import solidSvg from "vite-plugin-solid-svg";
 
 // https://astro.build/config

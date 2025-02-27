@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { NodeFS } from "@electric-sql/pglite/nodefs";
 import { vector } from "@electric-sql/pglite/vector";
 import { DataSource } from "typeorm";
 import { PGliteDriver } from "typeorm-pglite";
@@ -9,7 +10,7 @@ import { Recipe } from "./entity/Recipe";
 const PGLite = new DataSource({
   type: "postgres",
   driver: new PGliteDriver({
-    dataDir: process.env.DATABASE_URL,
+    fs: new NodeFS(process.env.DATABASE_URL ?? "./recipes-db"),
     extensions: {
       vector,
     },

@@ -1,8 +1,8 @@
 import { trpc } from "@lib/trpc/client";
-import type { unit } from "@lib/units";
-import { units } from "@lib/units";
 import { For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
+import type { unit } from "src/entity/Ingredient/units";
+import { units } from "src/entity/Ingredient/units";
 import Add from "src/icons/add.svg?component-solid";
 
 const IngredientAdder: Component<{

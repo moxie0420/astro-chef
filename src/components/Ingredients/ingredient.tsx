@@ -1,8 +1,8 @@
 import { trpc } from "@lib/trpc/client";
-import { units, type unit } from "@lib/units";
 import { createEffect, For, type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Ingredient as Ingredient_t } from "src/entity/Ingredient";
+import { units, type unit } from "src/entity/Ingredient/units";
 
 import Cancel from "src/icons/cancel.svg?component-solid";
 

@@ -1,6 +1,6 @@
-import type { filters } from "@lib/recipe";
 import { type Component, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
+import type { filters } from "src/entity/Recipe/helpers";
 import TextInput from "../inputs/TextInput";
 
 const SearchOptions: Component<{

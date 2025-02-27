@@ -1,5 +1,4 @@
 import "reflect-metadata";
-
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Ingredient } from "./Ingredient";
+import { Ingredient } from "../Ingredient";
 
 @Entity()
 export class Recipe {
@@ -64,9 +63,7 @@ export class Recipe {
   /** @ts-expect-error 2564 */
   views: number;
 
-  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe, {
-    cascade: true,
-  })
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe)
   /** @ts-expect-error 2564 */
   ingredients: Ingredient[];
 }

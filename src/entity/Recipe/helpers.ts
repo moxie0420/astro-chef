@@ -1,7 +1,9 @@
 type filters = "liked";
 type sorting = "by-id" | "popular" | "title";
 
-const getSorting = (sorting: sorting): { [key: string]: "ASC" | "DESC" } => {
+const getSorting = (
+  sorting: sorting,
+): { [key: string | "id" | "views" | "title"]: "ASC" | "DESC" } => {
   switch (sorting) {
     case "by-id":
       return { id: "ASC" };

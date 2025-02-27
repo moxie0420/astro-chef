@@ -1,4 +1,3 @@
-import { type Recipe } from "@lib/recipe";
 import {
   createContext,
   createSignal,
@@ -9,13 +8,14 @@ import {
   type JSX,
 } from "solid-js";
 import { createStore } from "solid-js/store";
+import { type Recipe } from "src/entity/Recipe/helpers";
 
 import LikeButton from "@components/likeButton";
 import { actions } from "astro:actions";
 
-import Image from "@components/assets/image";
 import TextArea from "@components/forms/inputs/TextArea";
 import TextInput from "@components/forms/inputs/TextInput";
+import Image from "@components/Image";
 import Title from "./title";
 
 const recipeContext = createContext();

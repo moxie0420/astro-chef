@@ -3,6 +3,7 @@ import Main from "@layouts/main.astro";
 import RecipeCard from "@components/recipe/Card";
 import SearchOptions from "@components/forms/Search";
 import { trpc } from "@lib/trpc/client";
+import type { Recipe } from "src/entity/Recipe";
 
 const urlParams = Astro.url.searchParams;
 
@@ -34,7 +35,7 @@ if (!res) return Astro.redirect("/404");
   />
 
   <div class="mx-auto flex size-full flex-wrap">
-    {res.map((r) => <RecipeCard recipe={r} client:load />)}
+    {res.map((r) => <RecipeCard recipe={r as Recipe} client:load />)}
   </div>
 
   <div class="m-2 mx-auto flex w-full justify-between">

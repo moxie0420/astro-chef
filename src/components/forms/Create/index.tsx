@@ -1,4 +1,3 @@
-import { navigate } from "astro:transitions/client";
 import type { Component } from "solid-js";
 import { onMount } from "solid-js";
 import { Motion } from "solid-motionone";
@@ -33,8 +32,7 @@ const CreateForm: Component<{ closeForm: (val: boolean) => boolean }> = (
 
       CreateRecipeForm.parse(newRecipe);
 
-      const res = await trpc.recipe.create.mutate(newRecipe);
-      await navigate(`/recipes/${res.identifiers}`);
+      return await trpc.recipe.create.mutate(newRecipe);
     });
 
   return (

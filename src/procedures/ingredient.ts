@@ -1,9 +1,9 @@
 import { publicProcedure, router } from "@lib/trpc";
-import type { unit } from "@lib/units";
 import { z } from "astro:schema";
 import { Fraction } from "fraction.js";
 import { PGLite } from "src/data-source";
 import { Ingredient } from "src/entity/Ingredient";
+import type { unit } from "src/entity/Ingredient/units";
 import { Recipe } from "src/entity/Recipe";
 
 const unit = z.custom<unit>();

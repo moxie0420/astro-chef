@@ -1,15 +1,31 @@
-import RecipeCard from "@components/recipe/Card";
 import { trpc } from "@lib/trpc/client";
 import createEmblaCarousel from "embla-carousel-solid";
-import { type ParentComponent, createResource, For } from "solid-js";
+import {
+  type ParentComponent,
+  createResource,
+  For,
+  lazy,
+  onMount,
+  Suspense,
+} from "solid-js";
+
+const RecipeCard = lazy(() => import("@components/recipe/Card"));
 
 const Carousel: ParentComponent<{ title: string }> = (props) => {
-  const [recipes] = createResource(
+  const [recipes, { refetch }] = createResource(
     async () =>
       await trpc.recipe.getMultiple.query({
         number: 10,
       }),
   );
+
+  onMount(() => {
+    const event = new EventSource("http://localhost:4321/api/sse");
+    event.addEventListener("message", (data) => {
+      console.log("received message: " + data.data);
+      if (data.data == `"update"`) refetch();
+    });
+  });
 
   const [emblaRef, emblaApi] = createEmblaCarousel(() => ({ loop: true }));
 
@@ -24,12 +40,14 @@ const Carousel: ParentComponent<{ title: string }> = (props) => {
 
       <div
         ref={emblaRef}
-        class="bg-surface border-highlightHigh m-1 w-full overflow-x-hidden rounded-lg"
+        class="bg-surface border-highlightHigh m-1 w-full overflow-x-visible rounded-lg"
       >
         <div class="m-1 flex max-h-fit min-h-80 flex-row gap-2">
-          <For each={recipes()}>
-            {(recipe) => <RecipeCard recipe={recipe} />}
-          </For>
+          <Suspense>
+            <For each={recipes()}>
+              {(recipe) => <RecipeCard id={recipe.id} />}
+            </For>
+          </Suspense>
         </div>
       </div>
 
