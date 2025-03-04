@@ -1,24 +1,19 @@
+import { uuid_ossp } from "@electric-sql/pglite/contrib/uuid_ossp";
 import "reflect-metadata";
-
-import { NodeFS } from "@electric-sql/pglite/nodefs";
-import { vector } from "@electric-sql/pglite/vector";
 import { DataSource } from "typeorm";
 import { PGliteDriver } from "typeorm-pglite";
 import { Ingredient } from "./entity/Ingredient";
 import { Recipe } from "./entity/Recipe";
 
-const PGLite = new DataSource({
+const PGLite_internal = new DataSource({
   type: "postgres",
   driver: new PGliteDriver({
-    fs: new NodeFS(process.env.DATABASE_URL ?? "./recipes-db"),
-    extensions: {
-      vector,
-    },
+    extensions: { uuid_ossp },
+    database: process.env.DATABASE_URL ?? "./recipes-db",
   }).driver,
   synchronize: true,
+  logging: true,
   entities: [Ingredient, Recipe],
 });
 
-await PGLite.initialize();
-
-export { PGLite };
+export const PGLite = await PGLite_internal.initialize();

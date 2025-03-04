@@ -19,7 +19,7 @@ export const ingredientRouter = router({
     .input(
       z.object({
         data: ingredientShape,
-        recipeId: z.number(),
+        recipeId: z.string(),
       }),
     )
     .mutation(

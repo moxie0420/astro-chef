@@ -27,7 +27,7 @@ function genMd(text: string) {
 const Markdown: Component<{
   editing: boolean;
   body: string;
-  recipeId: number;
+  recipeId: string;
 }> = (props) => {
   const body = () => props.body;
   const editing = () => props.editing;

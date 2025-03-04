@@ -1,4 +1,4 @@
-import type { ParentComponent } from "solid-js";
+import type { JSXElement } from "solid-js";
 
 interface props {
   name?: string;
@@ -16,9 +16,10 @@ interface props {
       target: HTMLTextAreaElement;
     },
   ) => void;
+  children?: JSXElement;
 }
 
-const TextArea: ParentComponent<props> = (props) => {
+export default function TextArea(props: props) {
   return (
     <div class="text-text flex flex-col">
       <div class="inline-block px-1">{props.children}</div>
@@ -32,6 +33,4 @@ const TextArea: ParentComponent<props> = (props) => {
       ></textarea>
     </div>
   );
-};
-
-export default TextArea;
+}

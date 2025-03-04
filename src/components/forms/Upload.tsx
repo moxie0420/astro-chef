@@ -1,13 +1,13 @@
+import { closeMenu } from "@lib/state/menu";
 import { trpc } from "@lib/trpc/client";
 import {
   createDropzone,
   createFileUploader,
   type UploadFile,
 } from "@solid-primitives/upload";
-import { createSignal, For, type Component, type Setter } from "solid-js";
+import { createSignal, For, type Component } from "solid-js";
 
-const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
-  const menuCloser = (val: boolean) => props.menuCloser?.(val);
+const Uploader: Component = () => {
   const [filesToUpload, setFilesToUpload] = createSignal([] as UploadFile[]);
 
   const { selectFiles } = createFileUploader({
@@ -31,7 +31,7 @@ const Uploader: Component<{ menuCloser: Setter<boolean> }> = (props) => {
     if (!res) return;
 
     setFilesToUpload([]);
-    menuCloser(false);
+    closeMenu();
   };
 
   return (

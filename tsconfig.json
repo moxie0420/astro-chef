@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./",
@@ -18,7 +19,8 @@
       "vite-plugin-solid-svg/types",
       "vite-plugin-pwa/client",
       "vite-plugin-pwa/info",
-      "vite-plugin-pwa/pwa-assets"
+      "vite-plugin-pwa/pwa-assets",
+      "@testing-library/jest-dom"
     ]
   },
   "extends": "astro/tsconfigs/strict",

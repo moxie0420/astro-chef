@@ -1,31 +1,28 @@
-import { trpc } from "@lib/trpc/client";
+import { $recipes, updateLiked } from "@lib/state/recipes";
+import { useStore } from "@nanostores/solid";
 import type { Component } from "solid-js";
 import { createSignal, Match, Switch } from "solid-js";
 
 import Like from "src/icons/like.svg?component-solid";
 
 const LikeButton: Component<{
-  liked: boolean;
-  recipeId?: number;
+  recipeId: string;
   size?: number;
 }> = (props) => {
-  const id = () => props.recipeId;
+  const recipes = useStore($recipes);
+  const currentRecipe = () =>
+    recipes().find((recipe) => (recipe.id = props.recipeId));
   const size = () => props.size;
 
-  const [liked, setLiked] = createSignal(props.liked);
+  const [liked, setLiked] = createSignal(currentRecipe()?.liked || false);
   const toggleLiked = () => setLiked(!liked());
-
-  const updateDB = () =>
-    liked()
-      ? trpc.recipe.like.mutate(id()!)
-      : trpc.recipe.dislike.mutate(id()!);
 
   return (
     <button
-      onClick={(event) => {
+      onClick={async (event) => {
         event.stopPropagation();
         toggleLiked();
-        updateDB();
+        await updateLiked(liked(), props.recipeId);
       }}
     >
       <Switch>

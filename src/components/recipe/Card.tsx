@@ -1,46 +1,49 @@
-import { navigate } from "astro:transitions/client";
-import { createResource, Suspense, type Component } from "solid-js";
-
-import LikeButton from "@components/likeButton";
-
 import Image from "@components/Image";
-import { trpc } from "@lib/trpc/client";
+import LikeButton from "@components/likeButton";
+import { $recipes } from "@lib/state/recipes";
+import { useStore } from "@nanostores/solid";
+import { navigate } from "astro:transitions/client";
+import { Suspense, type Component } from "solid-js";
 
-const RecipeCard: Component<{ id: number }> = (props) => {
+const RecipeCard: Component<{ id: string }> = (props) => {
   const id = () => props.id;
-
-  const [recipe, { refetch }] = createResource(
-    async () => await trpc.recipe.getSingle.query(id()),
-  );
+  const recipes = useStore($recipes);
+  const currentRecipe = () => recipes().find((recipe) => recipe.id == id());
 
   return (
     <div
-      onClick={async () => await navigate(`/recipes/${recipe()?.id}`)}
+      onClick={async () => await navigate(`/recipes/${currentRecipe()?.id}`)}
       class="text-text bg-highlightLow border-base m-1 mx-auto flex max-h-full min-w-64 flex-col rounded-md p-1"
     >
-      <Image src={recipe()?.image || undefined} alt={recipe()?.imageAlt} />
+      <Image
+        src={currentRecipe()?.image || undefined}
+        alt={currentRecipe()?.imageAlt}
+      />
 
       <div class="bg-highlightMed relative m-1 mx-auto flex h-full min-h-26 w-full basis-full flex-col overflow-x-scroll rounded-md p-1.5">
         <p class="text-lg font-bold md:text-2xl">
           <Suspense fallback={<div></div>}>
-            {recipe()?.title === "" ? `"Untitled"` : recipe()?.title}
+            {currentRecipe()?.title === ""
+              ? `"Untitled"`
+              : currentRecipe()?.title}
           </Suspense>
         </p>
         <p class="text-md pb-2 font-semibold md:text-lg">
           <Suspense fallback={<div></div>}>
-            By {recipe()?.author === "" ? "No One Yet" : recipe()?.author}
+            By{" "}
+            {currentRecipe()?.author === ""
+              ? "No One Yet"
+              : currentRecipe()?.author}
           </Suspense>
         </p>
         <p class="text-sm">
-          <Suspense fallback={<div></div>}>{recipe()?.description}</Suspense>
+          <Suspense fallback={<div></div>}>
+            {currentRecipe()?.description}
+          </Suspense>
         </p>
         <div class="absolute right-1">
-          <Suspense fallback={<LikeButton size={26} liked={false} />}>
-            <LikeButton
-              size={26}
-              liked={recipe()?.liked || false}
-              recipeId={recipe()?.id}
-            />
+          <Suspense>
+            <LikeButton size={26} recipeId={id()} />
           </Suspense>
         </div>
       </div>
@@ -50,14 +53,14 @@ const RecipeCard: Component<{ id: number }> = (props) => {
           <div class="flex justify-between gap-1">
             <p>To Prep</p>
             <Suspense>
-              <p>{recipe()?.prepTime}</p>
+              <p>{currentRecipe()?.prepTime}</p>
             </Suspense>
           </div>
 
           <div class="flex justify-between gap-1">
             <p>To Cook</p>
             <Suspense>
-              <p>{recipe()?.cookTime}</p>
+              <p>{currentRecipe()?.cookTime}</p>
             </Suspense>
           </div>
         </div>
@@ -65,13 +68,13 @@ const RecipeCard: Component<{ id: number }> = (props) => {
           <div class="flex justify-between gap-1">
             <p>Created</p>
             <Suspense>
-              <p>{recipe()?.created}</p>
+              <p>{currentRecipe()?.created}</p>
             </Suspense>
           </div>
           <div class="flex justify-between gap-1">
             <p>Edited</p>
             <Suspense>
-              <p>{recipe()?.edited}</p>
+              <p>{currentRecipe()?.edited}</p>
             </Suspense>
           </div>
         </div>

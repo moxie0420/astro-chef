@@ -7,24 +7,25 @@ const HeaderLinks: Component<{
     path: string;
     disabled?: boolean;
   }[];
-  editing: boolean;
 }> = (props) => {
   const pages = () => props.pages;
 
   const [currentPage, setCurrentPage] = createSignal<string>();
 
-  onMount(() => {
+  const currentPageFromWindow = () => {
     if (window.location.pathname.includes("edit")) setCurrentPage("/edit");
     if (window.location.pathname.includes("recipes"))
       setCurrentPage("/recipes");
     if (window.location.pathname === "/") setCurrentPage("/");
+  };
 
-    document.addEventListener("astro:after-preparations", () => {
-      if (window.location.pathname.includes("edit")) setCurrentPage("/edit");
-      if (window.location.pathname.includes("recipes"))
-        setCurrentPage("/recipes");
-      if (window.location.pathname === "/") setCurrentPage("/");
-    });
+  onMount(() => {
+    currentPageFromWindow();
+
+    document.addEventListener(
+      "astro:after-preparations",
+      currentPageFromWindow,
+    );
   });
 
   return (

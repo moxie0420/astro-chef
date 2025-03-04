@@ -1,14 +1,14 @@
+import { $currentRecipe } from "@lib/state/recipes";
 import { trpc } from "@lib/trpc/client";
-import { For, type Component, type JSX } from "solid-js";
+import { useStore } from "@nanostores/solid";
+import { For, type JSX } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { unit } from "src/entity/Ingredient/units";
 import { units } from "src/entity/Ingredient/units";
 import Add from "src/icons/add.svg?component-solid";
 
-const IngredientAdder: Component<{
-  recipeId: number;
-}> = (props) => {
-  const recipeId = () => props.recipeId;
+const IngredientAdder = () => {
+  const recipeId = useStore($currentRecipe);
 
   const [newIngredient, setNewIngredient] = createStore<{
     name: string;
@@ -20,7 +20,7 @@ const IngredientAdder: Component<{
     unit: "none",
   });
 
-  const handleSubmit: JSX.EventHandler<HTMLButtonElement, Event> = async () => {
+  const handleSubmit = async () => {
     await trpc.ingredient.create.mutate({
       recipeId: recipeId(),
       data: newIngredient,

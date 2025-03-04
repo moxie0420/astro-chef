@@ -3,10 +3,11 @@ import Main from "@layouts/main.astro";
 import Carousel from "@components/Carousel";
 
 const title = "Astro Chef";
+const description = "The homepage of your recipes";
 ---
 
-<Main title={title}>
-  <Carousel title="Random" client:load />
+<Main title={title} description={description}>
+  <Carousel title="Random" client:load type="random" />
   <Carousel title="Popular" client:load />
-  <Carousel title="Liked" client:load />
+  <Carousel title="Liked" client:load type="liked" />
 </Main>

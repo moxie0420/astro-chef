@@ -1,24 +1,21 @@
-import { truncate } from "@lib/math";
-import {
-  createResource,
-  For,
-  Match,
-  onMount,
-  Show,
-  Switch,
-  type Component,
-} from "solid-js";
-
+import { $editing } from "@lib/state/menu";
+import { $currentRecipe } from "@lib/state/recipes";
 import { trpc } from "@lib/trpc/client";
+import { useStore } from "@nanostores/solid";
+import { createResource, For, Match, onMount, Show, Switch } from "solid-js";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
 
-const Ingredients: Component<{
-  editing: boolean;
-  recipeId: number;
-}> = (props) => {
-  const editing = () => props.editing;
-  const recipeId = () => props.recipeId;
+const truncate = (number: number, places: number) => {
+  const multiplier = Math.pow(10, Math.abs(places));
+  const adjusted = number * multiplier;
+  const truncated = Math[number < 0 ? "ceil" : "floor"](adjusted);
+  return truncated / multiplier;
+};
+
+const Ingredients = () => {
+  const editing = useStore($editing);
+  const recipeId = useStore($currentRecipe);
 
   const isMetric = /(gram|liter)/;
 
@@ -72,7 +69,7 @@ const Ingredients: Component<{
       </Switch>
 
       <Show when={editing()}>
-        <IngredientAdder recipeId={recipeId()} />
+        <IngredientAdder />
       </Show>
     </table>
   );

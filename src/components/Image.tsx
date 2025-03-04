@@ -2,6 +2,8 @@ import { trpc } from "@lib/trpc/client";
 import {
   createEffect,
   createResource,
+  onMount,
+  Show,
   Suspense,
   type Component,
 } from "solid-js";
@@ -23,6 +25,8 @@ const Image: Component<{
     }
   });
 
+  onMount(refetch);
+
   createEffect(() => {
     if (src() && src() !== "") refetch;
   });
@@ -31,11 +35,14 @@ const Image: Component<{
     <Suspense
       fallback={<div class="bg-highlightHigh space-8 flex animate-pulse"></div>}
     >
-      <img
-        src={image()}
-        alt={alt() || "Image Alt not provided"}
-        class="m-1 mx-auto h-44 w-full object-contain"
-      />
+      <Show when={image()}>
+        <img
+          // @ts-ignore
+          src={image()}
+          alt={alt() || "Image Alt not provided"}
+          class="m-1 mx-auto h-44 w-full object-contain"
+        />
+      </Show>
     </Suspense>
   );
 };

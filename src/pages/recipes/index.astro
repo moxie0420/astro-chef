@@ -18,7 +18,6 @@ const params: {
 };
 
 const res = await trpc.recipe.getMultiple.query({
-  number: parseInt(params.number),
   sort: params.sort,
   query: params.query,
 });
@@ -35,7 +34,7 @@ if (!res) return Astro.redirect("/404");
   />
 
   <div class="mx-auto flex size-full flex-wrap">
-    {res.map((r) => <RecipeCard recipe={r as Recipe} client:load />)}
+    {res.map((r) => <RecipeCard id={r.id} client:load />)}
   </div>
 
   <div class="m-2 mx-auto flex w-full justify-between">
