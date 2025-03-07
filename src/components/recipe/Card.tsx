@@ -1,8 +1,8 @@
 import Image from "@components/Image";
 import LikeButton from "@components/likeButton";
+import { navigate } from "@lib/state";
 import { $recipes } from "@lib/state/recipes";
 import { useStore } from "@nanostores/solid";
-import { navigate } from "astro:transitions/client";
 import { Suspense, type Component } from "solid-js";
 
 const RecipeCard: Component<{ id: string }> = (props) => {
@@ -12,7 +12,7 @@ const RecipeCard: Component<{ id: string }> = (props) => {
 
   return (
     <div
-      onClick={async () => await navigate(`/recipes/${currentRecipe()?.id}`)}
+      onClick={async () => navigate(`/recipes/${currentRecipe()?.id}`)}
       class="text-text bg-highlightLow border-base m-1 mx-auto flex max-h-full min-w-64 flex-col rounded-md p-1"
     >
       <Image

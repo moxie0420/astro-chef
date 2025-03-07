@@ -17,6 +17,7 @@
     "@astrojs/solid-js": "^5.0.4",
     "@electric-sql/pglite": "^0.2.17",
     "@fontsource/noto-sans": "^5.1.1",
+    "@modular-forms/solid": "^0.25.1",
     "@nanostores/solid": "^0.5.0",
     "@solid-primitives/upload": "^0.1.0",
     "@tailwindcss/vite": "^4.0.9",

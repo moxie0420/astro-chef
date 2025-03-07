@@ -16,22 +16,6 @@ interface Props {
 }
 
 const { title, description, recipeId, editing } = Astro.props;
-
-const pages = [
-  {
-    name: "Home",
-    path: "/",
-  },
-  {
-    name: "Recipes",
-    path: "/recipes",
-  },
-  {
-    name: "Editing",
-    path: "/edit",
-    disabled: true,
-  },
-];
 ---
 
 <html lang="en">
@@ -60,13 +44,7 @@ const pages = [
   </head>
 
   <body class="bg-base overflow-x-hidden">
-    <Header
-      pages={pages}
-      recipeId={recipeId}
-      editing={editing}
-      transition:persist
-      client:load
-    />
+    <Header transition:persist client:load />
     <slot />
   </body>
 </html>

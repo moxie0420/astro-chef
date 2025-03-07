@@ -1,62 +1,107 @@
 import Button from "@components/Button";
+import { closeMenu } from "@lib/state/menu";
 import { createNewRecipe } from "@lib/state/recipes";
-import type { recipeShape } from "@lib/validations";
-import { createStore } from "solid-js/store";
-import type { Recipe } from "src/entity/Recipe";
+import { recipeShape, type recipeShapeType } from "@lib/validations";
+import {
+  createForm,
+  Field,
+  zodForm,
+  type SubmitHandler,
+} from "@modular-forms/solid";
 import Cancel from "src/icons/cancel.svg?component-solid";
-import TextArea from "./inputs/TextArea";
 import TextInput from "./inputs/TextInput";
 
 const CreateForm = () => {
-  const [newRecipe, setNewRecipe] = createStore<recipeShape>({
-    author: "",
-    title: "",
+  const [recipeForm, { Form }] = createForm<recipeShapeType>({
+    validate: zodForm(recipeShape),
   });
-  const submit = () => createNewRecipe(newRecipe as Recipe);
+
+  const submit: SubmitHandler<recipeShapeType> = async (values, event) => {
+    event.preventDefault();
+    await createNewRecipe(values);
+    closeMenu();
+  };
 
   return (
-    <div class="flex flex-col">
-      <TextInput
-        value={newRecipe.title}
-        placeholder="Geaneu's Hot German Potato Salad ..."
-        onInput={(event) => setNewRecipe("title", event.currentTarget.value)}
-      >
-        Title
-      </TextInput>
+    <Form class="flex flex-col gap-1" onSubmit={submit}>
+      <Field name="title" of={recipeForm}>
+        {(field, props) => (
+          <TextInput
+            {...props}
+            type="text"
+            label="Title"
+            value={field.value}
+            error={field.error}
+            placeholder="Geaneu's Hot German Potato Salad ..."
+            required
+          />
+        )}
+      </Field>
 
-      <TextInput
-        value={newRecipe.author}
-        placeholder="Who created this gem??"
-        onInput={(event) => setNewRecipe("author", event.currentTarget.value)}
-      >
-        Author
-      </TextInput>
+      <Field name="author" of={recipeForm}>
+        {(field, props) => (
+          <TextInput
+            {...props}
+            type="text"
+            label="Author"
+            value={field.value}
+            error={field.error}
+            placeholder="Who created this gem??"
+            required
+          />
+        )}
+      </Field>
 
-      <TextArea
-        value={newRecipe.description}
-        placeholder="Why should you make this?"
-        onInput={(event) =>
-          setNewRecipe("description", event.currentTarget.value)
-        }
-      >
-        Description
-      </TextArea>
+      <Field name="description" of={recipeForm}>
+        {(field, props) => (
+          <TextInput
+            {...props}
+            type="text"
+            label="Description"
+            value={field.value}
+            error={field.error}
+            placeholder="Why should you make this?"
+            required
+          />
+        )}
+      </Field>
+
+      <div class="flex flex-row gap-1">
+        <Field name="prepTime" of={recipeForm}>
+          {(field, props) => (
+            <TextInput
+              {...props}
+              type="text"
+              label="Prep Time"
+              value={field.value}
+              error={field.error}
+              placeholder="How much prep time?"
+            />
+          )}
+        </Field>
+        <Field name="cookTime" of={recipeForm}>
+          {(field, props) => (
+            <TextInput
+              {...props}
+              type="text"
+              label="Cook Time"
+              value={field.value}
+              error={field.error}
+              placeholder="How long does this take?"
+            />
+          )}
+        </Field>
+      </div>
 
       <div class="mt-2 flex w-full justify-between">
-        <Button onClick={submit} type="submit" size="small">
+        <Button type="submit" size="small">
           Submit
         </Button>
-        <Button
-          onClick={() => {
-            setNewRecipe({});
-          }}
-          type="reset"
-          size="small"
-        >
+        <Button type="reset" size="small">
           <Cancel />
         </Button>
       </div>
-    </div>
+    </Form>
   );
 };
 export default CreateForm;

@@ -10,24 +10,15 @@ import MenuIcon from "src/icons/menu.svg?component-solid";
 import HeaderLinks from "./headerLinks";
 import Menu from "./menu";
 
-interface props {
-  pages: {
-    name: string;
-    path: string;
-  }[];
-}
-
-const Header = (props: props) => {
-  const pages = () => props.pages;
-
+const Header = () => {
   const showMenu = useStore($showMenu);
   const currentMenu = useStore($currentMenu);
 
   return (
     <div class="bg-surface border-highlightHigh text-text sticky top-0 z-50 flex w-full justify-between rounded-md p-1 font-extrabold shadow-lg md:text-3xl">
-      <HeaderLinks pages={pages()} />
+      <HeaderLinks />
 
-      <button onClick={toggleMenu}>
+      <button onClick={() => toggleMenu()}>
         <Switch>
           <Match when={showMenu()}>
             <OpenMenu />

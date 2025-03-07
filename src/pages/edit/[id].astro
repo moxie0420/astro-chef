@@ -1,46 +1,31 @@
 ---
-import { actions } from "astro:actions";
-import type { Recipe } from "src/entity/Recipe/helpers";
-
 import Ingredients from "@components/Ingredients";
 import Layout from "@layouts/main.astro";
 import Markdown from "@components/markdown";
 import Info from "@components/recipe/Info";
+import { Recipe } from "src/entity/Recipe";
 
 const { id } = Astro.params;
 
 if (!id) return Astro.redirect("/recipes");
 
-const { data, error } = await Astro.callAction(actions.Recipe.getRecipe, {
-  identifier: id,
+const data = await Recipe.findOne({
+  where: { id },
 });
-
-if (error?.code) return Astro.redirect("/404?message=" + error?.message);
-else if (error) return;
 
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 ---
 
 <Layout title={data.title || "editing"} editing={true}>
   <div class="pt-1">
-    <Info recipe={data as Recipe} editing={true} client:only />
+    <Info client:load transition:persist />
   </div>
 
-  <Ingredients
-    recipeId={data.id}
-    editing={true}
-    ingredients={data.ingredients}
-    client:only
-  />
+  <Ingredients client:load transition:persist />
 
   <div class="flex h-fit flex-col gap-2 xl:flex-row">
     <div class="w-full">
-      <Markdown
-        body={data.body || ""}
-        editing={true}
-        recipeId={data.id}
-        client:load
-      />
+      <Markdown body={data.body || ""} client:load />
     </div>
   </div>
 </Layout>

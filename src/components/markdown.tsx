@@ -1,4 +1,7 @@
+import { $editing } from "@lib/state";
+import { $currentRecipe } from "@lib/state/recipes";
 import { trpc } from "@lib/trpc/client";
+import { useStore } from "@nanostores/solid";
 import Purify from "dompurify";
 import DOMPurify from "isomorphic-dompurify";
 import { marked, type RendererObject } from "marked";
@@ -25,13 +28,11 @@ function genMd(text: string) {
 }
 
 const Markdown: Component<{
-  editing: boolean;
   body: string;
-  recipeId: string;
 }> = (props) => {
   const body = () => props.body;
-  const editing = () => props.editing;
-  const recipeId = () => props.recipeId;
+  const editing = useStore($editing);
+  const recipeId = useStore($currentRecipe);
 
   const [preview, setPreview] = createSignal(genMd(body()));
 
@@ -51,10 +52,7 @@ const Markdown: Component<{
   };
 
   return (
-    <div
-      data-editing={editing() ? editing() : undefined}
-      class="bg-overlay text-text outline-pine border-pine mx-auto min-h-64 max-w-2xl rounded-md data-editing:border-2"
-    >
+    <div class="bg-overlay text-text outline-pine border-pine mx-auto min-h-64 max-w-2xl rounded-md">
       <Switch>
         <Match when={!editing()}>
           <article

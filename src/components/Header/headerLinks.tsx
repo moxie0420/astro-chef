@@ -1,52 +1,50 @@
-import { navigate } from "astro:transitions/client";
-import { createSignal, For, onMount, type Component } from "solid-js";
+import { $currentPage, $editing, navigate } from "@lib/state";
+import { $currentRecipe } from "@lib/state/recipes";
+import { useStore } from "@nanostores/solid";
+import { Show } from "solid-js";
 
-const HeaderLinks: Component<{
-  pages: {
-    name: string;
-    path: string;
-    disabled?: boolean;
-  }[];
-}> = (props) => {
-  const pages = () => props.pages;
-
-  const [currentPage, setCurrentPage] = createSignal<string>();
-
-  const currentPageFromWindow = () => {
-    if (window.location.pathname.includes("edit")) setCurrentPage("/edit");
-    if (window.location.pathname.includes("recipes"))
-      setCurrentPage("/recipes");
-    if (window.location.pathname === "/") setCurrentPage("/");
-  };
-
-  onMount(() => {
-    currentPageFromWindow();
-
-    document.addEventListener(
-      "astro:after-preparations",
-      currentPageFromWindow,
-    );
-  });
+const HeaderLinks = () => {
+  const currentPage = useStore($currentPage);
+  const currentRecipe = useStore($currentRecipe);
+  const editing = useStore($editing);
 
   return (
     <div class="flex gap-1">
-      <For each={pages()}>
-        {(page) => (
-          <button
-            disabled={page.disabled}
-            type="button"
-            onClick={() => {
-              setCurrentPage(page.path);
-              navigate(page.path);
-            }}
-            class="data-[editing=true]:data-[current=true]:bg-love data-[current=true]:bg-pine hover:bg-base rounded-lg p-1 transition ease-in-out"
-            data-editing={currentPage() === "/edit"}
-            data-current={page.path === currentPage()}
-          >
-            {page.name}
-          </button>
-        )}
-      </For>
+      <button
+        class="data-[current=true]:bg-pine hover:bg-base rounded-lg p-1 transition ease-in-out"
+        data-current={currentPage() === "home"}
+        onClick={() => navigate("/")}
+      >
+        Home
+      </button>
+
+      <button
+        class="data-[current=true]:bg-pine hover:bg-base rounded-lg p-1 transition ease-in-out"
+        data-current={currentPage() === "recipes"}
+        onClick={() => navigate("/recipes")}
+      >
+        Recipes
+      </button>
+
+      <Show
+        when={
+          currentPage() === "editing" ||
+          (currentPage() === "recipes" && currentRecipe().length > 0)
+        }
+      >
+        <button
+          disabled={currentPage() === "home"}
+          class="data-[editing=true]:bg-love data-[editing=false]:hover:bg-base rounded-lg p-1 transition ease-in-out"
+          data-editing={editing()}
+          onClick={() =>
+            editing()
+              ? navigate(`/recipes/${currentRecipe()}`)
+              : navigate(`/edit/${currentRecipe()}`)
+          }
+        >
+          Edit
+        </button>
+      </Show>
     </div>
   );
 };

@@ -1,36 +1,36 @@
-import type { JSXElement } from "solid-js";
+import { splitProps, type JSX } from "solid-js";
 
-interface props {
-  name?: string;
+type TextAreaProps = {
+  name: string;
+  label?: string;
   placeholder?: string;
-  value?: string;
-  onInput?: (
-    event: InputEvent & {
-      currentTarget: HTMLTextAreaElement;
-      target: HTMLTextAreaElement;
-    },
-  ) => void;
-  onChange?: (
-    event: Event & {
-      currentTarget: HTMLTextAreaElement;
-      target: HTMLTextAreaElement;
-    },
-  ) => void;
-  children?: JSXElement;
-}
+  value: string | undefined;
+  error: string;
+  required?: boolean;
+  ref: (element: HTMLTextAreaElement) => void;
+  onInput: JSX.EventHandler<HTMLTextAreaElement, InputEvent>;
+  onChange: JSX.EventHandler<HTMLTextAreaElement, Event>;
+  onBlur: JSX.EventHandler<HTMLTextAreaElement, FocusEvent>;
+};
 
-export default function TextArea(props: props) {
+export default function TextArea(props: TextAreaProps) {
+  const [, inputProps] = splitProps(props, ["value", "label", "error"]);
   return (
     <div class="text-text flex flex-col">
-      <div class="inline-block px-1">{props.children}</div>
+      {props.label && (
+        <label for={props.name}>
+          {props.label} {props.required && <span>*</span>}
+        </label>
+      )}
       <textarea
-        name={props.name}
-        placeholder={props.placeholder || ""}
-        class="bg-highlightLow rounded-md px-2 py-1"
-        onInput={(event) => props.onInput?.(event)}
-        onChange={(event) => props.onChange?.(event)}
+        {...inputProps}
+        id={props.name}
         innerText={props.value || ""}
+        aria-invalid={!!props.error}
+        aria-errormessage={`${props.name}-error`}
+        class="bg-highlightLow rounded-md px-2 py-1"
       ></textarea>
+      {props.error && <div id={`${props.name}-error`}>{props.error}</div>}
     </div>
   );
 }

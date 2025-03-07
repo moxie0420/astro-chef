@@ -1,8 +1,8 @@
-import { $editing } from "@lib/state/menu";
-import { $currentRecipe } from "@lib/state/recipes";
-import { trpc } from "@lib/trpc/client";
+import { $editing } from "@lib/state";
+import { $currentRecipeData } from "@lib/state/recipes";
 import { useStore } from "@nanostores/solid";
-import { createResource, For, Match, onMount, Show, Switch } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
+import type { Ingredient as Ingredient_t } from "src/entity/Ingredient";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
 
@@ -13,17 +13,13 @@ const truncate = (number: number, places: number) => {
   return truncated / multiplier;
 };
 
+const isMetric = /(gram|liter)/;
+
 const Ingredients = () => {
   const editing = useStore($editing);
-  const recipeId = useStore($currentRecipe);
+  const recipe = useStore($currentRecipeData);
 
-  const isMetric = /(gram|liter)/;
-
-  const [ingredients, { refetch }] = createResource(
-    async () => await trpc.recipe.ingredients.query(recipeId()),
-  );
-
-  onMount(() => refetch);
+  const ingredients = () => recipe()?.ingredients;
 
   return (
     <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto w-full max-w-2xl rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
@@ -59,7 +55,7 @@ const Ingredients = () => {
                       </td>
                     }
                   >
-                    <Ingredient ingredient={ingredient} />
+                    <Ingredient ingredient={ingredient as Ingredient_t} />
                   </Show>
                 </tr>
               )}

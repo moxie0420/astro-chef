@@ -1,5 +1,4 @@
 ---
-import { $currentRecipe } from "@lib/state/recipes";
 import IngredientHolder from "@components/Ingredients";
 import Main from "@layouts/main.astro";
 import Markdown from "@components/markdown";
@@ -15,8 +14,6 @@ const data = await PGLite.getRepository(Recipe).findOne({
   where: { id },
 });
 if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
-
-$currentRecipe.set(id);
 ---
 
 <Main title={data.title || ""}>

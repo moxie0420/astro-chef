@@ -6,28 +6,6 @@ import { Recipe } from "src/entity/Recipe";
 import { getSorting } from "src/entity/Recipe/helpers";
 
 export const recipeRouter = router({
-  ingredients: publicProcedure
-    .input(z.string({ description: "Recipe UUID" }))
-    .query(async ({ input: id }) => {
-      const res = await PGLite.getRepository(Recipe).findOne({
-        where: {
-          id: id,
-        },
-        relations: {
-          ingredients: true,
-        },
-      });
-      return res?.ingredients;
-    }),
-  getSingle: publicProcedure.input(z.string()).query(
-    async ({ input }) =>
-      await Recipe.findOne({
-        where: { id: input },
-        relations: {
-          ingredients: false,
-        },
-      }),
-  ),
   getMultiple: publicProcedure
     .input(
       z
@@ -59,7 +37,7 @@ export const recipeRouter = router({
   update: publicProcedure
     .input(
       z.object({
-        data: recipeShape,
+        data: recipeShape.partial(),
         id: z.string(),
       }),
     )
@@ -79,6 +57,7 @@ export const recipeRouter = router({
       }),
     )
     .mutation(
-      async ({ input: { id } }) => await Recipe.update({ id }, { liked: true }),
+      async ({ input: { id, value } }) =>
+        await Recipe.update({ id }, { liked: value }),
     ),
 });

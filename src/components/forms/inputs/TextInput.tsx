@@ -1,35 +1,39 @@
-import type { ParentComponent } from "solid-js";
+import { splitProps, type JSX } from "solid-js";
 
-interface props {
-  name?: string;
+type TextInputProps = {
+  name: string;
+  type: "text" | "email" | "tel" | "password" | "url" | "date";
+  label?: string;
   placeholder?: string;
-  value?: string;
-  onInput?: (
-    event: InputEvent & {
-      currentTarget: HTMLInputElement;
-      target: HTMLInputElement;
-    },
-  ) => void;
-  onChange?: (
-    event: Event & {
-      currentTarget: HTMLInputElement;
-      target: HTMLInputElement;
-    },
-  ) => void;
-}
+  value: string | undefined;
+  error: string;
+  required?: boolean;
+  ref: (element: HTMLInputElement) => void;
+  onInput: JSX.EventHandler<HTMLInputElement, InputEvent>;
+  onChange: JSX.EventHandler<HTMLInputElement, Event>;
+  onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent>;
+};
 
-const TextInput: ParentComponent<props> = (props) => {
+const TextInput = (props: TextInputProps) => {
+  const [, inputProps] = splitProps(props, ["value", "label", "error"]);
+
   return (
     <div class="text-text flex flex-col">
-      <div class="inline-block px-1">{props.children}</div>
+      {props.label && (
+        <label for={props.name}>
+          {props.label}{" "}
+          {props.required && <span class="text-xs italic">*</span>}
+        </label>
+      )}
       <input
-        name={props.name}
-        placeholder={props.placeholder || ""}
+        {...inputProps}
+        id={props.name}
         value={props.value || ""}
+        aria-invalid={!!props.error}
+        aria-errormessage={`${props.name}-error`}
         class="bg-highlightLow rounded-md px-2 py-1"
-        onInput={(event) => props.onInput?.(event)}
-        onChange={(event) => props.onChange?.(event)}
       />
+      {props.error && <div id={`${props.name}-error`}>{props.error}</div>}
     </div>
   );
 };

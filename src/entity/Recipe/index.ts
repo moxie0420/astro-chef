@@ -22,10 +22,10 @@ export class Recipe extends BaseEntity {
   author: string;
 
   @CreateDateColumn()
-  created: string;
+  created: Date;
 
   @UpdateDateColumn()
-  edited: string;
+  edited: Date;
 
   @Column({ type: "varchar", default: "Not set yet" })
   prepTime: string;
