@@ -1,4 +1,5 @@
 import type { JSXElement } from "solid-js";
+import "./style.css";
 
 type props = {
   size?: "small" | "medium" | "large";
@@ -37,7 +38,7 @@ const Button = (props: props) => {
     <button
       name={props.name}
       type={props.type}
-      class="text-text rounded-md font-bold"
+      class="btn"
       classList={{
         "bg-muted": style() === "generic",
         "bg-love": style() === "reset",

@@ -2,7 +2,6 @@ import { $editing } from "@lib/state";
 import { $currentRecipeData } from "@lib/state/recipes";
 import { useStore } from "@nanostores/solid";
 import { For, Match, Show, Switch } from "solid-js";
-import type { Ingredient as Ingredient_t } from "src/entity/Ingredient";
 import Ingredient from "./ingredient";
 import IngredientAdder from "./ingredientAdder";
 
@@ -19,7 +18,8 @@ const Ingredients = () => {
   const editing = useStore($editing);
   const recipe = useStore($currentRecipeData);
 
-  const ingredients = () => recipe()?.ingredients;
+  const ingredients = () =>
+    recipe()?.ingredients.map((ingredients) => ingredients.id);
 
   return (
     <table class="bg-overlay border-highlightHigh text-text m-1 mx-auto w-full max-w-2xl rounded-lg p-4 text-sm md:text-xl lg:text-2xl 2xl:text-3xl">
@@ -47,16 +47,7 @@ const Ingredients = () => {
             <For each={ingredients()}>
               {(ingredient) => (
                 <tr class="flex w-full flex-row p-1">
-                  <Show
-                    when={editing()}
-                    fallback={
-                      <td class="mx-auto px-2">
-                        {`${isMetric.test(ingredient.unit) ? truncate(ingredient.whole, 3) : ingredient.fraction} ${ingredient.unit}${ingredient.unit !== "none" ? (ingredient.whole > 1 || isMetric.test(ingredient.unit) ? "s" : "") : ""} ${ingredient.unit !== "none" ? "of" : ""} ${ingredient.name}`}
-                      </td>
-                    }
-                  >
-                    <Ingredient ingredient={ingredient as Ingredient_t} />
-                  </Show>
+                  <Ingredient id={ingredient} />
                 </tr>
               )}
             </For>

@@ -1,6 +1,6 @@
 import { fisherYates } from "@lib/shuffle";
 import { trpc } from "@lib/trpc/client";
-import { type recipeShapeType } from "@lib/validations";
+import { type partialRecipeShapeType } from "@lib/validations";
 import { atom, computed, task } from "nanostores";
 import { $currentUrl } from ".";
 
@@ -56,7 +56,7 @@ export const updateLiked = async (id: string) => {
   $recipes.set(res);
 };
 
-export const createNewRecipe = async (newRecipe: recipeShapeType) => {
+export const createNewRecipe = async (newRecipe: partialRecipeShapeType) => {
   await trpc.recipe.create.mutate(newRecipe);
   const final = await trpc.recipe.getMultiple.query();
   $recipes.set(final);

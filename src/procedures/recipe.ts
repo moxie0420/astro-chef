@@ -1,5 +1,5 @@
 import { publicProcedure, router } from "@lib/trpc";
-import { recipeShape } from "@lib/validations";
+import { partialRecipeShape, recipeShape } from "@lib/validations";
 import { z } from "astro:schema";
 import { PGLite } from "src/data-source";
 import { Recipe } from "src/entity/Recipe";
@@ -27,13 +27,13 @@ export const recipeRouter = router({
           order: getSorting(input?.sort || "title"),
         }),
     ),
-  create: publicProcedure.input(recipeShape).mutation(async ({ input }) => {
-    console.log("creating recipe");
-    const recipe = new Recipe();
-    recipe.title = input.title;
-    recipe.author = input.author;
-    recipe.save();
-  }),
+  create: publicProcedure
+    .input(partialRecipeShape)
+    .mutation(async ({ input }) => {
+      console.log("creating recipe");
+      const recipe = Recipe.create({ ...input });
+      recipe.save();
+    }),
   update: publicProcedure
     .input(
       z.object({

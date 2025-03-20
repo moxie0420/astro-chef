@@ -1,13 +1,12 @@
 import { trpc } from "@lib/trpc/client";
 import {
-  createEffect,
   createResource,
-  onMount,
-  Show,
+  Match,
   Suspense,
+  Switch,
   type Component,
 } from "solid-js";
-import No_Data from "src/icons/no_data.svg";
+import No_data from "src/icons/no_data.svg";
 
 const Image: Component<{
   src?: string;
@@ -16,33 +15,40 @@ const Image: Component<{
   const src = () => props.src;
   const alt = () => props.alt;
 
-  const [image, { refetch }] = createResource(async (t) => {
-    try {
-      const data = await trpc.image.fetch.query(src() ?? null);
-      return data;
-    } catch (error) {
-      return No_Data.src;
-    }
-  });
+  const imageNotFoundError = new Error("Image was not found");
 
-  onMount(refetch);
+  const [image] = createResource(src(), async (src) => {
+    if (src == "") throw imageNotFoundError;
 
-  createEffect(() => {
-    if (src() && src() !== "") refetch;
+    const data = await trpc.image.fetch.query(src);
+    if (!data) throw imageNotFoundError;
+
+    if (data instanceof Blob) return URL.createObjectURL(data);
+    if (typeof data === "string") return data;
   });
 
   return (
     <Suspense
-      fallback={<div class="bg-highlightHigh space-8 flex animate-pulse"></div>}
+      fallback={
+        <div class="bg-highlightHigh space-8 flex size-full animate-pulse"></div>
+      }
     >
-      <Show when={image()}>
-        <img
-          // @ts-ignore
-          src={image()}
-          alt={alt() || "Image Alt not provided"}
-          class="m-1 mx-auto h-44 w-full object-contain"
-        />
-      </Show>
+      <Switch>
+        <Match when={image.error}>
+          <img
+            src={No_data.src}
+            alt={alt() || "Image Alt not provided"}
+            class="m-1 mx-auto h-44 w-full object-contain"
+          />
+        </Match>
+        <Match when={image()}>
+          <img
+            src={image()}
+            alt={alt() || "Image Alt not provided"}
+            class="m-1 mx-auto h-44 w-full object-contain"
+          />
+        </Match>
+      </Switch>
     </Suspense>
   );
 };

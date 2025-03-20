@@ -14,7 +14,12 @@ export type Uploader = (
  * @returns
  */
 export async function fetchSingle(file: string, fetcher: Fetcher) {
-  return await fetcher(file);
+  try {
+    return await fetcher(file);
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message);
+    return;
+  }
 }
 
 /**
@@ -50,12 +55,19 @@ export async function uploadSingle(
  * @returns
  */
 export async function uploadMultiple(
-  files: {
-    data: Buffer;
-    name: string;
-  }[],
+  files:
+    | {
+        data: Buffer<any>;
+        name: string;
+      }[]
+    | Promise<{
+        data: Buffer<any>;
+        name: string;
+      }>[],
   uploader: Uploader,
 ) {
-  const res = files.map((file) => uploader(file.data, file.name));
+  const res = files.map(async (file) =>
+    uploader((await file).data, (await file).name),
+  );
   return await Promise.all(res);
 }

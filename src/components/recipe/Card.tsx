@@ -15,10 +15,7 @@ const RecipeCard: Component<{ id: string }> = (props) => {
       onClick={async () => navigate(`/recipes/${currentRecipe()?.id}`)}
       class="text-text bg-highlightLow border-base m-1 mx-auto flex max-h-full min-w-64 flex-col rounded-md p-1"
     >
-      <Image
-        src={currentRecipe()?.image || undefined}
-        alt={currentRecipe()?.imageAlt}
-      />
+      <Image src={currentRecipe()?.image} alt={currentRecipe()?.imageAlt} />
 
       <div class="bg-highlightMed relative m-1 mx-auto flex h-full min-h-26 w-full basis-full flex-col overflow-x-scroll rounded-md p-1.5">
         <p class="text-lg font-bold md:text-2xl">

@@ -18,7 +18,7 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
 
 <Main title={data.title || ""}>
   <div class="pt-1">
-    <RecipeInfo recipe={data as Recipe} editing={false} client:load />
+    <RecipeInfo client:load />
   </div>
 
   <div class="mx-auto">
@@ -28,7 +28,5 @@ if (!data) return Astro.redirect("/404?message=Recipe came back undefined");
   <Markdown
     body={data.body ||
       "## Nothing here yet ...\n\n\nOpen the menu & press edit to get started"}
-    editing={false}
-    recipeId={data.id}
   />
 </Main>

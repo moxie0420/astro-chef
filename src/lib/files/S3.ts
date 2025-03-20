@@ -36,6 +36,8 @@ export const getFileUrl = (file: string) =>
  * @returns The requested file
  */
 export const fetcher: Fetcher = async (file) => {
+  if (!doesBucketExist(S3_BUCKET))
+    throw new Error("The requested bucket was not found");
   const res = await client.getObject(S3_BUCKET, file);
   return new Blob(await res.toArray());
 };

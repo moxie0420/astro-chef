@@ -1,25 +1,41 @@
 import { recipeShape, type recipeShapeType } from "@lib/validations";
-import { createForm, Field, zodForm } from "@modular-forms/solid";
+import { createForm, zodForm } from "@modular-forms/solid";
 import TextInput from "./inputs/TextInput";
 
 export const RecipeEditor = () => {
-  const [recipeForm, { Form }] = createForm<recipeShapeType>({
+  const [, { Form, Field }] = createForm<recipeShapeType>({
     validate: zodForm(recipeShape),
   });
 
   return (
     <Form>
-      <Field name="prepTime" of={recipeForm}>
-        {(field, props) => (
-          <TextInput
-            {...props}
-            type="text"
-            label="Prep Time"
-            value={field.value}
-            error={field.error}
-          />
-        )}
-      </Field>
+      <div class="grid grid-cols-5 grid-rows-5">
+        <div class="row-span-4"></div>
+        <div class="col-span-2 row-start-5">
+          <Field name="prepTime">
+            {(field, props) => (
+              <TextInput
+                {...props}
+                type="text"
+                label="Prep Time"
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="cookTime">
+            {(field, props) => (
+              <TextInput
+                {...props}
+                type="text"
+                label="Prep Time"
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+        </div>
+      </div>
     </Form>
   );
 };

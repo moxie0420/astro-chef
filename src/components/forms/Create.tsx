@@ -1,7 +1,10 @@
 import Button from "@components/Button";
 import { closeMenu } from "@lib/state/menu";
 import { createNewRecipe } from "@lib/state/recipes";
-import { recipeShape, type recipeShapeType } from "@lib/validations";
+import {
+  partialRecipeShape,
+  type partialRecipeShapeType,
+} from "@lib/validations";
 import {
   createForm,
   Field,
@@ -12,11 +15,14 @@ import Cancel from "src/icons/cancel.svg?component-solid";
 import TextInput from "./inputs/TextInput";
 
 const CreateForm = () => {
-  const [recipeForm, { Form }] = createForm<recipeShapeType>({
-    validate: zodForm(recipeShape),
+  const [recipeForm, { Form }] = createForm<partialRecipeShapeType>({
+    validate: zodForm(partialRecipeShape),
   });
 
-  const submit: SubmitHandler<recipeShapeType> = async (values, event) => {
+  const submit: SubmitHandler<partialRecipeShapeType> = async (
+    values,
+    event,
+  ) => {
     event.preventDefault();
     await createNewRecipe(values);
     closeMenu();
@@ -32,7 +38,7 @@ const CreateForm = () => {
             label="Title"
             value={field.value}
             error={field.error}
-            placeholder="Geaneu's Hot German Potato Salad ..."
+            placeholder="Grandma's Hot German Potato Salad ..."
             required
           />
         )}

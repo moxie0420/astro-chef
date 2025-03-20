@@ -1,5 +1,5 @@
 import { fetchSingle, uploadMultiple } from "@lib/files";
-import { doesBucketExist, getFileUrl, uploader } from "@lib/files/S3";
+import { getFileUrl, uploader } from "@lib/files/S3";
 import { publicProcedure, router } from "@lib/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "astro:schema";
@@ -8,16 +8,15 @@ export const imageRouter = router({
   upload: publicProcedure
     .input(z.instanceof(FormData))
     .mutation(async ({ input }) => {
-      if (!doesBucketExist())
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "The requested bucket was not found",
-        });
-
       const files = input.values();
-      const data = files.map((val) => val as File);
+      const data = files.map((val) => val as File).toArray();
 
-      return uploadMultiple(data.toArray(), uploader);
+      const final = data.map(async (file) => ({
+        data: Buffer.from(await file.arrayBuffer()),
+        name: file.name,
+      }));
+
+      return await uploadMultiple(final, uploader);
     }),
   fetch: publicProcedure
     .input(
@@ -37,11 +36,8 @@ export const imageRouter = router({
           code: "NOT_FOUND",
           message: "Requested image was not found",
         });
-      if (!doesBucketExist())
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "The requested bucket was not found",
-        });
-      return fetchSingle(input, getFileUrl);
+      const res = await fetchSingle(input, getFileUrl);
+      if (res) return res;
+      return;
     }),
 });

@@ -1,9 +1,8 @@
 ---
 import Main from "@layouts/main.astro";
 import RecipeCard from "@components/recipe/Card";
-import SearchOptions from "@components/forms/Search";
 import { trpc } from "@lib/trpc/client";
-import type { Recipe } from "src/entity/Recipe";
+import Search from "@components/forms/Search";
 
 const urlParams = Astro.url.searchParams;
 
@@ -26,12 +25,7 @@ if (!res) return Astro.redirect("/404");
 ---
 
 <Main title={"Browse Recipes"}>
-  <SearchOptions
-    search={params.query}
-    number={parseInt(params.number) || 25}
-    sort={params.sort}
-    client:load
-  />
+  <Search search={params.query} sort={params.sort} client:load />
 
   <div class="mx-auto flex size-full flex-wrap">
     {res.map((r) => <RecipeCard id={r.id} client:load />)}
@@ -42,27 +36,3 @@ if (!res) return Astro.redirect("/404");
     <button id="nextPage" class="bg-foam rounded-md px-2">Next</button>
   </div>
 </Main>
-
-<script>
-  import { navigate } from "astro:transitions/client";
-
-  const prevPage = document.getElementById("prevPage") as HTMLButtonElement;
-  const nextPage = document.getElementById("nextPage") as HTMLButtonElement;
-
-  const search = new URLSearchParams(window.location.search);
-  const page = parseInt(search.get("page")!) || 1;
-
-  const prev = page - 1 >= 1 ? page - 1 : 1;
-
-  if (prevPage)
-    prevPage.onclick = () => {
-      search.set("page", `${prev}`);
-      navigate(`/recipes${search.toString()}`);
-    };
-
-  if (nextPage)
-    nextPage.onclick = () => {
-      search.set("page", `${page + 1}`);
-      navigate(`/recipes${search.toString()}`);
-    };
-</script>

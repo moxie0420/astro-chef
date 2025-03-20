@@ -2,7 +2,6 @@ import node from "@astrojs/node";
 import solidJs from "@astrojs/solid-js";
 import tailwindcss from "@tailwindcss/vite";
 import AstroPWA from "@vite-pwa/astro";
-import devtoolBreakpoints from "astro-devtool-breakpoints";
 import { defineConfig, envField } from "astro/config";
 import Sonda from "sonda/astro";
 import solidSvg from "vite-plugin-solid-svg";
@@ -48,7 +47,6 @@ export default defineConfig({
     },
   },
   integrations: [
-    devtoolBreakpoints(),
     solidJs({ devtools: true }),
     Sonda({ server: true }),
     AstroPWA({
