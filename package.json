@@ -23,7 +23,7 @@
     "@tailwindcss/vite": "^4.0.9",
     "@trpc/client": "11.0.0-rc.795",
     "@trpc/server": "11.0.0-rc.795",
-    "astro": "5.3.1",
+    "astro": "5.4.1",
     "astro-seo": "^0.8.4",
     "dompurify": "^3.2.4",
     "embla-carousel-solid": "^8.5.2",
