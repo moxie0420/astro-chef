@@ -13,7 +13,7 @@
     "typeorm": "typeorm-ts-node-esm"
   },
   "dependencies": {
-    "@astrojs/node": "9.1.1",
+    "@astrojs/node": "9.1.2",
     "@astrojs/solid-js": "^5.0.4",
     "@electric-sql/pglite": "^0.2.17",
     "@fontsource/noto-sans": "^5.1.1",
