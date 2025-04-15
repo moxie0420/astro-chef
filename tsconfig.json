@@ -1,29 +1,10 @@
 {
-  "compilerOptions": {
-    "strictPropertyInitialization": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": "./",
-    "paths": {
-      "@db/*": ["src/db/*"],
-      "@public/*": ["public/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@components/*": ["src/components/*"],
-      "@lib/*": ["src/lib/*"],
-      "@assets/*": ["src/assets/*"],
-      "@styles/*": ["src/css/*"]
-    },
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "types": [
-      "vite-plugin-solid-svg/types",
-      "vite-plugin-pwa/client",
-      "vite-plugin-pwa/info",
-      "vite-plugin-pwa/pwa-assets",
-      "@testing-library/jest-dom"
-    ]
-  },
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/frontend"
+    }
+  ]
 }
