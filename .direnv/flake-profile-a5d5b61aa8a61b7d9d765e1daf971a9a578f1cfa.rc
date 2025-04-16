@@ -41,7 +41,7 @@ NIX_BINTOOLS='/nix/store/x9as7x6f7cdgcskvvn3yp02m662krr7y-binutils-wrapper-2.43.
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='16'
+NIX_BUILD_CORES='8'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0'
 export NIX_CC
@@ -145,7 +145,7 @@ declare -a envHostHostHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addC
 declare -a envHostTargetHooks=('pkgConfigWrapper_addPkgConfigPath' 'ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
-guess='16'
+guess='8'
 hardeningDisable=''
 export hardeningDisable
 initialPath='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5 /nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0 /nix/store/cxwsmlr3xh1ml4r0kgdjrknw7504b9f8-diffutils-3.10 /nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9 /nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11 /nix/store/nnin69nrnrrmnv2scbwyfkgh1rf51gh1-gawk-5.3.1 /nix/store/zhaypw0znkjnymg0rk1599zn21rr0l50-gnutar-1.35 /nix/store/a7pimibppfw2m3ryijnwwzx76i780bw2-gzip-1.13 /nix/store/vqjygx23hkim1kpidik5xcs9whayf3sr-bzip2-1.0.8-bin /nix/store/9y5kd90fdbrq3r4yc9mpqn82f93zdgyq-gnumake-4.4.1 /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37 /nix/store/mdmansf6zkzsnrcf4h3yav5kz93rh03y-patch-2.7.6 /nix/store/5180mi672sl6ikiwyhvgnxasz6iqxws0-xz-5.6.3-bin /nix/store/g4lksqp6l8qiab4a0as21s6556xh4gyp-file-5.45'
