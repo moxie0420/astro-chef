@@ -35,15 +35,13 @@
       }
     },
     {
-      "plugin": "@nx/vite/plugin",
+      "plugin": "@nx/rsbuild",
       "options": {
-        "buildTargetName": "build",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "devTargetName": "dev",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck",
+        "buildTargetName": "rsbuild:build",
+        "devTargetName": "rsbuild:dev",
+        "previewTargetName": "rsbuild:preview",
+        "inspectTargetName": "inspect",
+        "typecheckTargetName": "rsbuild:typecheck",
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
@@ -55,6 +53,13 @@
       "linter": "eslint",
       "unitTestRunner": "none",
       "e2eTestRunner": "none"
+    }
+  },
+  "targetDefaults": {
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   }
 }
