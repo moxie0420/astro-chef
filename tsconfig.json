@@ -8,6 +8,18 @@
     },
     {
       "path": "./packages/backend"
+    },
+    {
+      "path": "./packages/recipe-lib"
+    },
+    {
+      "path": "./packages/recipe-lib"
+    },
+    {
+      "path": "./packages/recipe-lib"
+    },
+    {
+      "path": "./packages/units"
     }
   ]
 }

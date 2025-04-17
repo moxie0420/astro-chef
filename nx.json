@@ -26,7 +26,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["packages/recipe-lib/*", "packages/units/*"]
     },
     {
       "plugin": "@nx/eslint/plugin",
@@ -45,6 +46,15 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["packages/recipe-lib/*", "packages/units/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
   ],
   "generators": {
@@ -57,6 +67,11 @@
   },
   "targetDefaults": {
     "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@nx/js:swc": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]

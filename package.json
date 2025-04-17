@@ -4,6 +4,9 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.8.0",
     "@nx/esbuild": "20.8.0",
@@ -24,6 +27,7 @@
     "@rspack/plugin-react-refresh": "^1.0.0",
     "@svgr/webpack": "^8.0.1",
     "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/node": "18.16.9",
@@ -34,6 +38,7 @@
     "eslint-config-prettier": "^10.0.0",
     "jiti": "2.4.2",
     "jsdom": "~22.1.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "20.8.0",
     "prettier": "^2.6.2",
     "react-refresh": "~0.14.0",
@@ -48,6 +53,7 @@
   "dependencies": {
     "@fastify/autoload": "~6.0.3",
     "@fastify/sensible": "~6.0.2",
+    "@responsive-image/webpack": "^1.1.0",
     "fastify": "~5.2.1",
     "fastify-plugin": "~5.0.1"
   }

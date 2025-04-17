@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: 'rosePine';
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-primary: var(--color-pine);
+  --color-secondary: var(--color-love);
+  --color-accent: var(--color-foam);
+  --color-neutral: var(--color-base);
+  --color-base-100: var(--color-surface);
+  --color-base-200: var(--color-overlay);
+  --color-base-300: var(--color-highlightMed);
+  --color-info: var(--color-pine);
+  --color-success: var(--color-foam);
+  --color-warning: var(--color-gold);
+  --color-error: var(--color-love);
+
+  --radius-selector: var(--radius-2xl);
+  --radius-field: var(--radius-sm);
+  --radius-box: var(--radius-lg);
+
+  --size-selector: var(--radius-sm);
+  --size-field: var(--radius-sm);
+
+  --border: 1.5px;
+
+  --depth: 1;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans:
+    'Noto Sans', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-*: initial;
+
+  --color-base: #191724;
+  --color-surface: #1f1d2e;
+  --color-overlay: #26233a;
+  --color-muted: #6e6a86;
+  --color-subtle: #908caa;
+  --color-text: #e0def4;
+  --color-love: #eb6f92;
+  --color-gold: #f6c177;
+  --color-rose: #ebbcba;
+  --color-pine: #31748f;
+  --color-foam: #9ccfd8;
+  --color-iris: #c4a7e7;
+  --color-highlightLow: #21202e;
+  --color-highlightMed: #403d52;
+  --color-highlightHigh: #524f67;
+}

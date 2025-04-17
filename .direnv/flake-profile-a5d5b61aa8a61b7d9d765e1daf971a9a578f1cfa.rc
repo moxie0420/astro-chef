@@ -16,7 +16,7 @@ CXX='g++'
 export CXX
 DEVENV_DOTFILE='/home/moxie/src/astro-chef/.devenv'
 export DEVENV_DOTFILE
-DEVENV_PROFILE='/nix/store/vvdaf3wygalhp77wh5hd71fqvv14jqhx-devenv-profile'
+DEVENV_PROFILE='/nix/store/riz0cidph6fmp2mh1kivq8jnpq73rgbl-devenv-profile'
 export DEVENV_PROFILE
 DEVENV_ROOT='/home/moxie/src/astro-chef'
 export DEVENV_ROOT
@@ -47,7 +47,7 @@ NIX_CC='/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=r3dg7047s4 -isystem /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/include -isystem /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=0mj6aasg4f -isystem /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/include -isystem /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -72,7 +72,7 @@ OLDPWD=''
 export OLDPWD
 OPTERR='1'
 OSTYPE='linux-gnu'
-PATH='/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv/bin:/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/bin:/nix/store/rzxqj4y899lcr3c2rx92pf457dk6086w-pnpm-9.14.4/bin:/nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0/bin:/nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06/bin:/nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0/bin:/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2/bin:/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0/bin:/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0/bin:/nix/store/4krab2h0hd4wvxxmscxrw21pl77j4i7j-gcc-13.3.0/bin:/nix/store/zw5haplzbwjgbp3yykhm6iprkpfppzxb-glibc-2.40-36-bin/bin:/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin:/nix/store/x9as7x6f7cdgcskvvn3yp02m662krr7y-binutils-wrapper-2.43.1/bin:/nix/store/bwkb907myixfzzykp21m9iczkhrq5pfy-binutils-2.43.1/bin:/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin:/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin:/nix/store/cxwsmlr3xh1ml4r0kgdjrknw7504b9f8-diffutils-3.10/bin:/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin:/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin:/nix/store/nnin69nrnrrmnv2scbwyfkgh1rf51gh1-gawk-5.3.1/bin:/nix/store/zhaypw0znkjnymg0rk1599zn21rr0l50-gnutar-1.35/bin:/nix/store/a7pimibppfw2m3ryijnwwzx76i780bw2-gzip-1.13/bin:/nix/store/vqjygx23hkim1kpidik5xcs9whayf3sr-bzip2-1.0.8-bin/bin:/nix/store/9y5kd90fdbrq3r4yc9mpqn82f93zdgyq-gnumake-4.4.1/bin:/nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin:/nix/store/mdmansf6zkzsnrcf4h3yav5kz93rh03y-patch-2.7.6/bin:/nix/store/5180mi672sl6ikiwyhvgnxasz6iqxws0-xz-5.6.3-bin/bin:/nix/store/g4lksqp6l8qiab4a0as21s6556xh4gyp-file-5.45/bin'
+PATH='/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv/bin:/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/bin:/nix/store/mqfi5wn6fddjlvnp24v58frd131i22xq-bun-1.1.34/bin:/nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0/bin:/nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06/bin:/nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0/bin:/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2/bin:/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0/bin:/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0/bin:/nix/store/4krab2h0hd4wvxxmscxrw21pl77j4i7j-gcc-13.3.0/bin:/nix/store/zw5haplzbwjgbp3yykhm6iprkpfppzxb-glibc-2.40-36-bin/bin:/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin:/nix/store/x9as7x6f7cdgcskvvn3yp02m662krr7y-binutils-wrapper-2.43.1/bin:/nix/store/bwkb907myixfzzykp21m9iczkhrq5pfy-binutils-2.43.1/bin:/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin:/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin:/nix/store/cxwsmlr3xh1ml4r0kgdjrknw7504b9f8-diffutils-3.10/bin:/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin:/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin:/nix/store/nnin69nrnrrmnv2scbwyfkgh1rf51gh1-gawk-5.3.1/bin:/nix/store/zhaypw0znkjnymg0rk1599zn21rr0l50-gnutar-1.35/bin:/nix/store/a7pimibppfw2m3ryijnwwzx76i780bw2-gzip-1.13/bin:/nix/store/vqjygx23hkim1kpidik5xcs9whayf3sr-bzip2-1.0.8-bin/bin:/nix/store/9y5kd90fdbrq3r4yc9mpqn82f93zdgyq-gnumake-4.4.1/bin:/nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin:/nix/store/mdmansf6zkzsnrcf4h3yav5kz93rh03y-patch-2.7.6/bin:/nix/store/5180mi672sl6ikiwyhvgnxasz6iqxws0-xz-5.6.3-bin/bin:/nix/store/g4lksqp6l8qiab4a0as21s6556xh4gyp-file-5.45/bin'
 export PATH
 PKG_CONFIG='pkg-config'
 export PKG_CONFIG
@@ -91,7 +91,7 @@ STRINGS='strings'
 export STRINGS
 STRIP='strip'
 export STRIP
-XDG_DATA_DIRS='/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/share:/nix/store/rzxqj4y899lcr3c2rx92pf457dk6086w-pnpm-9.14.4/share:/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2/share:/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0/share'
+XDG_DATA_DIRS='/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/share:/nix/store/mqfi5wn6fddjlvnp24v58frd131i22xq-bun-1.1.34/share:/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2/share:/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0/share'
 export XDG_DATA_DIRS
 __structuredAttrs=''
 export __structuredAttrs
@@ -153,7 +153,7 @@ mesonFlags=''
 export mesonFlags
 name='devenv-shell-env'
 export name
-nativeBuildInputs='/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1 /nix/store/rzxqj4y899lcr3c2rx92pf457dk6086w-pnpm-9.14.4 /nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0 /nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06 /nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0 /nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2'
+nativeBuildInputs='/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1 /nix/store/mqfi5wn6fddjlvnp24v58frd131i22xq-bun-1.1.34 /nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0 /nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06 /nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0 /nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2'
 export nativeBuildInputs
 out='/home/moxie/src/astro-chef/outputs/out'
 export out
@@ -174,7 +174,7 @@ phases='buildPhase'
 export phases
 pkg='/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0'
 declare -a pkgsBuildBuild=()
-declare -a pkgsBuildHost=('/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv' '/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1' '/nix/store/rzxqj4y899lcr3c2rx92pf457dk6086w-pnpm-9.14.4' '/nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0' '/nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06' '/nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0' '/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2' '/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0' '/nix/store/ljlah5wqcbix5wg8rvm3g8rc7k9zn1qg-update-autotools-gnu-config-scripts-hook' '/nix/store/h9lc1dpi14z7is86ffhl3ld569138595-audit-tmpdir.sh' '/nix/store/m54bmrhj6fqz8nds5zcj97w9s9bckc9v-compress-man-pages.sh' '/nix/store/wgrbkkaldkrlrni33ccvm3b6vbxzb656-make-symlinks-relative.sh' '/nix/store/5yzw0vhkyszf2d179m0qfkgxmp5wjjx4-move-docs.sh' '/nix/store/fyaryjvghbkpfnsyw97hb3lyb37s1pd6-move-lib64.sh' '/nix/store/kd4xwxjpjxi71jkm6ka0np72if9rm3y0-move-sbin.sh' '/nix/store/pag6l61paj1dc9sv15l7bm5c17xn5kyk-move-systemd-user-units.sh' '/nix/store/jivxp510zxakaaic7qkrb7v1dd2rdbw9-multiple-outputs.sh' '/nix/store/12lvf0c7xric9cny7slvf9cmhypl1p67-patch-shebangs.sh' '/nix/store/cickvswrvann041nqxb0rxilc46svw1n-prune-libtool-files.sh' '/nix/store/xyff06pkhki3qy1ls77w10s0v79c9il0-reproducible-builds.sh' '/nix/store/aazf105snicrlvyzzbdj85sx4179rpfp-set-source-date-epoch-to-latest.sh' '/nix/store/gps9qrh99j7g02840wv5x78ykmz30byp-strip.sh' '/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0' '/nix/store/x9as7x6f7cdgcskvvn3yp02m662krr7y-binutils-wrapper-2.43.1' )
+declare -a pkgsBuildHost=('/nix/store/7nikrsj1fkbabjd0hq4qpc6qyv5r7f3s-devenv' '/nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1' '/nix/store/mqfi5wn6fddjlvnp24v58frd131i22xq-bun-1.1.34' '/nix/store/7lvjm160gya5a3ib62h19glblv65ajlb-alejandra-3.1.0' '/nix/store/83xb2f61jaxzlppq69qyykvqzkps1cqx-nil-2024-08-06' '/nix/store/r4fah0gjr41211zsg5hxssn3p950k38l-snyk-1.1294.0' '/nix/store/16h31npnbgpkhxp1041dsifiklbw4mpr-pkg-config-wrapper-0.29.2' '/nix/store/9q63d382x7k2h6cc2pfsb39ar3n6f9wg-patchelf-0.15.0' '/nix/store/ljlah5wqcbix5wg8rvm3g8rc7k9zn1qg-update-autotools-gnu-config-scripts-hook' '/nix/store/h9lc1dpi14z7is86ffhl3ld569138595-audit-tmpdir.sh' '/nix/store/m54bmrhj6fqz8nds5zcj97w9s9bckc9v-compress-man-pages.sh' '/nix/store/wgrbkkaldkrlrni33ccvm3b6vbxzb656-make-symlinks-relative.sh' '/nix/store/5yzw0vhkyszf2d179m0qfkgxmp5wjjx4-move-docs.sh' '/nix/store/fyaryjvghbkpfnsyw97hb3lyb37s1pd6-move-lib64.sh' '/nix/store/kd4xwxjpjxi71jkm6ka0np72if9rm3y0-move-sbin.sh' '/nix/store/pag6l61paj1dc9sv15l7bm5c17xn5kyk-move-systemd-user-units.sh' '/nix/store/jivxp510zxakaaic7qkrb7v1dd2rdbw9-multiple-outputs.sh' '/nix/store/12lvf0c7xric9cny7slvf9cmhypl1p67-patch-shebangs.sh' '/nix/store/cickvswrvann041nqxb0rxilc46svw1n-prune-libtool-files.sh' '/nix/store/xyff06pkhki3qy1ls77w10s0v79c9il0-reproducible-builds.sh' '/nix/store/aazf105snicrlvyzzbdj85sx4179rpfp-set-source-date-epoch-to-latest.sh' '/nix/store/gps9qrh99j7g02840wv5x78ykmz30byp-strip.sh' '/nix/store/4apajimszc47rxwcpvc3g3rj2icinl71-gcc-wrapper-13.3.0' '/nix/store/x9as7x6f7cdgcskvvn3yp02m662krr7y-binutils-wrapper-2.43.1' )
 declare -a pkgsBuildTarget=()
 declare -a pkgsHostHost=()
 declare -a pkgsHostTarget=()
@@ -222,9 +222,9 @@ if [ ! type -p direnv &>/dev/null && -f .envrc ]; then
 fi
 
 mkdir -p "$DEVENV_STATE"
-if [ ! -L "$DEVENV_DOTFILE/profile" ] || [ "$(/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/readlink $DEVENV_DOTFILE/profile)" != "/nix/store/vvdaf3wygalhp77wh5hd71fqvv14jqhx-devenv-profile" ]
+if [ ! -L "$DEVENV_DOTFILE/profile" ] || [ "$(/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/readlink $DEVENV_DOTFILE/profile)" != "/nix/store/riz0cidph6fmp2mh1kivq8jnpq73rgbl-devenv-profile" ]
 then
-  ln -snf /nix/store/vvdaf3wygalhp77wh5hd71fqvv14jqhx-devenv-profile "$DEVENV_DOTFILE/profile"
+  ln -snf /nix/store/riz0cidph6fmp2mh1kivq8jnpq73rgbl-devenv-profile "$DEVENV_DOTFILE/profile"
 fi
 unset HOST_PATH NIX_BUILD_CORES __structuredAttrs buildInputs buildPhase builder depsBuildBuild depsBuildBuildPropagated depsBuildTarget depsBuildTargetPropagated depsHostHost depsHostHostPropagated depsTargetTarget depsTargetTargetPropagated dontAddDisableDepTrack doCheck doInstallCheck nativeBuildInputs out outputs patches phases preferLocalBuild propagatedBuildInputs propagatedNativeBuildInputs shell shellHook stdenv strictDeps
 
