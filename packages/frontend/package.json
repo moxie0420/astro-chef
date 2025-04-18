@@ -1,13 +1,11 @@
 {
-  "name": "frontend",
+  "name": "@astrochef/frontend",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "nx rsbuild:build",
     "dev": "nx rsbuild:dev --open",
-    "format": "prettier --write .",
-    "lint": "eslint .",
     "preview": "nx rsbuild:preview"
   },
   "dependencies": {

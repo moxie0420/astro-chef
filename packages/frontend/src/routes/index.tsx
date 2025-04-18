@@ -1,10 +1,10 @@
-import Carousel from '@components/Carousel';
-import RecipeCard from '@components/RecipeCard';
-import Recipes from '@lib/recipes';
-import { createFileRoute } from '@tanstack/solid-router';
-import { For } from 'solid-js';
+import Carousel from "@components/Carousel";
+import RecipeCard from "@components/RecipeCard";
+import Recipes from "@lib/recipes";
+import { createFileRoute } from "@tanstack/solid-router";
+import { For } from "solid-js";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 

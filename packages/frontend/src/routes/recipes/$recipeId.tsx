@@ -1,12 +1,12 @@
-import { createFileRoute } from '@tanstack/solid-router';
-import Recipes from '@lib/recipes';
-import { For } from 'solid-js';
-import Ingredient from '@components/Ingredient';
-import { Image } from '@unpic/solid';
-import { sanitize } from 'isomorphic-dompurify';
-import { marked } from 'marked';
+import { createFileRoute } from "@tanstack/solid-router";
+import Recipes from "@lib/recipes";
+import { For } from "solid-js";
+import Ingredient from "@components/Ingredient";
+import { Image } from "@unpic/solid";
+import { sanitize } from "isomorphic-dompurify";
+import { marked } from "marked";
 
-export const Route = createFileRoute('/recipes/$recipeId')({
+export const Route = createFileRoute("/recipes/$recipeId")({
   component: RouteComponent,
 });
 
@@ -15,7 +15,7 @@ function RouteComponent() {
   const recipe = Recipes.findOne({ id: recipeId });
 
   const renderedmd = sanitize(
-    marked.parse(recipe!.body || '', {
+    marked.parse(recipe!.body || "", {
       async: false,
     }),
   );
@@ -32,7 +32,7 @@ function RouteComponent() {
         <div class="mx-auto">
           <figure>
             <Image
-              src={recipe?.image?.url || 'https://picsum.photos/400/200'}
+              src={recipe?.image?.url || "https://picsum.photos/400/200"}
               width={400}
               height={200}
               alt={recipe?.image?.description}

@@ -1,12 +1,11 @@
-import { JSXElement } from 'solid-js';
-import { createSlider } from 'solid-slider';
+import { JSXElement } from "solid-js";
+import { createSlider } from "solid-slider";
 
 interface props {
   children: JSXElement;
 }
 
 export default function Carousel(props: props) {
-  // @ts-expect-error used via use:slider
   const [slider] = createSlider({
     drag: true,
     slides: {
@@ -18,7 +17,7 @@ export default function Carousel(props: props) {
   return (
     <div class="relative">
       <div
-        use:slider
+        ref={slider}
         class="carousel bg-neutral rounded-box p-4 w-full h-96 gap-1"
       >
         {props.children}

@@ -1,7 +1,7 @@
-import { RecipeEditor } from '@components/forms/RecipeEditor';
-import Image from '@components/RecipeImage';
-import LikeButton from '@components/likeButton';
-import { Match, Switch } from 'solid-js';
+import { RecipeEditor } from "@components/forms/RecipeEditor";
+import Image from "@components/RecipeImage";
+import LikeButton from "@components/likeButton";
+import { Match, Switch } from "solid-js";
 
 const RecipeInfo = () => {
   const editing = store.misc.editing;
@@ -17,7 +17,7 @@ const RecipeInfo = () => {
               {recipe.title || `"Untitled"`}
             </span>
             <span class="basis-1/16 text-xl">
-              By {recipe.author || 'No One'}
+              By {recipe.author || "No One"}
             </span>
             <p class="basis-full text-lg">{recipe.about.description}</p>
             <div class="bg-highlightHigh flex flex-col rounded-md p-1 text-nowrap">
@@ -38,7 +38,7 @@ const RecipeInfo = () => {
             <div class="bg-highlightHigh relative mt-1 flex flex-col rounded-md p-2">
               <p>Created on {recipe.created.toDateString()}</p>
               <p>
-                Last edited at {recipe.edited.toLocaleTimeString()} on{' '}
+                Last edited at {recipe.edited.toLocaleTimeString()} on{" "}
                 {recipe.edited.toLocaleDateString()}
               </p>
               <div class="absolute top-0 right-1">

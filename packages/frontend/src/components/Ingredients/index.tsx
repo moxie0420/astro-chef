@@ -1,9 +1,9 @@
-import { createResource, For, Match, Show, Switch } from 'solid-js';
-import Ingredient from './ingredient';
-import IngredientAdder from './ingredientAdder';
-import { Editing } from '@lib/state';
-import { useStore } from '@tanstack/solid-store';
-import Recipes from '@lib/recipes';
+import { createResource, For, Match, Show, Switch } from "solid-js";
+import Ingredient from "./ingredient";
+import IngredientAdder from "./ingredientAdder";
+import { Editing } from "@lib/state";
+import { useStore } from "@tanstack/solid-store";
+import Recipes from "@lib/recipes";
 
 const Ingredients = (props: { id: string }) => {
   const id = () => props.id;

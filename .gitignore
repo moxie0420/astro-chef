@@ -46,3 +46,6 @@ vitest.config.*.timestamp*
 
 .devenv/
 .direnv/
+
+.devenv
+.direnv

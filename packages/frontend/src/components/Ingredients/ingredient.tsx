@@ -1,7 +1,7 @@
-import { For, type Component } from 'solid-js';
-import Cancel from 'client/icons/cancel.svg';
-import { unit, units } from '@astrochef/units';
-import { IngredientType } from '@lib/validations';
+import { For, type Component } from "solid-js";
+import Cancel from "client/icons/cancel.svg";
+import { unit, units } from "@astrochef/units";
+import { IngredientType } from "@lib/validations";
 
 const Ingredient: Component<{
   ingredient: IngredientType;

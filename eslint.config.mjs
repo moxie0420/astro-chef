@@ -1,46 +1,46 @@
-import nx from '@nx/eslint-plugin';
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import json from '@eslint/json';
+import markdown from '@eslint/markdown';
+import css from '@eslint/css';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
-export default [
-  ...nx.configs['flat/base'],
-  ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
+import { defineConfig } from 'eslint/config';
+export default defineConfig([
   {
-    ignores: [
-      '**/dist',
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-    ],
+    files: ['**/*.{js,mjs,cjs,ts}'],
+    plugins: { js },
+    extends: ['js/recommended'],
   },
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    rules: {
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
-        },
-      ],
-    },
+    files: ['**/*.{js,mjs,cjs,ts}'],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+  },
+  tseslint.configs.recommended,
+  {
+    files: ['**/*.json'],
+    plugins: { json },
+    language: 'json/json',
+    extends: ['json/recommended'],
   },
   {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
-    // Override or add rules here
-    rules: {},
+    files: ['**/*.jsonc'],
+    plugins: { json },
+    language: 'json/jsonc',
+    extends: ['json/recommended'],
   },
-];
+  {
+    files: ['**/*.md'],
+    plugins: { markdown },
+    language: 'markdown/gfm',
+    extends: ['markdown/recommended'],
+  },
+  {
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    extends: ['css/recommended'],
+  },
+  eslintPluginPrettierRecommended,
+]);

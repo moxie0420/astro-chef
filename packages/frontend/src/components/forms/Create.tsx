@@ -1,6 +1,6 @@
-import { createForm, zodForm, type SubmitHandler } from '@modular-forms/solid';
-import TextInput from '@components/inputs/TextInput';
-import Recipes, { RecipeShape, RecipeType } from '@lib/recipes';
+import { createForm, zodForm, type SubmitHandler } from "@modular-forms/solid";
+import TextInput from "@components/inputs/TextInput";
+import Recipes, { RecipeShape, RecipeType } from "@lib/recipes";
 
 const CreateForm = () => {
   const [, { Form, Field }] = createForm<RecipeType>({

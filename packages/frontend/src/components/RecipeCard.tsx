@@ -1,7 +1,7 @@
-import Recipes from '@lib/recipes';
-import { Link } from '@tanstack/solid-router';
-import { Image } from '@unpic/solid';
-import { Show, type Component } from 'solid-js';
+import Recipes from "@lib/recipes";
+import { Link } from "@tanstack/solid-router";
+import { Image } from "@unpic/solid";
+import { Show, type Component } from "solid-js";
 
 const Skeleton = () => (
   <div class="card card-border bg-base-100 w-72 h-88 shadow-sm">
@@ -40,7 +40,7 @@ const RecipeCard: Component<{ id: string }> = (props) => {
       >
         <figure>
           <Image
-            src={recipe?.image?.url || 'https://picsum.photos/800/400'}
+            src={recipe?.image?.url || "https://picsum.photos/800/400"}
             width={800}
             height={400}
             alt={recipe?.image?.description}

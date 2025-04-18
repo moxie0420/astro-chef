@@ -1,4 +1,4 @@
-import { For, splitProps, type JSX } from 'solid-js';
+import { For, splitProps, type JSX } from "solid-js";
 
 type option = [label: string, value: string];
 
@@ -18,17 +18,17 @@ type SelectProps = {
 
 export default function Select(props: SelectProps) {
   const [, selectProps] = splitProps(props, [
-    'each',
-    'value',
-    'label',
-    'error',
+    "each",
+    "value",
+    "label",
+    "error",
   ]);
 
   return (
     <div class="text-text flex flex-col">
       {props.label && (
         <label for={props.name}>
-          {props.label}{' '}
+          {props.label}{" "}
           {props.required && <span class="text-xs italic">*</span>}
         </label>
       )}

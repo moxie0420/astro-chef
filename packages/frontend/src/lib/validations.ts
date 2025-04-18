@@ -1,7 +1,7 @@
-import { Collection, BaseItem } from '@signaldb/core';
-import type { CollectionOptions } from '@signaldb/core';
-import { z } from 'zod';
-import type { ZodSchema, infer as ZodInfer } from 'zod';
+import { Collection, BaseItem } from "@signaldb/core";
+import type { CollectionOptions } from "@signaldb/core";
+import { z } from "zod";
+import type { ZodSchema, infer as ZodInfer } from "zod";
 
 export const uuid = z.string().uuid();
 
@@ -32,7 +32,7 @@ export class SchemaCollection<
     this.schema = options.schema;
 
     // Automatically validate each item against the Zod schema before saving
-    this.on('validate', (item) => {
+    this.on("validate", (item) => {
       this.schema.parse(item);
     });
   }

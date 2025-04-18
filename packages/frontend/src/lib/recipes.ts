@@ -1,8 +1,8 @@
-import createIndexedDBAdapter from '@signaldb/indexeddb';
-import type { infer as ZodInfer } from 'zod';
-import { z } from 'zod';
-import { Ingredient, SchemaCollection, uuid } from './validations';
-import solidReactivityAdapter from '@signaldb/solid';
+import createIndexedDBAdapter from "@signaldb/indexeddb";
+import type { infer as ZodInfer } from "zod";
+import { z } from "zod";
+import { Ingredient, SchemaCollection, uuid } from "./validations";
+import solidReactivityAdapter from "@signaldb/solid";
 
 export const RecipeShape = z.object({
   id: uuid,
@@ -23,7 +23,7 @@ export const RecipeShape = z.object({
     })
     .optional(),
   ingredients: z.array(Ingredient).default([]).optional(),
-  body: z.string().default('').optional(),
+  body: z.string().default("").optional(),
   created: z.date().default(new Date()).optional(),
   edited: z.date().default(new Date()).optional(),
   liked: z.boolean().default(false).optional(),
@@ -35,7 +35,7 @@ const Recipes = new SchemaCollection({
   schema: RecipeShape,
   reactivity: solidReactivityAdapter,
   persistence: createIndexedDBAdapter<ZodInfer<typeof RecipeShape>, string>(
-    'recipes',
+    "recipes",
   ),
 });
 

@@ -21,7 +21,8 @@ const TextInput = (props: TextInputProps) => {
     <div class="text-text flex flex-col w-full">
       {props.label && (
         <label for={props.name}>
-          {props.label} {props.required && <span class="text-xs italic">*</span>}
+          {props.label}{" "}
+          {props.required && <span class="text-xs italic">*</span>}
         </label>
       )}
       <input
