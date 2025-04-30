@@ -1,92 +1,120 @@
-import { createForm, zodForm, type SubmitHandler } from "@modular-forms/solid";
+import {
+  createForm,
+  submit,
+  zodForm,
+  type SubmitHandler,
+} from "@modular-forms/solid";
 import TextInput from "@components/inputs/TextInput";
-import Recipes, { RecipeShape, RecipeType } from "@lib/recipes";
+import { RecipeShape, RecipeType } from "@lib/recipes";
+import { createRecipe } from "../../database/recipes";
+import { Show } from "solid-js";
 
 const CreateForm = () => {
-  const [, { Form, Field }] = createForm<RecipeType>({
+  const [recipeForm, { Form, Field }] = createForm<RecipeType>({
     validate: zodForm(RecipeShape),
   });
 
-  const submit: SubmitHandler<RecipeType> = async (values) =>
-    Recipes.insert(values);
+  const handleSubmit: SubmitHandler<RecipeType> = async (values) => {
+    createRecipe(values);
+  };
 
   return (
-    <div class="bg-overlay rounded-md p-2 min-w-lg">
-      <Form class="flex flex-col gap-1" onSubmit={submit}>
-        <Field name="title">
+    <Form
+      class="modal-box mx-auto flex flex-col gap-2.5"
+      onSubmit={handleSubmit}
+    >
+      <div class="divider text-xl font-bold">Create a new Recipe</div>
+
+      <Field name="title">
+        {(field, props) => (
+          <TextInput
+            {...props}
+            type="text"
+            label="Title"
+            value={field.value}
+            error={field.error}
+            placeholder="What's this recipe called?"
+            required
+          />
+        )}
+      </Field>
+
+      <Field name="author">
+        {(field, props) => (
+          <TextInput
+            {...props}
+            type="text"
+            label="Author"
+            value={field.value}
+            error={field.error}
+            placeholder="Who wrote this?"
+            required
+          />
+        )}
+      </Field>
+
+      <div class="divider m-0" />
+
+      <div class="grid w-full grid-cols-2 gap-2.5">
+        <Field name="about.prepTime">
           {(field, props) => (
             <TextInput
               {...props}
               type="text"
-              label="Title"
+              label="Prep Time"
               value={field.value}
               error={field.error}
-              placeholder="Grandma's Hot German Potato Salad ..."
-              required
+              placeholder="How much prep time?"
             />
           )}
         </Field>
-
-        <Field name="author">
+        <Field name="about.cookTime">
           {(field, props) => (
             <TextInput
               {...props}
               type="text"
-              label="Author"
+              label="Cook Time"
               value={field.value}
               error={field.error}
-              placeholder="Who created this gem??"
-              required
+              placeholder="How long does this take?"
             />
           )}
         </Field>
-
-        <Field name="about.description">
-          {(field, props) => (
-            <TextInput
-              {...props}
-              type="text"
-              label="Description"
-              value={field.value}
-              error={field.error}
-              placeholder="Why should you make this?"
-              required
-            />
-          )}
-        </Field>
-
-        <div class="flex flex-row gap-1 w-full pb-2">
-          <Field name="about.prepTime">
+        <div class="col-span-2">
+          <Field name="about.description">
             {(field, props) => (
               <TextInput
                 {...props}
                 type="text"
-                label="Prep Time"
+                label="Description"
                 value={field.value}
                 error={field.error}
-                placeholder="How much prep time?"
-              />
-            )}
-          </Field>
-          <Field name="about.cookTime">
-            {(field, props) => (
-              <TextInput
-                {...props}
-                type="text"
-                label="Cook Time"
-                value={field.value}
-                error={field.error}
-                placeholder="How long does this take?"
+                placeholder="What's is this recipe all about?"
               />
             )}
           </Field>
         </div>
+      </div>
 
-        <button type="submit" class="btn btn-primary">
+      <Show
+        when={!recipeForm.submitting}
+        fallback={
+          <div class="btn-btn-primary btn-active">
+            <span class="loading loading-spinner loading-lg" />
+          </div>
+        }
+      >
+        <button
+          class="btn btn-primary"
+          onClick={() => {
+            console.log("submitting");
+            submit(recipeForm);
+          }}
+        >
           submit
         </button>
-      </Form>
-    </div>
+      </Show>
+    </Form>
   );
 };
 export default CreateForm;

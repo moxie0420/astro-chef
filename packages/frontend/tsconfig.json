@@ -8,14 +8,15 @@
     "jsxImportSource": "solid-js",
     "useDefineForClassFields": true,
 
-    /* modules */
+    
     "module": "ESNext",
     "isolatedModules": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
 
-    /* type checking */
+    
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

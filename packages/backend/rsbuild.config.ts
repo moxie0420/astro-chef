@@ -1,11 +1,11 @@
-import { defineConfig } from '@rsbuild/core';
+import { defineConfig } from "@rsbuild/core";
 
 export default defineConfig({
   source: {
     entry: {
-      index: "./src/main.ts"
+      index: "./src/main.ts",
     },
-    tsconfigPath: "./tsconfig.json"
+    tsconfigPath: "./tsconfig.json",
   },
   plugins: [],
 });

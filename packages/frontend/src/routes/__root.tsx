@@ -1,61 +1,43 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/solid-router";
-import MaterialSymbolsMenuRounded from "~icons/material-symbols/menu-rounded";
+import Navbar from "@components/Navbar";
+import {
+  createRootRoute,
+  HeadContent,
+  Link,
+  Outlet,
+} from "@tanstack/solid-router";
+import { ErrorBoundary } from "solid-js";
+import NrkMedia404Notfound from "~icons/nrk/media-404-notfound?width=96px&height=96px";
 
 export const Route = createRootRoute({
+  notFoundComponent: () => (
+    <div class="flex h-screen w-screen">
+      <div class="rounded-box bg-base-200 mx-auto my-20 flex h-fit flex-col gap-3 p-2">
+        <NrkMedia404Notfound width={128} class="mx-auto" />
+        <p class="my-2 text-center text-2xl font-bold">
+          Sorry, this page does not exist
+        </p>
+        <Link to="/" class="btn btn-primary btn-wide mx-auto">
+          Home
+        </Link>
+      </div>
+    </div>
+  ),
   component: () => (
     <>
-      <div class="navbar bg-base-100 shadow-sm">
-        <div class="navbar-start">
-          <div class="dropdown">
-            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-              <MaterialSymbolsMenuRounded class="size-5" />
-            </div>
-            <ul
-              tabIndex={0}
-              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link
-                  to="/recipes"
-                  class="btn btn-accent not-[&.active]:btn-soft"
-                >
-                  Recipes
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  class="btn btn-accent not-[&.active]:btn-soft "
-                >
-                  About
-                </Link>
-              </li>
-            </ul>
+      <HeadContent />
+      <Navbar />
+      <ErrorBoundary
+        fallback={(error, reset) => (
+          <div class="rounded-box bg-base-200">
+            <p>Something went wrong: {error.message}</p>
+            <button class="btn btn-primary btn-wide" onClick={reset}>
+              Try Again
+            </button>
           </div>
-          <Link to="/" class="btn btn-ghost text-xl ">
-            AstroChef
-          </Link>
-        </div>
-
-        <div class="navbar-center hidden lg:flex">
-          <ul class="menu menu-horizontal px-1">
-            <li>
-              <Link
-                to="/recipes"
-                class="btn btn-accent not-[&.active]:btn-soft"
-              >
-                Recipes
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" class="btn btn-accent not-[&.active]:btn-soft ">
-                About
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <Outlet />
+        )}
+      >
+        <Outlet />
+      </ErrorBoundary>
     </>
   ),
 });

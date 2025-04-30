@@ -1,34 +1,28 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import Recipes from "@lib/recipes";
 import { For } from "solid-js";
 import Ingredient from "@components/Ingredient";
 import { Image } from "@unpic/solid";
-import { sanitize } from "isomorphic-dompurify";
-import { marked } from "marked";
 
-export const Route = createFileRoute("/recipes/$recipeId")({
+export const Route = createFileRoute("/recipes/$recipeId/")({
   component: RouteComponent,
+  notFoundComponent: () => <p>This recipe doesn't Exist!</p>,
 });
 
 function RouteComponent() {
   const { recipeId } = Route.useParams()();
   const recipe = Recipes.findOne({ id: recipeId });
 
-  const renderedmd = sanitize(
-    marked.parse(recipe!.body || "", {
-      async: false,
-    }),
-  );
-
   return (
     <div class="flex">
-      <div class="text-center bg-base-200 rounded-box w-56">
+      <div class="bg-base-200 rounded-box w-56 text-center">
         <p>Ingredients</p>
-        <ul class="list ">
-          <For each={recipe?.ingredients}>{(ingredient) => <Ingredient />}</For>
+        <ul class="list">
+          <For each={recipe?.ingredients}>
+            {(ingredient) => <Ingredient ingredient={ingredient} />}
+          </For>
         </ul>
       </div>
-      <div class="flex flex-col w-full">
+      <div class="flex w-full flex-col">
         <div class="mx-auto">
           <figure>
             <Image
@@ -47,10 +41,7 @@ function RouteComponent() {
             {recipe?.about?.description}
           </p>
           <div class="divider" />
-          <div
-            class="bg-neutral rounded-box p-1.5 prose"
-            innerHTML={renderedmd}
-          />
+          <div class="bg-neutral rounded-box prose p-1.5" />
         </div>
       </div>
     </div>

@@ -13,12 +13,6 @@
       "path": "./packages/recipe-lib"
     },
     {
-      "path": "./packages/recipe-lib"
-    },
-    {
-      "path": "./packages/recipe-lib"
-    },
-    {
       "path": "./packages/units"
     }
   ]

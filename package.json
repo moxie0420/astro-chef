@@ -12,22 +12,27 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@eslint/css": "^0.6.0",
-    "@eslint/js": "^9.24.0",
-    "@eslint/json": "^0.11.0",
-    "@eslint/markdown": "^6.3.0",
-    "@nx/js": "20.8.0",
-    "@nx/node": "20.8.0",
-    "@nx/rsbuild": "20.8.0",
-    "@nx/web": "20.8.0",
+    "@eslint/css": "^0.7.0",
+    "@eslint/js": "^9.25.1",
+    "@eslint/json": "^0.12.0",
+    "@eslint/markdown": "^6.4.0",
+    "@nx/eslint": "20.8.1",
+    "@nx/js": "20.8.1",
+    "@nx/node": "20.8.1",
+    "@nx/rsbuild": "20.8.1",
+    "@nx/web": "20.8.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "eslint": "^9.24.0",
+    "add": "^2.0.6",
+    "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
-    "nx": "20.8.0",
+    "nx": "20.8.1",
     "prettier": "^3.5.3",
-    "typescript-eslint": "^8.30.1"
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1"
   }
 }

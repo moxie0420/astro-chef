@@ -1,4 +1,4 @@
-import { splitProps, type JSX } from "solid-js";
+import { Show, splitProps, type JSX } from "solid-js";
 
 type TextInputProps = {
   name: string;
@@ -18,23 +18,28 @@ const TextInput = (props: TextInputProps) => {
   const [, inputProps] = splitProps(props, ["value", "label", "error"]);
 
   return (
-    <div class="text-text flex flex-col w-full">
-      {props.label && (
-        <label for={props.name}>
+    <label for={props.name} class="floating-label w-full">
+      <Show when={props.label}>
+        <span>
           {props.label}{" "}
           {props.required && <span class="text-xs italic">*</span>}
-        </label>
-      )}
+        </span>
+      </Show>
+
       <input
         {...inputProps}
         id={props.name}
         value={props.value || ""}
         aria-invalid={!!props.error}
         aria-errormessage={`${props.name}-error`}
-        class="bg-highlightLow rounded-md px-2 py-1"
+        class="input input-accent w-full"
       />
-      {props.error && <div id={`${props.name}-error`}>{props.error}</div>}
-    </div>
+      {props.error && (
+        <div id={`${props.name}-error`} class="text-lg">
+          {props.error}
+        </div>
+      )}
+    </label>
   );
 };
 

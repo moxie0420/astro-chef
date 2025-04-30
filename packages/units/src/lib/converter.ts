@@ -1,5 +1,3 @@
-import { Unit } from './units.js';
-
 export const poundToOunce: UnitConverter = (v) => v * 16;
 export const poundToGram: UnitConverter = (v) => v * 453.59237;
 export const poundToKilogram: UnitConverter = (v) => v * 0.45359237;
@@ -58,5 +56,3 @@ export const teaspoonToCup: UnitConverter = (v) => v * 0.0208333;
 export const teaspoonToTablespoon: UnitConverter = (v) => v * 0.3333333;
 
 export type UnitConverter = (amount: number) => number;
-
-export function convert(amount: number, converter: UnitConverter) {}

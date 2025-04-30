@@ -1,4 +1,4 @@
-import { For, splitProps, type JSX } from "solid-js";
+import { For, Show, splitProps, type JSX } from "solid-js";
 
 type option = [label: string, value: string];
 
@@ -25,19 +25,16 @@ export default function Select(props: SelectProps) {
   ]);
 
   return (
-    <div class="text-text flex flex-col">
-      {props.label && (
-        <label for={props.name}>
-          {props.label}{" "}
-          {props.required && <span class="text-xs italic">*</span>}
-        </label>
-      )}
+    <label for={props.name}>
+      <Show when={props.label}>
+        {props.label} {props.required && <span class="text-xs italic">*</span>}
+      </Show>
       <select
         {...selectProps}
         id={props.name}
         aria-invalid={!!props.error}
         aria-errormessage={`${props.name}-error`}
-        class="bg-highlightLow rounded-md px-2 py-1"
+        class="select"
       >
         <For each={props.each}>
           {([label, value]) => (
@@ -48,6 +45,6 @@ export default function Select(props: SelectProps) {
         </For>
       </select>
       {props.error && <div id={`${props.name}-error`}>{props.error}</div>}
-    </div>
+    </label>
   );
 }
