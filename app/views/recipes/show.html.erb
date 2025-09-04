@@ -1,0 +1,46 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "recipeShow", "data-turbo-track": "reload" %>
+<% end %>
+
+
+<% cache @recipe do %>
+
+  <div class="box">
+    <h1><%= @recipe.name %></h1>
+    <% if @recipe.featured_image.attached? %>
+      <%= image_tag @recipe.featured_image %>
+    <% else %>
+      <%= image_tag "recipe-placeholder.jpg" %>
+    <% end %>
+    <aside>
+      <p>
+        <%= @recipe.description %>
+      </p>
+
+      <footer>
+        <%= link_to "Edit", edit_recipe_path(@recipe) %>
+        <%=
+          button_to "Delete",
+          @recipe,
+          method: :delete,
+          data: {turbo_confirm: "Are you sure?"}
+        %>
+        <%= link_to "Back", recipes_path %>
+      </footer>
+    </aside>
+  </div>
+
+  <% cache @ingredients do %>
+    <div class="ingredients">
+      <% @ingredients.each do |ingredient| %>
+        <div class="ingredient">
+
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= @recipe.body %>
+
+<% end %>
+

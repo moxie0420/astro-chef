@@ -1,0 +1,64 @@
+@use "lib/typography" as cg;
+@use "lib/utils" as *;
+
+.formLabel {
+  @include rounded;
+  @include flex-col;
+
+  &>label {
+    @include cg.h4;
+    font-weight: 600;
+  }
+
+  input[type=text] {
+    @include rounded(small);
+    @include border;
+    background: $base;
+  }
+
+  &>#file-button {
+    @include button;
+  }
+
+  input[type=file] {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+  }
+}
+
+.formActions {
+  @include flex-row;
+  gap: 0.25rem;
+
+  input[type=submit] {
+    @include button(small, $pine);
+    flex-basis: 100%;
+  }
+
+  button,
+  a {
+    @include button(small, $love);
+  }
+}
+
+.recipeForm {
+  @include rounded;
+  @include flex-col;
+
+  gap: 0.25rem;
+  padding: 0.5rem;
+
+  max-width: 80%;
+  margin: auto;
+
+  background: $surface;
+}
+
+.trix-content {
+  @include border;
+  @include rounded;
+  min-height: 30ch;
+
+}

@@ -1,0 +1,18 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "home", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
+<% end %>
+
+<section class="carousel" aria-label="New Recipes">
+    <div class="track">
+      <% @recipes.each do |recipe| %>
+        <a href="/recipes/<%= recipe.id %>">
+          <%= render "card", recipe: recipe %>
+        </a>
+      <% end %>
+    </div>
+    <button class="prev">
+    </button>
+    <button class="next">
+    </button>
+</section>

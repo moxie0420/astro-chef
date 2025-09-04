@@ -1,0 +1,42 @@
+{
+  "name": "astrochef",
+  "version": "1.0.0",
+  "description": "and aio recipe manegment solution",
+  "main": "./app/javascript/application.ts",
+  "type": "module",
+  "author": "Moxie Benavides <moxie@moxiege.com>",
+  "license": "MIT",
+  "browserlist": "defaults and fully supports es6-module",
+  "dependencies": {
+    "@rails/actiontext": "^8.0.201",
+    "dompurify": "^3.2.6",
+    "trix": "^2.1.15",
+    "ts-node": "^10.9.2"
+  },
+  "scripts": {
+    "watch": "bunx gulp watch",
+    "build": "bunx gulp"
+  },
+  "devDependencies": {
+    "@types/gulp": "^4.0.17",
+    "@types/gulp-clean-css": "^4.3.4",
+    "@types/gulp-plumber": "^0.0.37",
+    "@types/gulp-sass": "^5.0.4",
+    "@types/gulp-terser": "^1.2.6",
+    "@types/vinyl-named": "^1.1.5",
+    "gulp": "^5.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^3.1.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^6.0.1",
+    "gulp-terser": "^2.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "sass": "^1.92.0",
+    "typescript": "^5.9.2",
+    "vinyl-named": "^1.1.0",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "trustedDependencies": [
+    "@parcel/watcher"
+  ]
+}

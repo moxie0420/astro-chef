@@ -1,0 +1,11 @@
+<div class="card">
+  <% if recipe.featured_image.attached? %>
+    <%= image_tag recipe.featured_image %>
+  <% else %>
+    <%= image_tag "recipe-placeholder.jpg" %>
+  <% end %>
+  <div>
+    <h3><%= recipe.name %></h3>
+    <p><%= recipe.description %></p>
+  </div>
+</div>

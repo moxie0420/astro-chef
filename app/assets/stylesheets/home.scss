@@ -1,0 +1,42 @@
+@use "lib/utils" as *;
+
+.carousel {
+  @include border;
+  @include rounded;
+
+  position: relative;
+  background: $base;
+  width: 90%;
+  height: 33%;
+  padding: 1rem 2.5rem;
+  margin: 1rem;
+}
+
+.track {
+  @include flex-row;
+  transition: transform 0.75s cubic-bezier(0.21, 0.61, 0.35, 1);
+}
+
+.prev,
+.next {
+  border-color: $highlightHigh;
+  border-top: 1px;
+  border-right: 1px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: transparent;
+}
+
+.prev {
+  position: absolute;
+  transform: rotate(45deg);
+  left: 2%;
+  top: 50%;
+}
+
+.next {
+  position: absolute;
+  transform: rotate(-135deg);
+  right: 2%;
+  top: 50%;
+}

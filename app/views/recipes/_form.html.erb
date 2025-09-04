@@ -1,0 +1,31 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "recipeForm", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "form", "data-turbo-track": "reload", type: "module" %>
+<% end %>
+
+
+<%= form_with class: "recipeForm", model: recipe do |form| %>
+  <div class="formLabel">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="formLabel">
+    <%= form.label :featured_image %>
+    <%= form.file_field :featured_image, accept: "image/*" %>
+    <button type="button" id="file-button">Choose a file</button>
+    <span id="file-text">No file chosen, yet.</span>
+  </div>
+
+  <div class="formLabel">
+    <%= form.label :body %>
+    <%= form.rich_text_area :body %>
+  </div>
+
+  <div class="formActions">
+    <%= form.submit %>
+    <%= button_tag "Clear", type: :reset %>
+    <%= link_to "Cancel", recipes_path %>
+  </div>
+<% end %>

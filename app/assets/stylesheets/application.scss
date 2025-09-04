@@ -1,0 +1,62 @@
+@use "lib/reset";
+@use "lib/typography";
+@use "lib/utils" as *;
+
+.navbar {
+  @include rounded;
+  display: flex;
+  justify-content: space-between;
+
+  gap: 1rem;
+  padding: .25rem;
+
+  background: $surface;
+
+  &>.logo {
+    @include typography.h3;
+    font-weight: 600;
+    text-wrap: nowrap;
+    margin: auto;
+  }
+
+  button,
+  .nav--button {
+    @include button;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+
+  form {
+    display: contents;
+  }
+
+  input[type=submit] {
+    @include button;
+  }
+
+  input[type=search] {
+    @include rounded;
+
+    background: $surface;
+    border-color: $muted;
+    padding: .25rem;
+  }
+}
+
+.card {
+  @include rounded;
+  display: grid;
+  grid-template-rows: auto 12rem 1rem;
+
+  background: $surface;
+  text-align: center;
+
+  max-width: 20rem;
+
+  &>img {
+    @include rounded;
+  }
+}

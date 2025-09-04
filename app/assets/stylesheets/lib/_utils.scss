@@ -1,0 +1,113 @@
+@use "typography" as cg;
+
+$base: #191724;
+$surface: #1f1d2e;
+$overlay: #26233a;
+
+$muted: #6e6a86;
+$subtle: #908caa;
+$text: #e0def4;
+
+$love: #eb6f92;
+$gold: #f6c177;
+$rose: #ebbcba;
+$pine: #31748f;
+$foam: #9ccfd8;
+$iris: #c4a7e7;
+
+$highlightLow: #21202e;
+$highlightMed: #403d52;
+$highlightHigh: #524f67;
+
+html {
+  font-size: 16px;
+}
+
+* {
+  color: $text;
+}
+
+body {
+  background: $base;
+}
+
+@mixin flex-row($reversed: false) {
+  display: flex;
+
+  @if $reversed {
+    flex-direction: row-reverse;
+  }
+
+  @else {
+    flex-direction: row;
+  }
+}
+
+@mixin flex-col($reversed: false) {
+  display: flex;
+
+  @if $reversed {
+    flex-direction: column-reverse;
+  }
+
+  @else {
+    flex-direction: column;
+  }
+}
+
+@mixin border($color: $highlightHigh, $width: .125rem, $style: solid) {
+  border-color: $color;
+  border-width: $width;
+  border-style: $style;
+}
+
+@mixin rounded($size: medium) {
+  @if $size ==small {
+    border-radius: 0.5rem;
+  }
+
+  @else if $size ==medium {
+    border-radius: 1rem;
+  }
+
+  @else if $size ==large {
+    border-radius: 1.5rem;
+  }
+
+  @else {
+    @error "Unknown size #{$size}"
+  }
+}
+
+@mixin button($size: medium, $color: $muted, $textColor: $text) {
+  all: unset;
+
+  @include rounded(small);
+
+  background: $color;
+  color: $textColor;
+
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+
+  font-weight: 700;
+
+  padding: 0rem 0.125rem;
+
+  @if $size ==small {
+    font-size: cg.$font-small;
+  }
+
+  @else if $size ==medium {
+    font-size: cg.$font-base;
+  }
+
+  @else if $size ==large {
+    font-size: cg.$font-h6;
+  }
+
+  @else {
+    @error "Unknown size #{$size}"
+  }
+}

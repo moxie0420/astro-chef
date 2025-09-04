@@ -1,0 +1,107 @@
+$font-family-base: 'Inter', sans-serif;
+$font-weight-base: 400;
+$font-family-head: 'Inter', sans-serif;
+$font-weight-head: 700;
+$font-family-code: 'Roboto Mono', monospace;
+$font-weight-code: 400;
+
+$font-h1: clamp(2.25rem, calc(1.614rem + 3.182vw), 4.00rem);
+$font-h2: clamp(1.95rem, calc(1.386rem + 2.818vw), 3.50rem);
+$font-h3: clamp(1.70rem, calc(1.227rem + 2.364vw), 3.00rem);
+$font-h4: clamp(1.45rem, calc(1.068rem + 1.909vw), 2.50rem);
+$font-h5: clamp(1.25rem, calc(0.909rem + 1.705vw), 2.19rem);
+$font-h6: clamp(1.13rem, calc(0.852rem + 1.364vw), 1.88rem);
+$font-base: clamp(1.00rem, calc(0.909rem + 0.455vw), 1.25rem);
+$font-small: clamp(0.88rem, calc(0.739rem + 0.682vw), 1.25rem);
+$font-tiny: clamp(0.75rem, calc(0.682rem + 0.341vw), 0.94rem);
+$font-code: clamp(0.88rem, calc(0.761rem + 0.568vw), 1.19rem);
+
+@mixin h1 {
+  font-size: $font-h1;
+}
+
+@mixin h2 {
+  font-size: $font-h2;
+}
+
+@mixin h3 {
+  font-size: $font-h3;
+}
+
+@mixin h4 {
+  font-size: $font-h4;
+}
+
+@mixin h5 {
+  font-size: $font-h5;
+}
+
+@mixin h6 {
+  font-size: $font-h6;
+}
+
+@mixin body {
+  font-size: $font-base;
+}
+
+@mixin small {
+  font-size: $font-small;
+}
+
+@mixin tiny {
+  font-size: $font-tiny;
+}
+
+@mixin code {
+  font-size: $font-code;
+}
+
+h1,
+.h1 {
+  @include h1;
+}
+
+h2,
+.h2 {
+  @include h2;
+}
+
+h3,
+.h3 {
+  @include h3;
+}
+
+h4,
+.h4 {
+  @include h5;
+}
+
+h5,
+.h5 {
+  @include h5;
+}
+
+h6,
+.h6 {
+  @include h6;
+}
+
+body,
+.base {
+  @include body;
+}
+
+small,
+.small {
+  @include small;
+}
+
+.tiny,
+.tiny {
+  @include tiny;
+}
+
+code,
+.code {
+  @include code;
+}

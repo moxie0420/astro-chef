@@ -1,0 +1,11 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "recipes", "data-turbo-track": "reload" %>
+<% end %>
+
+<div id="recipes" class="recipe--list">
+  <% @recipes.each do |recipe| %>
+    <a href="/recipes/<%= recipe.id %>">
+      <%= render "card", recipe: recipe %>
+    </a>
+  <% end %>
+</div>

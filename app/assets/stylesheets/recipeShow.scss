@@ -1,0 +1,55 @@
+@use "lib/utils";
+
+.box {
+  @include utils.border;
+  @include utils.rounded;
+
+  display: grid;
+  grid-template:
+    [image] "img head" 5% [header] [image] "img desc" 85% [description] [actions] "action action" 10% [actions]/ 30% 70%;
+
+  max-width: 80%;
+  margin: auto;
+
+  padding: .25rem;
+  margin-top: .25rem;
+  margin-bottom: .25rem;
+
+
+  background: utils.$surface;
+
+  h1 {
+    grid-area: head;
+  }
+
+  img {
+    @include utils.rounded;
+    grid-area: img;
+  }
+
+  aside {
+    display: contents;
+
+    p {
+      grid-area: desc;
+    }
+
+    footer {
+      @include utils.rounded;
+      @include utils.flex-row(true);
+
+      grid-area: action;
+
+      gap: .25rem;
+      padding: .5rem;
+      margin: .25rem;
+
+      background: utils.$base;
+
+      a,
+      button {
+        @include utils.button;
+      }
+    }
+  }
+}

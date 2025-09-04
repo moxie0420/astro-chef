@@ -1,0 +1,8 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "recipeEdit", "data-turbo-track": "reload" %>
+<% end %>
+
+
+<h1>Edit recipe</h1>
+
+<%= render "form", recipe: @recipe %>
