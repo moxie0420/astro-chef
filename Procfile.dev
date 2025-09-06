@@ -1,2 +1,2 @@
-web: env RUBY_DEBUG_OPEN=true bin/rails server
-gulp: bun run watch
+vite: bin/vite dev
+web: bin/rails s

@@ -9,10 +9,6 @@ class RecipesController < ApplicationController
     end
   end
 
-  def home
-    @recipes = Recipe.all
-  end
-
   def show
     @ingredients = @recipe.ingredients.all
   end

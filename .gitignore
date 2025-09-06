@@ -15,9 +15,6 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-app/assets/builds/*
-!app/assets/builds/.keep
-
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
@@ -35,8 +32,12 @@ app/assets/builds/*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+node_modules
 
-/app/assets/builds/*
-!/app/assets/builds/.keep
+# Vite Ruby
+/public/vite*
+node_modules
+# Vite uses dotenv and suggests to ignore local-only env files. See
+# https://vitejs.dev/guide/env-and-mode.html#env-files
+*.local
 
-/node_modules

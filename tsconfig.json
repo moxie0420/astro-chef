@@ -2,16 +2,17 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
-    "outDir": "./app/assets/builds",
-    "rootDir": "./app/javascript",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "vite/client"
+    ]
   },
   "include": [
-    "app/javascript/**/*.ts"
+    "app/frontend/**/*.ts"
   ],
   "exclude": [
     "node_modules"

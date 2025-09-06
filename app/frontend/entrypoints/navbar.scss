@@ -1,0 +1,24 @@
+@use "lib/utils" as *;
+
+.navbar {
+  @include rounded;
+  display: flex;
+  justify-content: space-between;
+
+  gap: 1rem;
+  padding: .25rem;
+
+  background: $surface;
+
+  &>.logo {
+    @include typography.h3;
+    font-weight: 600;
+    text-wrap: nowrap;
+    margin: auto;
+  }
+
+  button,
+  .nav--button {
+    @include button;
+  }
+}
