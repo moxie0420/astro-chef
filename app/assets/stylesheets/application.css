@@ -1,0 +1,14 @@
+:root {
+  --base: #232136;
+  --text: #e0def4;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--base);
+}

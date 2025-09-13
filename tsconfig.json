@@ -1,19 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": [
-      "vite/client"
-    ]
+    "module": "CommonJS",
+    "target": "ES6",
+    "allowJs": true,
+    "checkJs": false,
   },
-  "include": [
-    "app/frontend/**/*.ts"
-  ],
   "exclude": [
     "node_modules"
   ]
