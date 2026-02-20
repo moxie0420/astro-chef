@@ -17,7 +17,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 end
 
-gem "phlex-rails", "~> 2.3"
+gem "phlex-rails", "~> 2.4"
 
 gem "rubocop-rails", "~> 2.33"
 
