@@ -19,7 +19,7 @@ end
 
 gem "phlex-rails", "~> 2.3"
 
-gem "rubocop-rails", "~> 2.33"
+gem "rubocop-rails", "~> 2.35"
 
 gem "importmap-rails", "~> 2.2"
 
